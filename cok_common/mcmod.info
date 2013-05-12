@@ -1,0 +1,17 @@
+[
+{
+  "modid": "ClashOfKingdoms",
+  "name": "Clash of Kingdoms",
+  "description": "2 Kingdoms clash. What else?",
+  "version": "0.0.1",
+  "credits": "Coding Team from Minestar.de for not hindering the development.",
+  "logoFile": "",
+  "mcversion": "",
+  "url": "http://www.minestar.de",
+  "updateUrl": "",
+  "authors": [ "Geras" ],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": []
+}
+]
