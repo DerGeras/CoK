@@ -7,6 +7,8 @@ import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
+import de.minestar.cok.handler.PacketHandler;
 import de.minestar.cok.references.Reference;
 
 
@@ -14,6 +16,12 @@ import de.minestar.cok.references.Reference;
 	modid = Reference.MOD_ID,
 	name = Reference.MOD_NAME,
 	version = Reference.MOD_VERSION
+)
+@NetworkMod(
+	clientSideRequired = true,
+	serverSideRequired = false,
+	channels={ Reference.CHANNEL_NAME },
+	packetHandler = PacketHandler.class
 )
 public class ClashOfKingdoms {
 	
