@@ -1,14 +1,18 @@
 package de.minestar.cok;
 
+import net.minecraft.creativetab.CreativeTabs;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import de.minestar.cok.handler.PacketHandler;
+import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 
 
@@ -25,6 +29,17 @@ import de.minestar.cok.references.Reference;
 )
 public class ClashOfKingdoms {
 	
+	// Says where the client and server 'proxy' code is loaded.
+    @SidedProxy(clientSide="de.minestar.cok.proxy.ClientProxy", serverSide="de.minestar.cok.proxy.CommonProxy")
+    public static CommonProxy proxy;
+	
+    //Don't know why I would need this.
+    @Instance
+    public static ClashOfKingdoms instance;
+    
+    //General creativeTab
+    public static CreativeTabs cokTab = new CreativeTabs(CreativeTabs.getNextID(), Reference.MOD_ID);
+    
 	/**
 	 * Called before the mod is actually loaded
 	 */
