@@ -8,6 +8,6 @@ public class Reference {
 	public static final String MOD_VERSION = "0.0.1";
 	
 	//@NetworkMod info
-	public static final String CHANNEL_NAME = "";
+	public static final String CHANNEL_NAME = "cok";
 	
 }
