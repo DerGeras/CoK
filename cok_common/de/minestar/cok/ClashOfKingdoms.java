@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import de.minestar.cok.handler.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
@@ -72,7 +73,9 @@ public class ClashOfKingdoms {
 	}
 	
 	private void registerItems(){
-		crossBowItem = new ItemCrossBow(5000);
+		//register crossbow
+		crossBowItem = new ItemCrossBow(5000).setUnlocalizedName("crossbow");
+		LanguageRegistry.addName(crossBowItem, "Crossbow");
 	}
 	
 }

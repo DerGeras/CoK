@@ -8,8 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import de.minestar.cok.ClashOfKingdoms;
+import de.minestar.cok.item.CoKItem;
 
-public class ItemCrossBow extends Item{
+public class ItemCrossBow extends CoKItem{
 
 	private static int ticksToCharge = 5 * 20;
 	
