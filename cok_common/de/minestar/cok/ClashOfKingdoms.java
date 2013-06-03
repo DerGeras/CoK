@@ -1,6 +1,7 @@
 package de.minestar.cok;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -14,6 +15,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import de.minestar.cok.handler.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
+import de.minestar.cok.weapon.ItemCrossBow;
 
 
 @Mod(
@@ -37,6 +39,9 @@ public class ClashOfKingdoms {
     @Instance
     public static ClashOfKingdoms instance;
     
+    //Items
+    public static Item crossBowItem;
+    
     //General creativeTab
     public static CreativeTabs cokTab = new CreativeTabs(CreativeTabs.getNextID(), Reference.MOD_ID);
     
@@ -53,7 +58,9 @@ public class ClashOfKingdoms {
 	 */
 	@Init
 	public void init(FMLInitializationEvent event){
+		proxy.registerRenderThings();
 		
+		registerItems();
 	}
 	
 	/**
@@ -62,6 +69,10 @@ public class ClashOfKingdoms {
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event){
 		
+	}
+	
+	private void registerItems(){
+		crossBowItem = new ItemCrossBow(5000);
 	}
 	
 }
