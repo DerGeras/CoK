@@ -4,15 +4,17 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.item.CoKItem;
 
 public class ItemCrossBow extends CoKItem{
 
-	private static int ticksToCharge = 5 * 20;
+	private static int ticksToCharge = 12 * 20;
 	
 	public ItemCrossBow(int par1) {
 		super(par1);
@@ -26,6 +28,7 @@ public class ItemCrossBow extends CoKItem{
 		//Shooting the arrow
 		boolean flag = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
 
+		System.out.println(par1ItemStack.getItemDamage() == 0);
         if (flag || par1ItemStack.getItemDamage() == 0)
         {
             float f = (float) 10 *72000 / 20.0F;
@@ -66,8 +69,8 @@ public class ItemCrossBow extends CoKItem{
             {
                 entityarrow.setFire(100);
             }
-
-            par1ItemStack.setItemDamage(par1ItemStack.getMaxDamage() - 1);
+            
+            par1ItemStack.setItemDamage(1);
             par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
             if (flag)
@@ -75,7 +78,6 @@ public class ItemCrossBow extends CoKItem{
                 entityarrow.canBePickedUp = 2;
             }
             
-
             if (!par2World.isRemote)
             {
                 par2World.spawnEntityInWorld(entityarrow);
@@ -83,31 +85,56 @@ public class ItemCrossBow extends CoKItem{
         }
         else{
         	//reload
-        	if(par3EntityPlayer.capabilities.isCreativeMode || par1ItemStack.getItemDamage() < par1ItemStack.getMaxDamage() && par3EntityPlayer.inventory.hasItem(Item.arrow.itemID)){
-        		if(par3EntityPlayer.inventory.hasItem(Item.arrow.itemID) && par1ItemStack.getItemDamage() == par1ItemStack.getMaxDamage()-1){
-        			par3EntityPlayer.inventory.consumeInventoryItem(Item.arrow.itemID);
+        	if(par3EntityPlayer.inventory.hasItem(Item.arrow.itemID)){
+        		if(par3EntityPlayer.inventory.hasItem(Item.arrow.itemID)){
+            		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
         		}
-        		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
         	}
         }
         
 		return par1ItemStack;
 	}
 
+	/**
+	 * Called while using the item
+	 */
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count){
-		if(stack.getItemDamage() > 0 && stack.getItemDamage() != stack.getMaxDamage()){
-			stack.setItemDamage(stack.getItemDamage() - 1);
-		}else{
-			player.clearItemInUse();
-		}
+		super.onUsingItemTick(stack, player, count);
+		if(count == 200 && player.inventory.hasItem(Item.arrow.itemID)){
+			System.out.println(count + " " + ticksToCharge + " " + player.inventory.hasItem(Item.arrow.itemID));
+			player.inventory.consumeInventoryItem(Item.arrow.itemID);
+    		stack.setItemDamage(0);
+    		//player.clearItemInUse();
+    	}
 	}
+	
+	/**
+     * returns the action that specifies what animation to play when the items is being used
+     */
+    public EnumAction getItemUseAction(ItemStack par1ItemStack)
+    {
+        return par1ItemStack.getItemDamage() == 0 ? EnumAction.none : EnumAction.bow;
+    }
+    
+    /**
+     * used to cycle through icons based on their used duration, i.e. for the bow
+     */
+    public Icon getItemIconForUseDuration(int duration)
+    {
+        return this.itemIcon;
+    }
 	
 	/**
      * How long it takes to use or consume an item
      */
-    public int getMaxItemUseDuration(ItemStack par1ItemStack)
+    public int getMaxItemUseDuration(ItemStack stack)
     {
         return ticksToCharge;
+    }
+    
+    public ItemStack onEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+    {
+        return par1ItemStack;
     }
 
 }
