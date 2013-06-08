@@ -7,6 +7,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import de.minestar.cok.ClashOfKingdoms;
@@ -14,7 +15,9 @@ import de.minestar.cok.item.CoKItem;
 
 public class ItemCrossBow extends CoKItem{
 
-	private static int ticksToCharge = 12 * 20;
+	private static int ticksToCharge = 3 * 20;
+	
+	public static final String CHARGED_STRING = "charged";
 	
 	public ItemCrossBow(int par1) {
 		super(par1);
@@ -27,10 +30,17 @@ public class ItemCrossBow extends CoKItem{
 		
 		//Shooting the arrow
 		boolean flag = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
-
-		System.out.println(par1ItemStack.getItemDamage() == 0);
-        if (flag || par1ItemStack.getItemDamage() == 0)
+		
+		if(par1ItemStack.stackTagCompound == null){
+			par1ItemStack.setTagCompound(new NBTTagCompound());
+		}
+		
+		System.out.println("Has Key " + par1ItemStack.stackTagCompound.hasKey(CHARGED_STRING));
+		System.out.println("Value " +par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING));
+		
+        if (flag || par1ItemStack.stackTagCompound.hasKey(CHARGED_STRING) && par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING))
         {
+        	
             float f = (float) 10 *72000 / 20.0F;
             f = (f * f + f * 2.0F) / 3.0F;
 
@@ -70,7 +80,6 @@ public class ItemCrossBow extends CoKItem{
                 entityarrow.setFire(100);
             }
             
-            par1ItemStack.setItemDamage(1);
             par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
             if (flag)
@@ -80,6 +89,7 @@ public class ItemCrossBow extends CoKItem{
             
             if (!par2World.isRemote)
             {
+            	par1ItemStack.stackTagCompound.setBoolean(CHARGED_STRING, false);
                 par2World.spawnEntityInWorld(entityarrow);
             }
         }
@@ -100,10 +110,11 @@ public class ItemCrossBow extends CoKItem{
 	 */
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count){
 		super.onUsingItemTick(stack, player, count);
-		if(count == 200 && player.inventory.hasItem(Item.arrow.itemID)){
-			System.out.println(count + " " + ticksToCharge + " " + player.inventory.hasItem(Item.arrow.itemID));
-			player.inventory.consumeInventoryItem(Item.arrow.itemID);
-    		stack.setItemDamage(0);
+		if(count == 0 && (!stack.stackTagCompound.hasKey(CHARGED_STRING) || !stack.stackTagCompound.getBoolean(CHARGED_STRING))){
+			if(player.inventory.hasItem(Item.arrow.itemID)){
+				player.inventory.consumeInventoryItem(Item.arrow.itemID);
+	    		stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
+			}
     		//player.clearItemInUse();
     	}
 	}
@@ -113,7 +124,7 @@ public class ItemCrossBow extends CoKItem{
      */
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
-        return par1ItemStack.getItemDamage() == 0 ? EnumAction.none : EnumAction.bow;
+        return (par1ItemStack.stackTagCompound.hasKey(CHARGED_STRING) && par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING)) ? EnumAction.none : EnumAction.bow;
     }
     
     /**
