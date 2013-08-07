@@ -15,7 +15,7 @@ import de.minestar.cok.item.CoKItem;
 
 public class ItemCrossBow extends CoKItem{
 
-	private static int ticksToCharge = 3 * 20;
+	private static int ticksToCharge = 3 * 20 + 200;
 	
 	public static final String CHARGED_STRING = "charged";
 	
@@ -110,13 +110,19 @@ public class ItemCrossBow extends CoKItem{
 	 */
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count){
 		super.onUsingItemTick(stack, player, count);
-		if(count == 0 && (!stack.stackTagCompound.hasKey(CHARGED_STRING) || !stack.stackTagCompound.getBoolean(CHARGED_STRING))){
+	}
+	
+	/**
+     * called when the player releases the use item button. Args: itemstack, world, entityplayer, itemInUseCount
+     */
+    public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count){
+		if(count < 200 && (!stack.stackTagCompound.hasKey(CHARGED_STRING) || !stack.stackTagCompound.getBoolean(CHARGED_STRING))){
 			if(player.inventory.hasItem(Item.arrow.itemID)){
 				player.inventory.consumeInventoryItem(Item.arrow.itemID);
 	    		stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
 			}
-    		//player.clearItemInUse();
-    	}
+			
+		}
 	}
 	
 	/**
