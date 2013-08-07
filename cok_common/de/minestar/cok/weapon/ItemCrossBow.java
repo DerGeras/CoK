@@ -23,20 +23,18 @@ public class ItemCrossBow extends CoKItem{
 		super(par1);
 		this.maxStackSize = 1;
         this.setMaxDamage(ticksToCharge);
+        setUnlocalizedName("crossbow");
         this.setCreativeTab(ClashOfKingdoms.cokTab);
 	}
 	
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		
 		//Shooting the arrow
-		boolean flag = par3EntityPlayer.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, par1ItemStack) > 0;
+		boolean flag = par3EntityPlayer.capabilities.isCreativeMode;
 		
 		if(par1ItemStack.stackTagCompound == null){
 			par1ItemStack.setTagCompound(new NBTTagCompound());
 		}
-		
-		System.out.println("Has Key " + par1ItemStack.stackTagCompound.hasKey(CHARGED_STRING));
-		System.out.println("Value " +par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING));
 		
         if (flag || par1ItemStack.stackTagCompound.hasKey(CHARGED_STRING) && par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING))
         {
@@ -117,9 +115,14 @@ public class ItemCrossBow extends CoKItem{
      */
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count){
 		if(count < 200 && (!stack.stackTagCompound.hasKey(CHARGED_STRING) || !stack.stackTagCompound.getBoolean(CHARGED_STRING))){
-			if(player.inventory.hasItem(Item.arrow.itemID)){
-				player.inventory.consumeInventoryItem(Item.arrow.itemID);
-	    		stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
+			if(EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0){
+				stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
+			} else{
+				if(player.inventory.hasItem(Item.arrow.itemID)){
+					player.inventory.consumeInventoryItem(Item.arrow.itemID);
+		    		stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
+				}
+				
 			}
 			
 		}

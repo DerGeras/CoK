@@ -15,7 +15,8 @@ public class CoKItem extends Item{
 	}
 
 	@SideOnly(Side.CLIENT)
-    public void registerIcon(IconRegister register){
+	@Override
+    public void registerIcons(IconRegister register){
     	this.itemIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
     }
 }

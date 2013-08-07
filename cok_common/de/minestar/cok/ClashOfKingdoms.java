@@ -1,5 +1,6 @@
 package de.minestar.cok;
 
+import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.Configuration;
@@ -15,7 +16,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import de.minestar.cok.block.BlockSocket;
 import de.minestar.cok.command.CreateTeamCommand;
 import de.minestar.cok.command.PlayerCommand;
 import de.minestar.cok.command.RemoveTeamCommand;
@@ -47,11 +50,18 @@ public class ClashOfKingdoms {
     @Instance
     public static ClashOfKingdoms instance;
     
-    //Items
-    public static Item crossBowItem;
+    //Block IDs
+    public static int socketID;
+    
+    //Blocks
+    public static Block socketBlock;
     
     //Item IDs
     public static int crossBowID;
+    
+    //Items
+    public static Item crossBowItem;
+    
     
     //General creativeTab
     public static CreativeTabs cokTab = new CreativeTabs(CreativeTabs.getNextID(), Reference.MOD_ID);
@@ -81,6 +91,7 @@ public class ClashOfKingdoms {
 		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 		
+		initBlockIDs();
 		initItemIDs();
 		
 		if(config.hasChanged()){
@@ -94,8 +105,10 @@ public class ClashOfKingdoms {
 	@Init
 	public void init(FMLInitializationEvent event){
 		proxy.registerRenderThings();
+
+		registerBlocks();
 		
-		registerItems();
+		registerItems();		
 	}
 	
 	/**
@@ -106,14 +119,25 @@ public class ClashOfKingdoms {
 		
 	}
 	
+	private void initBlockIDs(){
+		socketID = config.getBlock(Configuration.CATEGORY_BLOCK, "Socket", 400).getInt();
+	}
+	
 	private void initItemIDs(){
 		crossBowID = config.getItem(Configuration.CATEGORY_ITEM, "Crossbow", 5000).getInt();
 	}
 	
-	private void registerItems(){
-		//register crossbow
-		crossBowItem = new ItemCrossBow(crossBowID).setUnlocalizedName("crossbow");
-		LanguageRegistry.addName(crossBowItem, "Crossbow");
+	private void registerBlocks(){
+		//register socket
+		socketBlock = new BlockSocket(socketID);
+		LanguageRegistry.addName(socketBlock, "Socket");
+		GameRegistry.registerBlock(socketBlock, socketBlock.getUnlocalizedName());
 	}
 	
+	private void registerItems(){
+		//register crossbow
+		crossBowItem = new ItemCrossBow(crossBowID);
+		LanguageRegistry.addName(crossBowItem, "Crossbow");
+	}
+
 }
