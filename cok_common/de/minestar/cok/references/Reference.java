@@ -10,4 +10,7 @@ public class Reference {
 	//@NetworkMod info
 	public static final String CHANNEL_NAME = "cok";
 	
+	//Command names
+	public static final String CreateTeamCommand = "cteam";
+	
 }

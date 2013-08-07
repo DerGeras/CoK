@@ -16,6 +16,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import de.minestar.cok.command.CreateTeamCommand;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.handler.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
@@ -62,6 +63,9 @@ public class ClashOfKingdoms {
      */
     @ServerStarting
    	public void onServerStarting(FMLServerStartingEvent event) {
+    	event.registerServerCommand(new CreateTeamCommand());
+    	
+    	//initialize the game
     	CoKGame.initGame(config);
     }
     
