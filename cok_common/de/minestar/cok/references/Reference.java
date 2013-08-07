@@ -12,5 +12,7 @@ public class Reference {
 	
 	//Command names
 	public static final String CreateTeamCommand = "cteam";
+	public static final String RemoveTeamCommand = "rteam";
+	public static final String PlayerCommand = "player";
 	
 }

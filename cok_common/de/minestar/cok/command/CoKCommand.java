@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 
 public abstract class CoKCommand implements ICommand {
 
@@ -38,6 +39,16 @@ public abstract class CoKCommand implements ICommand {
 
 	@Override
 	public boolean isUsernameIndex(String[] astring, int i) {
+		return false;
+	}
+	
+	public boolean isOnlineUser(String username){
+		for(String name:MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
+			if(name.equalsIgnoreCase(username)){
+				System.out.println(name);
+				return true;
+			}
+		}
 		return false;
 	}
 

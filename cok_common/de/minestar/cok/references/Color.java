@@ -21,6 +21,9 @@ public class Color {
 	
 	public static char getColorFromString(String color){
 		//SCREW YOU JAVA 1.5!!!!!!
+		if(color.equalsIgnoreCase("gray")){
+			return GRAY;
+		}
 		if(color.equalsIgnoreCase("blue")){
 			return BLUE;
 		}
@@ -28,6 +31,14 @@ public class Color {
 			return RED;
 		}
 		return 'g';
+	}
+	
+	public static String getColorCodeFromString(String color){
+		char colorcode = getColorFromString(color);
+		if(colorcode == 'g'){
+			colorcode = 0;
+		}
+		return "\u00A7" + colorcode;
 	}
 	
 }

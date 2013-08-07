@@ -100,6 +100,20 @@ public class CoKGame {
 	}
 	
 	/**
+	 * Add player to the team if they aren't in another one already
+	 * @param teamname
+	 * @param playername
+	 * @return
+	 */
+	public static boolean addPlayerToTeam(String teamname, String playername){
+		boolean res = teams.containsKey(teamname) && getTeamOfPlayer(playername) == null;
+			if(res){
+				res = teams.get(teamname).addPlayer(playername);
+			}
+		return res;
+	}
+	
+	/**
 	 * remove player from specified team
 	 * @param teamname
 	 * @param playername

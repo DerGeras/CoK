@@ -36,12 +36,12 @@ public class CreateTeamCommand extends CoKCommand {
 				res = CoKGame.addTeam(astring[0], color);
 			}
 			if(!res){
-				ChatSendHelper.sendMessage(icommandsender, "Could not add the team");
+				ChatSendHelper.sendError(icommandsender, "Team \"" + astring[0] + "\" could not be created!");
 			} else{
-				ChatSendHelper.sendMessage(icommandsender, "Team " + astring[0] + " successfully created!");
+				ChatSendHelper.sendMessage(icommandsender, "Team \"" + astring[0] + "\" successfully created!");
 			}
 		} else{
-			ChatSendHelper.sendMessage(icommandsender, "Invalid colour!");
+			ChatSendHelper.sendError(icommandsender, "Invalid colour \"" + astring[0] + "\"!");
 		}
 	}
 
