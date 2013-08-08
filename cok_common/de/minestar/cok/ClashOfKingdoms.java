@@ -19,6 +19,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import de.minestar.cok.block.BlockSocket;
+import de.minestar.cok.block.BlockTowerBrick;
 import de.minestar.cok.command.CreateTeamCommand;
 import de.minestar.cok.command.PlayerCommand;
 import de.minestar.cok.command.RemoveTeamCommand;
@@ -52,9 +53,11 @@ public class ClashOfKingdoms {
     
     //Block IDs
     public static int socketID;
+    public static int towerBrickID;
     
     //Blocks
     public static Block socketBlock;
+    public static Block towerBrickBlock;
     
     //Item IDs
     public static int crossBowID;
@@ -108,7 +111,9 @@ public class ClashOfKingdoms {
 
 		registerBlocks();
 		
-		registerItems();		
+		registerItems();
+		
+		proxy.registerTileEntites();
 	}
 	
 	/**
@@ -121,6 +126,7 @@ public class ClashOfKingdoms {
 	
 	private void initBlockIDs(){
 		socketID = config.getBlock(Configuration.CATEGORY_BLOCK, "Socket", 400).getInt();
+		towerBrickID = config.getBlock(Configuration.CATEGORY_BLOCK, "Tower Brick", 401).getInt();
 	}
 	
 	private void initItemIDs(){
@@ -132,6 +138,11 @@ public class ClashOfKingdoms {
 		socketBlock = new BlockSocket(socketID);
 		LanguageRegistry.addName(socketBlock, "Socket");
 		GameRegistry.registerBlock(socketBlock, socketBlock.getUnlocalizedName());
+		
+		//register Tower
+		towerBrickBlock = new BlockTowerBrick(towerBrickID);
+		LanguageRegistry.addName(towerBrickBlock, "Tower Brick");
+		GameRegistry.registerBlock(towerBrickBlock, towerBrickBlock.getUnlocalizedName());
 	}
 	
 	private void registerItems(){

@@ -1,5 +1,6 @@
 package de.minestar.cok.tileentity;
 
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -17,9 +18,9 @@ public class TileEntitySocket extends TileEntity {
     public void updateEntity() {
     	World world = this.getWorldObj();
     	
-    	if(!world.isRemote){
-    		//remove unwanted stuff
-    	}
+//    	EntityPig pig = new EntityPig(world);
+//    	pig.setPosition(xCoord, yCoord, zCoord);
+//    	world.spawnEntityInWorld(pig);
     }
     
     @Override
