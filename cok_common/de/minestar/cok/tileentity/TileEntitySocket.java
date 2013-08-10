@@ -1,9 +1,7 @@
 package de.minestar.cok.tileentity;
 
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 /**
  * 
@@ -16,7 +14,7 @@ public class TileEntitySocket extends TileEntity {
      * Allows the entity to update its state.
      */
     public void updateEntity() {
-    	World world = this.getWorldObj();
+//    	World world = this.getWorldObj();
     	
 //    	EntityPig pig = new EntityPig(world);
 //    	pig.setPosition(xCoord, yCoord, zCoord);
