@@ -53,7 +53,7 @@ public class Team {
 		this.name = name;
 	}
 
-	public int getColor() {
+	public char getColor() {
 		return color;
 	}
 

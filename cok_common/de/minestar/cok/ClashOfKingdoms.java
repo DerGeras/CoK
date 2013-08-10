@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -25,6 +26,7 @@ import de.minestar.cok.command.PlayerCommand;
 import de.minestar.cok.command.RemoveTeamCommand;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.handler.PacketHandler;
+import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 import de.minestar.cok.weapon.ItemCrossBow;
@@ -107,6 +109,8 @@ public class ClashOfKingdoms {
 	 */
 	@Init
 	public void init(FMLInitializationEvent event){
+		MinecraftForge.EVENT_BUS.register(new ChatListener());
+		
 		proxy.registerRenderThings();
 
 		registerBlocks();

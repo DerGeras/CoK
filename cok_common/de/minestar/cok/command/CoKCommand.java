@@ -44,7 +44,7 @@ public abstract class CoKCommand implements ICommand {
 	
 	public boolean isOnlineUser(String username){
 		for(String name:MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
-			if(name.equalsIgnoreCase(username)){
+			if(name.equals(username)){
 				System.out.println(name);
 				return true;
 			}
