@@ -26,6 +26,10 @@ public class Team {
 		this.captain = captain;
 	}
 	
+	public int getColorAsInt(){
+		return color - 87;
+	}
+	
 	public boolean addPlayer(String name){
 		boolean res = players.contains(name);
 		if(!res){

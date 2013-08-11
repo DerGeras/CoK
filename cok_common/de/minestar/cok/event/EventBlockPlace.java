@@ -3,8 +3,10 @@ package de.minestar.cok.event;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import net.minecraftforge.event.Cancelable;
 import net.minecraftforge.event.Event;
 
+@Cancelable
 public class EventBlockPlace extends Event{
 
 	public final ItemStack		stack;

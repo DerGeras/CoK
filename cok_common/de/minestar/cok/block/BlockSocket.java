@@ -2,17 +2,20 @@ package de.minestar.cok.block;
 
 import java.util.List;
 
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.references.Reference;
+import de.minestar.cok.tileentity.TileEntitySocket;
 
-public class BlockSocket extends Block {
+public class BlockSocket extends BlockContainer {
 
 	public BlockSocket(int id) {
 		super(id, Material.wood);
@@ -36,7 +39,7 @@ public class BlockSocket extends Block {
     	return metadata;
     }
 
-    //Suppresswarnings because I don't know why
+    //Suppresswarnings because of decompiling and the loss of generic information
     @SuppressWarnings({ "rawtypes", "unchecked" })
 	@SideOnly(Side.CLIENT)
     @Override
@@ -45,6 +48,11 @@ public class BlockSocket extends Block {
     		subItems.add(new ItemStack(this, 1, ix));
     	}
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World world) {
+		return new TileEntitySocket();
+	}
     
 
 }
