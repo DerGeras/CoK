@@ -3,9 +3,10 @@ package de.minestar.cok.preloader;
 import java.io.File;
 import java.util.Map;
 
+import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
-public class CoKCoreMod implements IFMLLoadingPlugin {
+public class CoKCoreMod implements IFMLLoadingPlugin, IFMLCallHook {
 	
 	public static File	location;
 
@@ -37,6 +38,13 @@ public class CoKCoreMod implements IFMLLoadingPlugin {
 			location = (File) data.get("coremodLocation");
 		}
 		
+	}
+
+	
+	//Needed by RelaunchLibraryManager.handleLaunch
+	@Override
+	public Void call() throws Exception {
+		return null;
 	}
 
 }
