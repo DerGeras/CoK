@@ -1,23 +1,12 @@
 package de.minestar.cok.preloader.asm;
 
-import static org.objectweb.asm.Opcodes.ALOAD;
-import static org.objectweb.asm.Opcodes.ASTORE;
-import static org.objectweb.asm.Opcodes.FLOAD;
-import static org.objectweb.asm.Opcodes.GETFIELD;
-import static org.objectweb.asm.Opcodes.ICONST_0;
-import static org.objectweb.asm.Opcodes.IFNE;
-import static org.objectweb.asm.Opcodes.IFNULL;
-import static org.objectweb.asm.Opcodes.ILOAD;
-import static org.objectweb.asm.Opcodes.INVOKESTATIC;
-import static org.objectweb.asm.Opcodes.IRETURN;
-import static org.objectweb.asm.Opcodes.ISTORE;
-
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -71,7 +60,7 @@ public class CoKEventAdder implements IClassTransformer {
 			{
 
 				int offset = 0;
-				while (m.instructions.get(offset).getOpcode() != ALOAD)
+				while (m.instructions.get(offset).getOpcode() != Opcodes.ALOAD)
 				{
 					offset++;
 				}
@@ -81,21 +70,21 @@ public class CoKEventAdder implements IClassTransformer {
 
 				InsnList toInject = new InsnList();
 
-				toInject.add(new VarInsnNode(ALOAD, 0));
-				toInject.add(new VarInsnNode(ALOAD, 1));
-				toInject.add(new VarInsnNode(ALOAD, 2));
-				toInject.add(new VarInsnNode(ILOAD, 3));
-				toInject.add(new VarInsnNode(ILOAD, 4));
-				toInject.add(new VarInsnNode(ILOAD, 5));
-				toInject.add(new VarInsnNode(ILOAD, 6));
-				toInject.add(new VarInsnNode(FLOAD, 7));
-				toInject.add(new VarInsnNode(FLOAD, 8));
-				toInject.add(new VarInsnNode(FLOAD, 9));
-				toInject.add(new MethodInsnNode(INVOKESTATIC, "com/ForgeEssentials/util/events/ForgeEssentialsEventFactory", "onBlockPlace", "(L" + hm.get("itemstackJavaClassName") + ";L" + hm.get("entityPlayerJavaClassName") + ";L" + hm.get("worldJavaClassName")
+				toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
+				toInject.add(new VarInsnNode(Opcodes.ALOAD, 1));
+				toInject.add(new VarInsnNode(Opcodes.ALOAD, 2));
+				toInject.add(new VarInsnNode(Opcodes.ILOAD, 3));
+				toInject.add(new VarInsnNode(Opcodes.ILOAD, 4));
+				toInject.add(new VarInsnNode(Opcodes.ILOAD, 5));
+				toInject.add(new VarInsnNode(Opcodes.ILOAD, 6));
+				toInject.add(new VarInsnNode(Opcodes.FLOAD, 7));
+				toInject.add(new VarInsnNode(Opcodes.FLOAD, 8));
+				toInject.add(new VarInsnNode(Opcodes.FLOAD, 9));
+				toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/ForgeEssentials/util/events/ForgeEssentialsEventFactory", "onBlockPlace", "(L" + hm.get("itemstackJavaClassName") + ";L" + hm.get("entityPlayerJavaClassName") + ";L" + hm.get("worldJavaClassName")
 						+ ";IIIIFFF)Z"));
-				toInject.add(new JumpInsnNode(IFNE, lmm2Node));
-				toInject.add(new InsnNode(ICONST_0));
-				toInject.add(new InsnNode(IRETURN));
+				toInject.add(new JumpInsnNode(Opcodes.IFNE, lmm2Node));
+				toInject.add(new InsnNode(Opcodes.ICONST_0));
+				toInject.add(new InsnNode(Opcodes.IRETURN));
 				toInject.add(lmm2Node);
 				toInject.add(lmm1Node);
 
@@ -133,7 +122,7 @@ public class CoKEventAdder implements IClassTransformer {
 						if (blocksListNode.owner.equals(hm.get("blockJavaClassName")) && blocksListNode.name.equals(hm.get("blocksListFieldName")))
 						{
 							int offset = 1;
-							while (m.instructions.get(index + offset).getOpcode() != ASTORE)
+							while (m.instructions.get(index + offset).getOpcode() != Opcodes.ASTORE)
 							{
 								offset++;
 							}
@@ -148,7 +137,7 @@ public class CoKEventAdder implements IClassTransformer {
 						if (mdNode.owner.equals(hm.get("worldJavaClassName")) && mdNode.name.equals(hm.get("getBlockMetadataMethodName")))
 						{
 							int offset = 1;
-							while (m.instructions.get(index + offset).getOpcode() != ISTORE)
+							while (m.instructions.get(index + offset).getOpcode() != Opcodes.ISTORE)
 							{
 								offset++;
 							}
@@ -157,11 +146,11 @@ public class CoKEventAdder implements IClassTransformer {
 						}
 					}
 
-					if (m.instructions.get(index).getOpcode() == IFNULL)
+					if (m.instructions.get(index).getOpcode() == Opcodes.IFNULL)
 					{
 
 						int offset = 1;
-						while (m.instructions.get(index + offset).getOpcode() != ALOAD)
+						while (m.instructions.get(index + offset).getOpcode() != Opcodes.ALOAD)
 						{
 							offset++;
 						}
@@ -171,20 +160,20 @@ public class CoKEventAdder implements IClassTransformer {
 
 						InsnList toInject = new InsnList();
 
-						toInject.add(new VarInsnNode(ALOAD, 0));
-						toInject.add(new FieldInsnNode(GETFIELD, hm.get("javaClassName"), hm.get("worldFieldName"), "L" + hm.get("worldJavaClassName") + ";"));
-						toInject.add(new VarInsnNode(ILOAD, 1));
-						toInject.add(new VarInsnNode(ILOAD, 2));
-						toInject.add(new VarInsnNode(ILOAD, 3));
-						toInject.add(new VarInsnNode(ALOAD, blockIndex));
-						toInject.add(new VarInsnNode(ILOAD, mdIndex));
-						toInject.add(new VarInsnNode(ALOAD, 0));
-						toInject.add(new FieldInsnNode(GETFIELD, hm.get("javaClassName"), hm.get("entityPlayerFieldName"), "L" + hm.get("entityPlayerMPJavaClassName") + ";"));
-						toInject.add(new MethodInsnNode(INVOKESTATIC, "com/ForgeEssentials/util/events/ForgeEssentialsEventFactory", "onBlockHarvested", "(L" + hm.get("worldJavaClassName") + ";IIIL" + hm.get("blockJavaClassName") + ";IL"
+						toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
+						toInject.add(new FieldInsnNode(Opcodes.GETFIELD, hm.get("javaClassName"), hm.get("worldFieldName"), "L" + hm.get("worldJavaClassName") + ";"));
+						toInject.add(new VarInsnNode(Opcodes.ILOAD, 1));
+						toInject.add(new VarInsnNode(Opcodes.ILOAD, 2));
+						toInject.add(new VarInsnNode(Opcodes.ILOAD, 3));
+						toInject.add(new VarInsnNode(Opcodes.ALOAD, blockIndex));
+						toInject.add(new VarInsnNode(Opcodes.ILOAD, mdIndex));
+						toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
+						toInject.add(new FieldInsnNode(Opcodes.GETFIELD, hm.get("javaClassName"), hm.get("entityPlayerFieldName"), "L" + hm.get("entityPlayerMPJavaClassName") + ";"));
+						toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/ForgeEssentials/util/events/ForgeEssentialsEventFactory", "onBlockHarvested", "(L" + hm.get("worldJavaClassName") + ";IIIL" + hm.get("blockJavaClassName") + ";IL"
 								+ hm.get("entityPlayerJavaClassName") + ";)Z"));
-						toInject.add(new JumpInsnNode(IFNE, lmm2Node));
-						toInject.add(new InsnNode(ICONST_0));
-						toInject.add(new InsnNode(IRETURN));
+						toInject.add(new JumpInsnNode(Opcodes.IFNE, lmm2Node));
+						toInject.add(new InsnNode(Opcodes.ICONST_0));
+						toInject.add(new InsnNode(Opcodes.IRETURN));
 						toInject.add(lmm2Node);
 						toInject.add(lmm1Node);
 

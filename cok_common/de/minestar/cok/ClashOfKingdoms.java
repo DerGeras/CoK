@@ -27,6 +27,7 @@ import de.minestar.cok.command.RemoveTeamCommand;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.handler.PacketHandler;
 import de.minestar.cok.hook.ChatListener;
+import de.minestar.cok.preloader.ValueMaps;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 import de.minestar.cok.weapon.ItemCrossBow;
@@ -109,6 +110,7 @@ public class ClashOfKingdoms {
 	 */
 	@Init
 	public void init(FMLInitializationEvent event){
+		ValueMaps.IIWMdev.get("hi");
 		MinecraftForge.EVENT_BUS.register(new ChatListener());
 		
 		proxy.registerRenderThings();
