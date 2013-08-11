@@ -8,7 +8,7 @@ import de.minestar.cok.references.Reference;
 
 import net.minecraft.command.ICommandSender;
 
-public class RemoveTeamCommand extends CoKCommand {
+public class CommandRemoveTeam extends CoKCommand {
 
 	@Override
 	public String getCommandName() {

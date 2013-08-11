@@ -8,7 +8,7 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.references.Reference;
 
-public class PlayerCommand extends CoKCommand {
+public class CommandPlayer extends CoKCommand {
 
 	@Override
 	public String getCommandName() {
@@ -61,8 +61,10 @@ public class PlayerCommand extends CoKCommand {
 	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
 			String[] astring) {
 		LinkedList<String> list = new LinkedList<String>();
-		list.add("add");
-		list.add("remove");
+		if(astring.length <= 1){
+			list.add("add");
+			list.add("remove");
+		}
 		return list;
 	}
 	

@@ -3,6 +3,7 @@ package de.minestar.cok;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
@@ -21,12 +22,15 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import de.minestar.cok.block.BlockSocket;
 import de.minestar.cok.block.BlockTowerBrick;
-import de.minestar.cok.command.CreateTeamCommand;
-import de.minestar.cok.command.PlayerCommand;
-import de.minestar.cok.command.RemoveTeamCommand;
+import de.minestar.cok.command.CommandCreateTeam;
+import de.minestar.cok.command.CommandPlayer;
+import de.minestar.cok.command.CommandRemoveTeam;
+import de.minestar.cok.command.CommandTeams;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.handler.PacketHandler;
+import de.minestar.cok.hook.BlockListener;
 import de.minestar.cok.hook.ChatListener;
+import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 import de.minestar.cok.weapon.ItemCrossBow;
@@ -48,10 +52,18 @@ public class ClashOfKingdoms {
 	// Says where the client and server 'proxy' code is loaded.
     @SidedProxy(clientSide="de.minestar.cok.proxy.ClientProxy", serverSide="de.minestar.cok.proxy.CommonProxy")
     public static CommonProxy proxy;
-	
+    
     //Don't know why I would need this.
     @Instance
     public static ClashOfKingdoms instance;
+    
+    //MetadatablockNames
+    public static final String[] socketBlockNames = {
+    	"Black Socket", "Dark Blue Socket", "Dark Green Socket", "Dark Aqua Socket",
+    	"Dark Red Socket", "Purple Socket", "Gold Socket", "Gray Socket", "Dark Gray Socket",
+    	"Blue Socket", "Green Socket", "Aqua Socket", "Red Socket", "Light Purple Socket",
+    	"Yellow Socket", "White Socket"
+    	};
     
     //Block IDs
     public static int socketID;
@@ -80,13 +92,15 @@ public class ClashOfKingdoms {
      */
     @ServerStarting
    	public void onServerStarting(FMLServerStartingEvent event) {
-    	event.registerServerCommand(new CreateTeamCommand());
-    	event.registerServerCommand(new RemoveTeamCommand());
-    	event.registerServerCommand(new PlayerCommand());
+    	event.registerServerCommand(new CommandCreateTeam());
+    	event.registerServerCommand(new CommandRemoveTeam());
+    	event.registerServerCommand(new CommandPlayer());
+    	event.registerServerCommand(new CommandTeams());
     	
     	//initialize the game
     	CoKGame.initGame(config);
     }
+    
     
 	/**
 	 * Called before the mod is actually loaded
@@ -104,12 +118,14 @@ public class ClashOfKingdoms {
 		}
 	}
 	
+	
 	/**
 	 * Called when the mod gets loaded
 	 */
 	@Init
 	public void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new ChatListener());
+		MinecraftForge.EVENT_BUS.register(new BlockListener());
 		
 		proxy.registerRenderThings();
 
@@ -120,6 +136,7 @@ public class ClashOfKingdoms {
 		proxy.registerTileEntites();
 	}
 	
+	
 	/**
 	 * Called after all Mods have been loaded.
 	 */
@@ -128,26 +145,34 @@ public class ClashOfKingdoms {
 		
 	}
 	
+	
 	private void initBlockIDs(){
 		socketID = config.getBlock(Configuration.CATEGORY_BLOCK, "Socket", 400).getInt();
 		towerBrickID = config.getBlock(Configuration.CATEGORY_BLOCK, "Tower Brick", 401).getInt();
 	}
 	
+	
 	private void initItemIDs(){
 		crossBowID = config.getItem(Configuration.CATEGORY_ITEM, "Crossbow", 5000).getInt();
 	}
 	
+	
 	private void registerBlocks(){
 		//register socket
 		socketBlock = new BlockSocket(socketID);
-		LanguageRegistry.addName(socketBlock, "Socket");
-		GameRegistry.registerBlock(socketBlock, socketBlock.getUnlocalizedName());
+		GameRegistry.registerBlock(socketBlock, ItemBlockSocket.class, socketBlock.getUnlocalizedName());
+		for (int ix = 0; ix < 16; ix++) {
+			ItemStack socketBlockStack = new ItemStack(socketBlock, 1, ix);
+			
+			LanguageRegistry.addName(socketBlockStack, socketBlockNames[socketBlockStack.getItemDamage()]);
+		}
 		
 		//register Tower
 		towerBrickBlock = new BlockTowerBrick(towerBrickID);
 		LanguageRegistry.addName(towerBrickBlock, "Tower Brick");
 		GameRegistry.registerBlock(towerBrickBlock, towerBrickBlock.getUnlocalizedName());
 	}
+	
 	
 	private void registerItems(){
 		//register crossbow

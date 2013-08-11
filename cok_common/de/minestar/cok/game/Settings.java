@@ -8,4 +8,7 @@ public class Settings {
 	//Building Height
 	public static int buildingHeight;
 	
+	//Protected Zone around a socket
+	public static int protectedRadius;
+	
 }

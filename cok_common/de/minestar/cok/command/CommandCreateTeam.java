@@ -9,7 +9,7 @@ import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.references.Reference;
 
-public class CreateTeamCommand extends CoKCommand {
+public class CommandCreateTeam extends CoKCommand {
 
 	@Override
 	public String getCommandName() {

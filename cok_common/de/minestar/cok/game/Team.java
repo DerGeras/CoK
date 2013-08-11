@@ -11,6 +11,10 @@ public class Team {
 
 	private HashSet<String> players = new HashSet<String>();
 	
+	public HashSet<String> getAllPlayers(){
+		return players;
+	}
+	
 	public Team(String name, char color) {
 		this.setName(name);
 		this.setColor(color);
