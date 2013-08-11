@@ -23,29 +23,29 @@ import de.minestar.cok.preloader.ValueMaps;
 
 public class CoKEventAdder implements IClassTransformer {
 
+	public static ValueMaps valueMaps = new ValueMaps();
+	
 	@Override
-	public byte[] transform(String name, String transformedName, byte[] bytes)
-	{
-		if (name.equals(ValueMaps.IIWMob.get("className")))
+	public byte[] transform(String name, String transformedName, byte[] bytes){
+		if (name.equals(valueMaps.IIWMob.get("className")))
 			// ItemInWorldManager, Obfuscated
-			return transformItemInWorldManager(bytes, ValueMaps.IIWMob);
+			return transformItemInWorldManager(bytes, valueMaps.IIWMob);
 
-		if (name.equals(ValueMaps.IIWMdev.get("className")))
+		if (name.equals(valueMaps.IIWMdev.get("className")))
 			// ItemInWorldManager, NOT Obfuscated
-			return transformItemInWorldManager(bytes, ValueMaps.IIWMdev);
+			return transformItemInWorldManager(bytes, valueMaps.IIWMdev);
 
-		if (name.equals(ValueMaps.ISob.get("className")))
+		if (name.equals(valueMaps.ISob.get("className")))
 			// ItemStack, Obfuscated
-			return transformItemStack(bytes, ValueMaps.ISob);
+			return transformItemStack(bytes, valueMaps.ISob);
 
-		if (name.equals(ValueMaps.ISdev.get("className")))
+		if (name.equals(valueMaps.ISdev.get("className")))
 			// ItemStack, NOT Obfuscated
-			return transformItemStack(bytes, ValueMaps.ISdev);
+			return transformItemStack(bytes, valueMaps.ISdev);
 		return bytes;
 	}
 
-	private byte[] transformItemStack(byte[] bytes, HashMap<String, String> hm)
-	{
+	private byte[] transformItemStack(byte[] bytes, HashMap<String, String> hm){
 		ClassNode classNode = new ClassNode();
 		ClassReader classReader = new ClassReader(bytes);
 		classReader.accept(classNode, 0);
@@ -80,7 +80,7 @@ public class CoKEventAdder implements IClassTransformer {
 				toInject.add(new VarInsnNode(Opcodes.FLOAD, 7));
 				toInject.add(new VarInsnNode(Opcodes.FLOAD, 8));
 				toInject.add(new VarInsnNode(Opcodes.FLOAD, 9));
-				toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/ForgeEssentials/util/events/ForgeEssentialsEventFactory", "onBlockPlace", "(L" + hm.get("itemstackJavaClassName") + ";L" + hm.get("entityPlayerJavaClassName") + ";L" + hm.get("worldJavaClassName")
+				toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "de/minestar/cok/event/CoKEventFactory", "onBlockPlace", "(L" + hm.get("itemstackJavaClassName") + ";L" + hm.get("entityPlayerJavaClassName") + ";L" + hm.get("worldJavaClassName")
 						+ ";IIIIFFF)Z"));
 				toInject.add(new JumpInsnNode(Opcodes.IFNE, lmm2Node));
 				toInject.add(new InsnNode(Opcodes.ICONST_0));
@@ -169,7 +169,7 @@ public class CoKEventAdder implements IClassTransformer {
 						toInject.add(new VarInsnNode(Opcodes.ILOAD, mdIndex));
 						toInject.add(new VarInsnNode(Opcodes.ALOAD, 0));
 						toInject.add(new FieldInsnNode(Opcodes.GETFIELD, hm.get("javaClassName"), hm.get("entityPlayerFieldName"), "L" + hm.get("entityPlayerMPJavaClassName") + ";"));
-						toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "com/ForgeEssentials/util/events/ForgeEssentialsEventFactory", "onBlockHarvested", "(L" + hm.get("worldJavaClassName") + ";IIIL" + hm.get("blockJavaClassName") + ";IL"
+						toInject.add(new MethodInsnNode(Opcodes.INVOKESTATIC, "de/minestar/cok/event/CoKEventFactory", "onBlockBreak", "(L" + hm.get("worldJavaClassName") + ";IIIL" + hm.get("blockJavaClassName") + ";IL"
 								+ hm.get("entityPlayerJavaClassName") + ";)Z"));
 						toInject.add(new JumpInsnNode(Opcodes.IFNE, lmm2Node));
 						toInject.add(new InsnNode(Opcodes.ICONST_0));
