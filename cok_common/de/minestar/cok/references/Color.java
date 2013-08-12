@@ -21,14 +21,53 @@ public class Color {
 	
 	public static char getColorFromString(String color){
 		//SCREW YOU JAVA 1.5!!!!!!
+		if(color.equalsIgnoreCase("black")){
+			return BLACK;
+		}
+		if(color.equalsIgnoreCase("darkblue")){
+			return DARK_BLUE;
+		}
+		if(color.equalsIgnoreCase("darkgreen")){
+			return DARK_GREEN;
+		}
+		if(color.equalsIgnoreCase("darkaqua")){
+			return DARK_AQUA;
+		}
+		if(color.equalsIgnoreCase("darkred")){
+			return DARK_RED;
+		}
+		if(color.equalsIgnoreCase("purple")){
+			return PURPLE;
+		}
+		if(color.equalsIgnoreCase("gold")){
+			return GOLD;
+		}
 		if(color.equalsIgnoreCase("gray")){
 			return GRAY;
+		}
+		if(color.equalsIgnoreCase("darkgray")){
+			return DARK_GRAY;
 		}
 		if(color.equalsIgnoreCase("blue")){
 			return BLUE;
 		}
+		if(color.equalsIgnoreCase("green")){
+			return GREEN;
+		}
+		if(color.equalsIgnoreCase("aqua")){
+			return AQUA;
+		}
 		if(color.equalsIgnoreCase("red")){
 			return RED;
+		}
+		if(color.equalsIgnoreCase("lightpurple")){
+			return LIGHT_PURPLE;
+		}
+		if(color.equalsIgnoreCase("yellow")){
+			return YELLOW;
+		}
+		if(color.equalsIgnoreCase("white")){
+			return WHITE;
 		}
 		return 'g';
 	}
