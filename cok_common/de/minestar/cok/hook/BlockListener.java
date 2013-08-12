@@ -15,8 +15,9 @@ public class BlockListener {
 		if(event.player.capabilities.isCreativeMode){
 			return; //Creative Mode is always allowed
 		}
-		if(CoKGame.getTeamOfPlayer(event.player.username) == null){
+		if(!CoKGame.gameRunning || CoKGame.getTeamOfPlayer(event.player.username) == null){
 			event.setCanceled(true);
+			return;
 		}
 		for(HashSet<TileEntitySocket> teamSockets : CoKGame.sockets.values()){
 			for(TileEntitySocket socket : teamSockets){
@@ -32,8 +33,9 @@ public class BlockListener {
 		if(event.player.capabilities.isCreativeMode){
 			return; //Creative Mode is always allowed
 		}
-		if(CoKGame.getTeamOfPlayer(event.player.username) == null){
+		if(!CoKGame.gameRunning || CoKGame.getTeamOfPlayer(event.player.username) == null){
 			event.setCanceled(true);
+			return;
 		}
 		for(HashSet<TileEntitySocket> teamSockets : CoKGame.sockets.values()){
 			for(TileEntitySocket socket : teamSockets){

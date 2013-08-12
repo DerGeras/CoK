@@ -5,12 +5,16 @@ import java.util.HashSet;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
+import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.references.Color;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class CoKGame {
 	
 	public static HashMap<String, Team> teams;
 	public static HashMap<Integer,HashSet<TileEntitySocket>> sockets; 
+	
+	public static boolean gameRunning = false;
 	
 	public static void initGame(Configuration config){
 		Settings.defaultbuildingBlockID = config.get(Configuration.CATEGORY_GENERAL, "Default building Block ID", Block.stone.blockID).getInt();
@@ -23,11 +27,59 @@ public class CoKGame {
 		
 		teams = new HashMap<String, Team>();
 		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
+		gameRunning = false;
 	}
 	
+	/**
+	 * clean up the game on server stop
+	 */
 	public static void cleanUpGame(){
 		teams = new HashMap<String, Team>();
 		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
+		gameRunning = false;
+	}
+	
+	/**
+	 * start a round of CoK
+	 */
+	public static void startGame(){
+		gameRunning = true;
+		ChatSendHelper.broadCastError("Let the clash of kingdoms begin!");
+	}
+	
+	/**
+	 * Stop the current round and declare the scores
+	 */
+	public static void stopGame(){
+		if(!gameRunning){
+			return;
+		}
+		gameRunning = false;
+		ChatSendHelper.broadCastError("The game has ended!");
+		ChatSendHelper.broadCastError("Results:");
+		for(Team team : teams.values()){
+			int maxScore = Settings.buildingHeight * (sockets.get(team.getColorAsInt()) == null ? 0 : sockets.get(team.getColorAsInt()).size());
+			ChatSendHelper.broadCastMessage(Color.getColorCodeFromChar(team.getColor())
+					+ team.getName() + Color.getColorCodeFromString("white") + ": "
+					+ getScoreForTeam(team) + "/" + maxScore);
+			//TODO finish call
+		}
+	}
+	
+	/**
+	 * get the score for the given teamName
+	 * @param name - name of the team
+	 */
+	public static int getScoreForTeam(Team team){
+		HashSet<TileEntitySocket> teamSockets = sockets.get(team.getColorAsInt());
+		if(teamSockets == null){
+			return 0;
+		}
+		int res = 0;
+		for(TileEntitySocket socket : teamSockets){
+			res += socket.countBlocks();
+		}
+		return res;
 	}
 	
 	/**

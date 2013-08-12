@@ -70,7 +70,7 @@ public class CommandPlayer extends CoKCommand {
 	
 	@Override
 	public boolean isUsernameIndex(String[] astring, int i) {
-		return i == 2;
+		return true; //TODO check this method
 	}
 
 }

@@ -46,6 +46,18 @@ public class TileEntitySocket extends TileEntity {
     	}
     }
     
+    /**
+     * count the number of valid blocks above the socket
+     * @return
+     */
+    public int countBlocks(){
+    	int res = 0;
+    	for(int i = 0; i < Settings.buildingHeight; i++){
+    		res += this.worldObj.getBlockId(xCoord, yCoord + i, zCoord) == Settings.defaultbuildingBlockID ? 1 : 0;
+    	}
+    	return res;
+    }
+    
     
     public void checkEvent(EventBlockBreak event){
     	if(!event.isCanceled()){

@@ -24,6 +24,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import de.minestar.cok.block.BlockSocket;
 import de.minestar.cok.block.BlockTowerBrick;
+import de.minestar.cok.command.CommandCok;
 import de.minestar.cok.command.CommandCreateTeam;
 import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandRemoveTeam;
@@ -98,6 +99,7 @@ public class ClashOfKingdoms {
     	event.registerServerCommand(new CommandRemoveTeam());
     	event.registerServerCommand(new CommandPlayer());
     	event.registerServerCommand(new CommandTeams());
+    	event.registerServerCommand(new CommandCok());
     }
     
     @ServerStopping
