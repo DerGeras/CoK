@@ -12,7 +12,8 @@ import de.minestar.cok.tileentity.TileEntitySocket;
 public class CoKGame {
 	
 	public static HashMap<String, Team> teams;
-	public static HashMap<Integer,HashSet<TileEntitySocket>> sockets; 
+	public static HashMap<Integer, HashSet<TileEntitySocket>> sockets;
+	public static HashSet<TileEntitySocket> unsortedSockets;
 	
 	public static boolean gameRunning = false;
 	
@@ -27,6 +28,7 @@ public class CoKGame {
 		
 		teams = new HashMap<String, Team>();
 		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
+		unsortedSockets = new HashSet<TileEntitySocket>();
 		gameRunning = false;
 	}
 	
@@ -34,8 +36,9 @@ public class CoKGame {
 	 * clean up the game on server stop
 	 */
 	public static void cleanUpGame(){
-		teams = new HashMap<String, Team>();
-		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
+		teams.clear();
+		sockets.clear();
+		unsortedSockets.clear();
 		gameRunning = false;
 	}
 	
@@ -71,6 +74,7 @@ public class CoKGame {
 	 * @param name - name of the team
 	 */
 	public static int getScoreForTeam(Team team){
+		sortSockets();
 		HashSet<TileEntitySocket> teamSockets = sockets.get(team.getColorAsInt());
 		if(teamSockets == null){
 			return 0;
@@ -87,15 +91,25 @@ public class CoKGame {
 	 * @param coords
 	 */
 	public static boolean registerSocket(TileEntitySocket socket){
+		return unsortedSockets.add(socket);
+	}
+	
+	/**
+	 * sort unsorted sockets.
+	 * Needed this due to divergation in the call "socket.getBlockMetadata()"
+	 */
+	public static void sortSockets(){
 		if(sockets != null){
-			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
-			if(teamSockets == null){
-				teamSockets = new HashSet<TileEntitySocket>();
-				sockets.put(socket.getBlockMetadata(), teamSockets);
+			for(TileEntitySocket socket : unsortedSockets){
+				HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
+				if(teamSockets == null){
+					teamSockets = new HashSet<TileEntitySocket>();
+					sockets.put(socket.getBlockMetadata(), teamSockets);
+				}
+				teamSockets.add(socket);
 			}
-			return teamSockets.add(socket);
+			unsortedSockets.clear();
 		}
-		return false;
 	}
 	
 	/**
@@ -104,6 +118,7 @@ public class CoKGame {
 	 * @return
 	 */
 	public static boolean removeSocket(TileEntitySocket socket){
+		sortSockets();
 		if(sockets != null){
 			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
 			if(teamSockets == null){

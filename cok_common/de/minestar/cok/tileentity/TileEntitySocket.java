@@ -32,7 +32,7 @@ public class TileEntitySocket extends TileEntity {
     @Override
     public void validate(){
     	super.validate();
-    	if(!this.worldObj.isRemote && this.zCoord != 0)
+    	if(!this.worldObj.isRemote)
 	    {
 	    	CoKGame.registerSocket(this);
 	    }
@@ -41,7 +41,7 @@ public class TileEntitySocket extends TileEntity {
     @Override
     public void invalidate(){
     	super.invalidate();
-    	if(!this.worldObj.isRemote && this.zCoord != 0){
+    	if(!this.worldObj.isRemote){
     		CoKGame.removeSocket(this);
     	}
     }

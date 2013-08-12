@@ -27,7 +27,7 @@ public class Team {
 	}
 	
 	public int getColorAsInt(){
-		return color - 87;
+		return color >= 97 ? color - 87 : color - 48;
 	}
 	
 	public boolean addPlayer(String name){
