@@ -10,7 +10,7 @@ import de.minestar.cok.tileentity.TileEntitySocket;
 public class CoKGame {
 	
 	public static HashMap<String, Team> teams;
-	public static HashSet<TileEntitySocket> sockets; 
+	public static HashMap<Integer,HashSet<TileEntitySocket>> sockets; 
 	
 	public static void initGame(Configuration config){
 		Settings.defaultbuildingBlockID = config.get(Configuration.CATEGORY_GENERAL, "Default building Block ID", Block.stone.blockID).getInt();
@@ -22,21 +22,28 @@ public class CoKGame {
 		}
 		
 		teams = new HashMap<String, Team>();
-		sockets = new HashSet<TileEntitySocket>();
+		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
 	}
 	
 	public static void cleanUpGame(){
 		teams = new HashMap<String, Team>();
-		sockets = new HashSet<TileEntitySocket>();
+		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
 	}
 	
 	/**
 	 * register a socket block
 	 * @param coords
 	 */
-	public static boolean registerSocket(TileEntitySocket coords){
-		if(sockets != null) System.out.println("Size " + sockets.size());
-		return sockets != null ? sockets.add(coords) : false;
+	public static boolean registerSocket(TileEntitySocket socket){
+		if(sockets != null){
+			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
+			if(teamSockets == null){
+				teamSockets = new HashSet<TileEntitySocket>();
+				sockets.put(socket.getBlockMetadata(), teamSockets);
+			}
+			return teamSockets.add(socket);
+		}
+		return false;
 	}
 	
 	/**
@@ -44,9 +51,15 @@ public class CoKGame {
 	 * @param coords
 	 * @return
 	 */
-	public static boolean removeSocket(TileEntitySocket coords){
-		if(sockets != null) System.out.println("Size " + sockets.size());
-		return sockets != null ? sockets.remove(coords) : false;
+	public static boolean removeSocket(TileEntitySocket socket){
+		if(sockets != null){
+			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
+			if(teamSockets == null){
+				return false;
+			}
+			return teamSockets.remove(socket);
+		}
+		return false;
 	}
 	
 	/**

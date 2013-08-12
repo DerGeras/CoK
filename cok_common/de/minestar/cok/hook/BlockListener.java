@@ -1,5 +1,7 @@
 package de.minestar.cok.hook;
 
+import java.util.HashSet;
+
 import net.minecraftforge.event.ForgeSubscribe;
 import de.minestar.cok.event.EventBlockBreak;
 import de.minestar.cok.event.EventBlockPlace;
@@ -16,8 +18,10 @@ public class BlockListener {
 		if(CoKGame.getTeamOfPlayer(event.player.username) == null){
 			event.setCanceled(true);
 		}
-		for(TileEntitySocket socket : CoKGame.sockets){
-			socket.checkEvent(event);
+		for(HashSet<TileEntitySocket> teamSockets : CoKGame.sockets.values()){
+			for(TileEntitySocket socket : teamSockets){
+				socket.checkEvent(event);
+			}
 		}
 //		System.out.println("Block broke at " + event.blockX + " " + event.blockY  + " " +
 //				event.blockZ + " by " + event.player.username);
@@ -31,8 +35,10 @@ public class BlockListener {
 		if(CoKGame.getTeamOfPlayer(event.player.username) == null){
 			event.setCanceled(true);
 		}
-		for(TileEntitySocket socket : CoKGame.sockets){
-			socket.checkEvent(event);
+		for(HashSet<TileEntitySocket> teamSockets : CoKGame.sockets.values()){
+			for(TileEntitySocket socket : teamSockets){
+				socket.checkEvent(event);
+			}
 		}
 //		System.out.println("Block placed at " + event.blockX + " " + event.blockY  + " " +
 //				event.blockZ + " by " + event.player.username);
