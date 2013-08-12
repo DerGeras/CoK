@@ -1,6 +1,7 @@
 package de.minestar.cok.game;
 
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class Team {
 	
@@ -9,10 +10,14 @@ public class Team {
 	private String captain;
 
 
-	private HashSet<String> players = new HashSet<String>();
+	private LinkedList<String> players = new LinkedList<String>();
 	
-	public HashSet<String> getAllPlayers(){
+	public LinkedList<String> getAllPlayers(){
 		return players;
+	}
+	
+	public String getRandomPlayer(Random rand){
+		return players.get(rand.nextInt(players.size()));
 	}
 	
 	public Team(String name, char color) {

@@ -33,6 +33,7 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.handler.PacketHandler;
 import de.minestar.cok.hook.BlockListener;
 import de.minestar.cok.hook.ChatListener;
+import de.minestar.cok.hook.PlayerListener;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
@@ -132,6 +133,7 @@ public class ClashOfKingdoms {
 	public void init(FMLInitializationEvent event){
 		MinecraftForge.EVENT_BUS.register(new ChatListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
+		MinecraftForge.EVENT_BUS.register(new PlayerListener());
 		
 		proxy.registerRenderThings();
 
