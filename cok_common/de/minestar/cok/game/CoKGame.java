@@ -1,11 +1,18 @@
 package de.minestar.cok.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.profession.Profession;
+import de.minestar.cok.profession.ProfessionArcher;
+import de.minestar.cok.profession.ProfessionKnight;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
@@ -14,6 +21,9 @@ public class CoKGame {
 	public static HashMap<String, Team> teams;
 	public static HashMap<Integer, HashSet<TileEntitySocket>> sockets;
 	public static HashSet<TileEntitySocket> unsortedSockets;
+	public static ArrayList<Profession> professions;
+	public static HashMap<String, Profession> playerProfessions;
+	public static Random rand = new Random();
 	
 	public static boolean gameRunning = false;
 	
@@ -29,6 +39,12 @@ public class CoKGame {
 		teams = new HashMap<String, Team>();
 		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
 		unsortedSockets = new HashSet<TileEntitySocket>();
+		playerProfessions = new HashMap<String, Profession>();
+		
+		professions = new ArrayList<Profession>();
+		professions.add(new ProfessionArcher());
+		professions.add(new ProfessionKnight());
+		
 		gameRunning = false;
 	}
 	
@@ -52,6 +68,12 @@ public class CoKGame {
 			if(team.getAllPlayers().size() > 0){
 				ChatSendHelper.broadCastMessage("Team " + Color.getColorCodeFromChar(team.getColor()) + team.getName()
 						+ Color.getColorCodeFromString("white") + " with leader " + team.getCaptain());
+			}
+			for(String playername : team.getAllPlayers()){
+				playerProfessions.put(playername, professions.get(rand.nextInt(professions.size())));
+				EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+				player.inventory.clearInventory(-1, -1);
+				playerProfessions.get(playername).giveKit(player, team);
 			}
 		}
 	}
@@ -226,6 +248,12 @@ public class CoKGame {
 		boolean res = teams.containsKey(teamname) && getTeamOfPlayer(playername) == null;
 			if(res){
 				res = teams.get(teamname).addPlayer(playername);
+				if(gameRunning){
+					playerProfessions.put(playername, professions.get(rand.nextInt(professions.size())));
+					EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+					player.inventory.clearInventory(-1, -1);
+					playerProfessions.get(playername).giveKit(player, teams.get(teamname));
+				}
 			}
 		return res;
 	}
