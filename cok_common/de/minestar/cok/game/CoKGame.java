@@ -48,6 +48,12 @@ public class CoKGame {
 	public static void startGame(){
 		gameRunning = true;
 		ChatSendHelper.broadCastError("Let the clash of kingdoms begin!");
+		for(Team team : teams.values()){
+			if(team.getAllPlayers().size() > 0){
+				ChatSendHelper.broadCastMessage("Team " + Color.getColorCodeFromChar(team.getColor()) + team.getName()
+						+ Color.getColorCodeFromString("white") + " with leader " + team.getCaptain());
+			}
+		}
 	}
 	
 	/**

@@ -18,7 +18,7 @@ public class CommandCreateTeam extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender) {
-		return getCommandName() + " TeamName Color <Captain>";
+		return getCommandName() + " TeamName Color";
 	}
 
 	@Override
