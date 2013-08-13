@@ -134,14 +134,13 @@ public class ClashOfKingdoms {
 		MinecraftForge.EVENT_BUS.register(new ChatListener());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
 		MinecraftForge.EVENT_BUS.register(new PlayerListener());
-		
-		proxy.registerRenderThings();
 
 		registerBlocks();
 		
 		registerItems();
 		
 		proxy.registerTileEntites();
+		proxy.registerRenderThings();
 	}
 	
 	
