@@ -1,7 +1,11 @@
 package de.minestar.cok.renderer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
+import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.IItemRenderer;
 
@@ -39,7 +43,16 @@ public class ItemRendererCrossbow implements IItemRenderer {
 				GL11.glRotatef(312f, 0.0f, 1.0f, 0.0f);
 				GL11.glRotatef(270f, 0.0f, 0.0f, 1.0f);
 				
-				GL11.glTranslatef(0.05f, -0.05f, -0.8f);				
+				if(data[1] != null && data[1] instanceof EntityPlayer){
+					//check for non-first person view
+					if(!((EntityPlayer)data[1] == Minecraft.getMinecraft().renderViewEntity && Minecraft.getMinecraft().gameSettings.thirdPersonView == 0 && !((Minecraft.getMinecraft().currentScreen instanceof GuiInventory || Minecraft.getMinecraft().currentScreen instanceof GuiContainerCreative) && RenderManager.instance.playerViewY == 180.0F))){
+						GL11.glTranslatef(0.05f, -0.05f, -0.8f);
+					} else{
+						GL11.glTranslatef(0.05f, -0.05f, -0.8f); // <--- First Person view
+					}
+				} else{
+					GL11.glTranslatef(0.05f, -0.05f, -0.8f);
+				}
 				
 				crossbowModel.render((Entity) data[1], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
 				

@@ -5,7 +5,7 @@ public class Reference {
 	//@Mod info
 	public static final String MOD_ID = "ClashOfKingdoms";
 	public static final String MOD_NAME = "Clash of Kingdoms";
-	public static final String MOD_VERSION = "0.2.0";
+	public static final String MOD_VERSION = "0.2.1";
 	
 	//@NetworkMod info
 	public static final String CHANNEL_NAME = "cok";
