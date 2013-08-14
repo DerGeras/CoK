@@ -9,8 +9,8 @@ import de.minestar.cok.references.Reference;
 public class CoKItem extends Item{
 	
 	
-	public CoKItem(int par1) {
-		super(par1);
+	public CoKItem(int id) {
+		super(id);
 		// TODO Auto-generated constructor stub
 	}
 

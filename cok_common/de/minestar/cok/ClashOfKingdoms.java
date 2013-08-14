@@ -2,6 +2,7 @@ package de.minestar.cok;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
@@ -38,6 +39,7 @@ import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 import de.minestar.cok.weapon.ItemCrossBow;
+import de.minestar.cok.weapon.ItemWarhammer;
 
 
 @Mod(
@@ -79,9 +81,11 @@ public class ClashOfKingdoms {
     
     //Item IDs
     public static int crossBowID;
+    public static int warhammerID;
     
     //Items
     public static Item crossBowItem;
+    public static Item warhammerItem;
     
     
     //General creativeTab
@@ -162,6 +166,7 @@ public class ClashOfKingdoms {
 	
 	private void initItemIDs(){
 		crossBowID = config.getItem(Configuration.CATEGORY_ITEM, "Crossbow", 5000).getInt();
+		warhammerID = config.getItem(Configuration.CATEGORY_ITEM, "Warhammer", 5001).getInt();
 	}
 	
 	
@@ -186,6 +191,9 @@ public class ClashOfKingdoms {
 		//register crossbow
 		crossBowItem = new ItemCrossBow(crossBowID);
 		LanguageRegistry.addName(crossBowItem, "Crossbow");
+		//register warhammer
+		warhammerItem = new ItemWarhammer(warhammerID, EnumToolMaterial.EMERALD);
+		LanguageRegistry.addName(warhammerItem, "Warhammer");
 	}
 
 }
