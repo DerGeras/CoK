@@ -14,10 +14,10 @@ public class ProfessionKnight extends Profession {
 	@Override
 	public void giveKit(EntityPlayer player, Team team) {
 		//Armour
-		player.inventory.armorInventory[3] = new ItemStack(Item.helmetDiamond);
-		player.inventory.armorInventory[2] = new ItemStack(Item.plateDiamond);
-		player.inventory.armorInventory[1] = new ItemStack(Item.legsDiamond);
-		player.inventory.armorInventory[0] = new ItemStack(Item.bootsDiamond);
+		player.inventory.armorInventory[3] = new ItemStack(Item.helmetLeather);
+		player.inventory.armorInventory[2] = new ItemStack(Item.plateLeather);
+		player.inventory.armorInventory[1] = new ItemStack(Item.legsLeather);
+		player.inventory.armorInventory[0] = new ItemStack(Item.bootsLeather);
 		
 		//Weaponry
 		player.inventory.addItemStackToInventory(new ItemStack(Item.swordDiamond));
