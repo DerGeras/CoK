@@ -7,6 +7,8 @@ import de.minestar.cok.references.Reference;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.World;
 
 /**
  * The Block Towers are made of. Not craftable,
@@ -21,6 +23,7 @@ public class BlockTowerBrick extends Block{
 		super(id, Material.rock);
 		setUnlocalizedName("towerbrick");
 		this.setCreativeTab(ClashOfKingdoms.cokTab);
+		this.setBlockUnbreakable();
 	}
 	
 	/**
@@ -34,4 +37,9 @@ public class BlockTowerBrick extends Block{
         this.blockIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
     }
 	
+    @Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
+		//I shall not explode!
+	}
+    
 }

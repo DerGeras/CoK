@@ -2,6 +2,7 @@ package de.minestar.cok.tileentity;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.event.EventBlockBreak;
 import de.minestar.cok.event.EventBlockPlace;
 import de.minestar.cok.game.CoKGame;
@@ -47,13 +48,30 @@ public class TileEntitySocket extends TileEntity {
     }
     
     /**
+     * here: change default block to tower bricks... hopefully only temporary
+     */
+    @Override
+    public void updateEntity(){
+    	for(int i = 0; i < Settings.buildingHeight; i++){
+    		int blockID = this.worldObj.getBlockId(xCoord, yCoord + i, zCoord);
+    		if(blockID == Settings.defaultbuildingBlockID) {
+    			//Change to tower bricks
+    			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ClashOfKingdoms.towerBrickID);
+    		}
+    	}
+    }
+    
+    /**
      * count the number of valid blocks above the socket
      * @return
      */
     public int countBlocks(){
     	int res = 0;
     	for(int i = 0; i < Settings.buildingHeight; i++){
-    		res += this.worldObj.getBlockId(xCoord, yCoord + i, zCoord) == Settings.defaultbuildingBlockID ? 1 : 0;
+    		int blockID = this.worldObj.getBlockId(xCoord, yCoord + i, zCoord);
+		  	if(blockID == ClashOfKingdoms.towerBrickID){
+				res++;
+			}    		
     	}
     	return res;
     }
