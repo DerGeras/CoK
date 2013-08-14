@@ -192,7 +192,7 @@ public class ClashOfKingdoms {
 		crossBowItem = new ItemCrossBow(crossBowID);
 		LanguageRegistry.addName(crossBowItem, "Crossbow");
 		//register warhammer
-		warhammerItem = new ItemWarhammer(warhammerID, EnumToolMaterial.EMERALD);
+		warhammerItem = new ItemWarhammer(warhammerID, EnumToolMaterial.IRON);
 		LanguageRegistry.addName(warhammerItem, "Warhammer");
 	}
 
