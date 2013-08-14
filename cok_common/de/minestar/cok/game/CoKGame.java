@@ -63,6 +63,9 @@ public class CoKGame {
 	 */
 	public static void startGame(){
 		gameRunning = true;
+		for(Team team: teams.values()){
+			team.setRandomCaptain();
+		}
 		ChatSendHelper.broadCastError("Let the clash of kingdoms begin!");
 		for(Team team : teams.values()){
 			if(team.getAllPlayers().size() > 0){

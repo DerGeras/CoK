@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -21,6 +22,7 @@ public class BlockSocket extends BlockContainer {
 		super(id, Material.wood);
 		setUnlocalizedName("socket");
 		this.setCreativeTab(ClashOfKingdoms.cokTab);
+		this.setBlockUnbreakable();
 	}
     
     /**
@@ -54,5 +56,9 @@ public class BlockSocket extends BlockContainer {
 		return new TileEntitySocket();
 	}
     
+	@Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
+		//I shall not explode!
+	}
 
 }

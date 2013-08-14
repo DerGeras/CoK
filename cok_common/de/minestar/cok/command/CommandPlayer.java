@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.command.ICommandSender;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.helper.PlayerHelper;
 import de.minestar.cok.references.Reference;
 
 public class CommandPlayer extends CoKCommand {
@@ -31,7 +32,7 @@ public class CommandPlayer extends CoKCommand {
 			return;
 		}
 		if(astring[0].equalsIgnoreCase("add")){
-			if(!isOnlineUser(astring[2])){
+			if(!PlayerHelper.isOnlineUser(astring[2])){
 				ChatSendHelper.sendError(icommandsender, "Could not find player \"" + astring[2] + "\"!");
 				return;
 			}

@@ -3,6 +3,8 @@ package de.minestar.cok.game;
 import java.util.LinkedList;
 import java.util.Random;
 
+import de.minestar.cok.helper.PlayerHelper;
+
 public class Team {
 	
 	private String name;
@@ -16,10 +18,6 @@ public class Team {
 		return players;
 	}
 	
-	public String getRandomPlayer(Random rand){
-		return players.get(rand.nextInt(players.size()));
-	}
-	
 	public Team(String name, char color) {
 		this.setName(name);
 		this.setColor(color);
@@ -29,6 +27,34 @@ public class Team {
 	public Team(String name, char color, String captain){
 		this(name, color);
 		this.captain = captain;
+	}
+	
+	
+	/**
+	 * get any team member that is currently online, empty string if there is none
+	 * @param rand
+	 * @return
+	 */
+	public String getRandomOnlinePlayer(Random rand){
+		LinkedList<String> onlinePlayers = new LinkedList<String>();
+		for(String player : players){
+			if(PlayerHelper.isOnlineUser(player)){
+				onlinePlayers.add(player);
+			}
+		}
+		if(onlinePlayers.size() == 0){
+			return "";
+		} else{
+			return onlinePlayers.get(rand.nextInt(onlinePlayers.size()));
+		}
+	}
+	
+	/**
+	 * sets a random player from the team as the captain. The player must be online,
+	 * if there is none, the captain will be ""
+	 */
+	public void setRandomCaptain(){
+		captain = getRandomOnlinePlayer(CoKGame.rand);		
 	}
 	
 	public int getColorAsInt(){
