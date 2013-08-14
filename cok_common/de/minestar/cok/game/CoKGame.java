@@ -12,6 +12,7 @@ import net.minecraftforge.common.Configuration;
 import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.profession.Profession;
 import de.minestar.cok.profession.ProfessionArcher;
+import de.minestar.cok.profession.ProfessionBarbarian;
 import de.minestar.cok.profession.ProfessionKnight;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.tileentity.TileEntitySocket;
@@ -44,6 +45,7 @@ public class CoKGame {
 		professions = new ArrayList<Profession>();
 		professions.add(new ProfessionArcher());
 		professions.add(new ProfessionKnight());
+		professions.add(new ProfessionBarbarian());
 		
 		gameRunning = false;
 	}

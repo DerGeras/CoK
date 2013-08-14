@@ -28,7 +28,7 @@ public class PlayerListener {
 			team.setRandomCaptain();
 			ChatSendHelper.broadCastError("THE RULER OF THE KINGDOM " + team.getName() + " " + name + " HAS DIED!");
 			if(team.getCaptain().equals("")){
-				ChatSendHelper.broadCastError("THERE IS NOW NEW RULER TO ANOUNCE... THIS IS BAD!");
+				ChatSendHelper.broadCastError("THERE IS NO NEW RULER TO ANOUNCE... THIS IS BAD!");
 			} else{
 				ChatSendHelper.broadCastError("LONG LIFE KING " + team.getCaptain() + "!");
 			}
