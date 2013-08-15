@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -18,6 +19,8 @@ import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class BlockSocket extends BlockContainer {
 
+	private Icon[] iconArray;
+	
 	public BlockSocket(int id) {
 		super(id, Material.wood);
 		setUnlocalizedName("socket");
@@ -25,6 +28,14 @@ public class BlockSocket extends BlockContainer {
 		this.setBlockUnbreakable();
 	}
     
+	 /**
+     * From the specified side and block metadata retrieves the blocks texture.
+     */
+    public Icon getIcon(int side, int metadata)
+    {
+    	return iconArray[metadata];
+    }
+	
     /**
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
@@ -33,7 +44,12 @@ public class BlockSocket extends BlockContainer {
     @Override
     public void registerIcons(IconRegister register)
     {
-        this.blockIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
+    	this.iconArray = new Icon[16];
+
+        for (int i = 0; i < this.iconArray.length; ++i)
+        {
+            this.iconArray[i] = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5) + "_" + i);
+        }
     }
     
     @Override
