@@ -16,7 +16,7 @@ public class PacketHandler implements IPacketHandler{
 	public static final byte PLAYER_ADD = 3;
 	public static final byte PLAYER_REMOVE = 4;
 	public static final byte CHANGE_CAPTAIN = 5;
-	public static final byte SCORE = 6;
+	public static final byte GAME_STATE = 6;
 
 	@Override
 	public void onPacketData(INetworkManager manager,
@@ -43,6 +43,7 @@ public class PacketHandler implements IPacketHandler{
 		case TEAM_REMOVE: CoKGamePacket.removeTeam(inputStream); break;
 		case PLAYER_ADD: CoKGamePacket.addPlayer(inputStream); break;
 		case PLAYER_REMOVE: CoKGamePacket.removePlayer(inputStream); break;
+		case GAME_STATE: CoKGamePacket.setGameState(inputStream); break;
 		default: return;
 		}
 	}

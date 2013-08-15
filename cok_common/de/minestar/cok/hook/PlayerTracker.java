@@ -1,0 +1,58 @@
+package de.minestar.cok.hook;
+
+import net.minecraft.entity.player.EntityPlayer;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.IPlayerTracker;
+import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.relauncher.Side;
+import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.game.Team;
+import de.minestar.cok.packet.CoKGamePacket;
+import de.minestar.cok.profession.Profession;
+
+public class PlayerTracker implements IPlayerTracker {
+
+	@Override
+	public void onPlayerLogin(EntityPlayer player) {
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+        if (side == Side.SERVER) {
+        	CoKGamePacket.sendGameStateToPlayer((Player) player);
+        }
+
+	}
+
+	@Override
+	public void onPlayerLogout(EntityPlayer player) {
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+        if (side == Side.SERVER) {
+        	if(!CoKGame.gameRunning){
+        		return;
+        	}
+        	
+        }
+
+	}
+
+	@Override
+	public void onPlayerChangedDimension(EntityPlayer player) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onPlayerRespawn(EntityPlayer player) {
+		Side side = FMLCommonHandler.instance().getEffectiveSide();
+        if (side == Side.SERVER) {
+			if(!CoKGame.gameRunning){
+				return;
+			}
+			
+			Team team = CoKGame.getTeamOfPlayer(player.username);
+			Profession profession = CoKGame.playerProfessions.get(player.username);
+			if(team != null && profession != null){
+				profession.giveKit(player, team);
+			}
+        }
+	}
+
+}

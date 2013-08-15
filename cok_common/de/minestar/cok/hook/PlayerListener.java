@@ -1,8 +1,6 @@
 package de.minestar.cok.hook;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.ForgeSubscribe;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
@@ -36,22 +34,6 @@ public class PlayerListener {
 		//change profession
 		CoKGame.playerProfessions.remove(name);
 		CoKGame.playerProfessions.put(name, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())));
-	}
-	
-	
-	//TODO this doesn't work as expected... need to fix it somehow (wrong event)
-	@ForgeSubscribe
-	public void onPlayerSpawn(LivingSpawnEvent event){
-		if(!CoKGame.gameRunning){
-			return;
-		}
-		if(event.entity instanceof EntityPlayer){
-			EntityPlayer player = (EntityPlayer) event.entity;
-			Team team = CoKGame.getTeamOfPlayer(player.username);
-			if(team != null){
-				CoKGame.playerProfessions.get(player.username).giveKit(player, team);
-			}
-		}
 	}
 	
 }
