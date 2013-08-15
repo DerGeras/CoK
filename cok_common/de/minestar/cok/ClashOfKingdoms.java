@@ -90,8 +90,17 @@ public class ClashOfKingdoms {
     public static Item warhammerItem;
     
     
-    //General creativeTab
-    public static CreativeTabs cokTab = new CreativeTabs(CreativeTabs.getNextID(), Reference.MOD_ID);
+    //General creativeTabs
+    public static CreativeTabs cokBlockTab = new CreativeTabs("Clash of Kingdoms Blocks") {
+        public ItemStack getIconItemStack() {
+            return new ItemStack(towerBrickBlock, 1, 0);
+        }
+    };
+    public static CreativeTabs cokItemTab = new CreativeTabs("Clash of Kingdoms Items") {
+                public ItemStack getIconItemStack() {
+                        return new ItemStack(crossBowItem, 1, 0);
+                }
+        };
     
     //Configuration
     public static Configuration config;
@@ -143,7 +152,11 @@ public class ClashOfKingdoms {
 		MinecraftForge.EVENT_BUS.register(new PlayerListener());
 		
 		GameRegistry.registerPlayerTracker(new PlayerTracker());
-
+		
+		//Name Creative tabs
+		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Blocks", "en_US", "CoK Blocks");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Items", "en_US", "CoK Items");
+		
 		registerBlocks();
 		
 		registerItems();

@@ -24,7 +24,7 @@ public class BlockSocket extends BlockContainer {
 	public BlockSocket(int id) {
 		super(id, Material.wood);
 		setUnlocalizedName("socket");
-		this.setCreativeTab(ClashOfKingdoms.cokTab);
+		this.setCreativeTab(ClashOfKingdoms.cokBlockTab);
 		this.setBlockUnbreakable();
 	}
     

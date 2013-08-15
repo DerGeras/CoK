@@ -24,7 +24,7 @@ public class ItemCrossBow extends CoKItem{
 		this.maxStackSize = 1;
         this.setMaxDamage(ticksToCharge);
         setUnlocalizedName("crossbow");
-        this.setCreativeTab(ClashOfKingdoms.cokTab);
+        this.setCreativeTab(ClashOfKingdoms.cokItemTab);
         this.setFull3D(); //NEEDED for 3D Models
 	}
 	

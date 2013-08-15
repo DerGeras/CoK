@@ -11,7 +11,7 @@ public class ItemWarhammer extends CoKWeapon {
 		this.toolMaterial = material;
         this.setMaxDamage(material.getMaxUses() * 3);
         setUnlocalizedName("warhammer");
-        this.setCreativeTab(ClashOfKingdoms.cokTab);
+        this.setCreativeTab(ClashOfKingdoms.cokItemTab);
         this.weaponDamage = 5 + material.getDamageVsEntity();
         
         this.setFull3D(); //NEEDED for 3D Models

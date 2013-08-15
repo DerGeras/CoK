@@ -22,7 +22,7 @@ public class BlockTowerBrick extends Block{
 	public BlockTowerBrick(int id) {
 		super(id, Material.rock);
 		setUnlocalizedName("towerbrick");
-		this.setCreativeTab(ClashOfKingdoms.cokTab);
+		this.setCreativeTab(ClashOfKingdoms.cokBlockTab);
 		this.setBlockUnbreakable();
 	}
 	
