@@ -35,7 +35,7 @@ public class PlayerListener {
 		}
 		//change profession
 		CoKGame.playerProfessions.remove(name);
-		CoKGame.playerProfessions.put(name, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())-1));
+		CoKGame.playerProfessions.put(name, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size()-1)));
 	}
 	
 	
