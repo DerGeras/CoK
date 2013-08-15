@@ -74,7 +74,8 @@ public class CoKGame {
 		for(Team team : teams.values()){
 			if(team.getAllPlayers().size() > 0){
 				ChatSendHelper.broadCastMessage("Team " + Color.getColorCodeFromChar(team.getColor()) + team.getName()
-						+ Color.getColorCodeFromString("white") + " with leader " + team.getCaptain());
+						+ Color.getColorCodeFromString("gray") + " with leader " +
+						Color.getColorCodeFromString("white") + team.getCaptain());
 			}
 			for(String playername : team.getAllPlayers()){
 				playerProfessions.put(playername, professions.get(rand.nextInt(professions.size())));

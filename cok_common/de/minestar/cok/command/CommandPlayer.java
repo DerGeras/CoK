@@ -1,5 +1,6 @@
 package de.minestar.cok.command;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import net.minecraft.command.ICommandSender;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.helper.PlayerHelper;
+import de.minestar.cok.packet.CoKGamePacket;
+import de.minestar.cok.packet.PacketHandler;
 import de.minestar.cok.references.Reference;
 
 public class CommandPlayer extends CoKCommand {
@@ -39,6 +42,8 @@ public class CommandPlayer extends CoKCommand {
 			if(!CoKGame.addPlayerToTeam(astring[1], astring[2])){
 				ChatSendHelper.sendError(icommandsender, "Could not add user \"" + astring[2] + "\" to team \"" + astring[1] + "\"!");
 			} else{
+				CoKGamePacket.sendPacketToAllPlayers(PacketHandler.PLAYER_ADD, Arrays.copyOfRange(astring, 1, 2));
+				
 				ChatSendHelper.sendMessage(icommandsender, "User \"" + astring[2] + "\" successfully added to team \"" + astring[1] + "\"!");
 			}
 			return;
@@ -51,6 +56,8 @@ public class CommandPlayer extends CoKCommand {
 			if(!CoKGame.removePlayerFromTeam(astring[1], astring[2])){
 				ChatSendHelper.sendError(icommandsender, "Could not remove user \"" + astring[2] + "\" from team \"" + astring[1] + "\"!");
 			} else{
+				CoKGamePacket.sendPacketToAllPlayers(PacketHandler.PLAYER_REMOVE, Arrays.copyOfRange(astring, 1, 2));
+				
 				ChatSendHelper.sendMessage(icommandsender, "User \"" + astring[2] + "\" successfully removed from team \"" + astring[1] + "\"!");
 			}
 			return;

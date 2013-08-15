@@ -4,6 +4,8 @@ import java.util.List;
 
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.packet.CoKGamePacket;
+import de.minestar.cok.packet.PacketHandler;
 import de.minestar.cok.references.Reference;
 
 import net.minecraft.command.ICommandSender;
@@ -27,6 +29,8 @@ public class CommandRemoveTeam extends CoKCommand {
 			return;
 		}
 		if(CoKGame.removeTeam(astring[0])){
+			CoKGamePacket.sendPacketToAllPlayers(PacketHandler.TEAM_REMOVE, astring);
+			
 			ChatSendHelper.sendMessage(icommandsender, "Team \"" + astring[0] + "\" successfully removed!");
 		} else{
 			ChatSendHelper.sendError(icommandsender, "Team \"" + astring[0] + "\" could not be removed!");

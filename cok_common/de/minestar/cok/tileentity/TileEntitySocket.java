@@ -82,7 +82,7 @@ public class TileEntitySocket extends TileEntity {
     		Team team = CoKGame.getTeamOfPlayer(event.player.username);
     		if(team != null){
     			boolean sameTeam = team.getColorAsInt() == this.blockMetadata;
-    			if(sameTeam){
+    			if(!sameTeam){
     				if(event.blockX == this.xCoord && event.blockZ == this.zCoord && event.blockY >= this.yCoord){
     					event.setCanceled(true);
     				}
@@ -99,7 +99,7 @@ public class TileEntitySocket extends TileEntity {
     		Team team = CoKGame.getTeamOfPlayer(event.player.username);
     		if(team != null){
     			boolean sameTeam = team.getColorAsInt() == this.blockMetadata;
-    			if(sameTeam){
+    			if(!sameTeam){
     				if(event.blockX == this.xCoord && event.blockZ == this.zCoord && event.blockY >= this.yCoord){
     					if(event.stack.getItem().itemID != Settings.defaultbuildingBlockID || event.blockY > this.yCoord + Settings.buildingHeight){
     						event.setCanceled(true);
