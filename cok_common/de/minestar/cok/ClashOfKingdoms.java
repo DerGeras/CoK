@@ -1,12 +1,19 @@
 package de.minestar.cok;
 
+import java.util.EnumSet;
+
 import net.minecraft.block.Block;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+
+import org.lwjgl.input.Keyboard;
+
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -15,14 +22,18 @@ import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.Mod.ServerStopping;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.event.FMLServerStoppingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.block.BlockSocket;
 import de.minestar.cok.block.BlockTowerBrick;
 import de.minestar.cok.command.CommandCok;
@@ -35,8 +46,10 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.hook.BlockListener;
 import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.hook.PlayerListener;
+import de.minestar.cok.hook.PlayerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.itemblock.ItemBlockSocket;
+import de.minestar.cok.keyhandler.CoKKeyHandler;
 import de.minestar.cok.packet.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
@@ -130,6 +143,9 @@ public class ClashOfKingdoms {
 	 */
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event){
+		instance = this;
+		NetworkRegistry.instance().registerGuiHandler(this, proxy);
+		
 		config = new Configuration(event.getSuggestedConfigurationFile());
 		config.load();
 		
@@ -152,6 +168,12 @@ public class ClashOfKingdoms {
 		MinecraftForge.EVENT_BUS.register(new PlayerListener());
 		
 		GameRegistry.registerPlayerTracker(new PlayerTracker());
+		TickRegistry.registerTickHandler(new PlayerTickHandler(EnumSet.of(TickType.PLAYER)), Side.CLIENT);
+		
+		//init KeyBindings
+		KeyBinding[] key = {new KeyBinding("CoKButton", Keyboard.KEY_G)};
+        boolean[] repeat = {false};
+        KeyBindingRegistry.registerKeyBinding(new CoKKeyHandler(key, repeat));
 		
 		//Name Creative tabs
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Blocks", "en_US", "CoK Blocks");

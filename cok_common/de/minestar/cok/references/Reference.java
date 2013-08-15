@@ -18,4 +18,7 @@ public class Reference {
 	public static final String CoKCommand = "cok";
 	public static final String KitCommand = "kit";
 	
+	//GUI
+	public static final int COK_GUI_ID = 0;
+	
 }
