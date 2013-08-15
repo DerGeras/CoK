@@ -57,6 +57,8 @@ public class CoKGame {
 		teams.clear();
 		sockets.clear();
 		unsortedSockets.clear();
+		professions.clear();
+		playerProfessions.clear();
 		gameRunning = false;
 	}
 	
@@ -201,6 +203,9 @@ public class CoKGame {
 	public static boolean removeTeam(String name){
 		boolean res = teams.containsKey(name);
 		if(res){
+			for(String player: teams.get(name).getAllPlayers()){
+				playerProfessions.remove(player);
+			}
 			teams.remove(name);
 		}
 		return res;

@@ -16,5 +16,6 @@ public class Reference {
 	public static final String PlayerCommand = "player";
 	public static final String TeamsCommand = "teams";
 	public static final String CoKCommand = "cok";
+	public static final String KitCommand = "kit";
 	
 }

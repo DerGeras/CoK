@@ -35,9 +35,11 @@ public class PlayerListener {
 		}
 		//change profession
 		CoKGame.playerProfessions.remove(name);
-		CoKGame.playerProfessions.put(name, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())));
+		CoKGame.playerProfessions.put(name, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())-1));
 	}
 	
+	
+	//TODO this doesn't work as expected... need to fix it somehow (wrong event)
 	@ForgeSubscribe
 	public void onPlayerSpawn(LivingSpawnEvent event){
 		if(!CoKGame.gameRunning){
