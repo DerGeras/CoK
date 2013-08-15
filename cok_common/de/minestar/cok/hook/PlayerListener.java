@@ -31,9 +31,6 @@ public class PlayerListener {
 				ChatSendHelper.broadCastError("LONG LIFE KING " + team.getCaptain() + "!");
 			}
 		}
-		//change profession
-		CoKGame.playerProfessions.remove(name);
-		CoKGame.playerProfessions.put(name, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())));
 	}
 	
 }

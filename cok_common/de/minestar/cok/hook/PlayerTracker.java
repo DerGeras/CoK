@@ -46,6 +46,10 @@ public class PlayerTracker implements IPlayerTracker {
 			if(!CoKGame.gameRunning){
 				return;
 			}
+
+			//change profession
+			CoKGame.playerProfessions.remove(player.username);
+			CoKGame.playerProfessions.put(player.username, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())));
 			
 			Team team = CoKGame.getTeamOfPlayer(player.username);
 			Profession profession = CoKGame.playerProfessions.get(player.username);

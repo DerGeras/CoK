@@ -3,6 +3,7 @@ package de.minestar.cok.game;
 import java.util.LinkedList;
 import java.util.Random;
 
+import net.minecraft.util.ChunkCoordinates;
 import de.minestar.cok.helper.PlayerHelper;
 
 public class Team {
@@ -10,6 +11,8 @@ public class Team {
 	private String name;
 	private char color;
 	private String captain;
+	
+	public ChunkCoordinates spawnCoordinates;
 
 
 	private LinkedList<String> players = new LinkedList<String>();

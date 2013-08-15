@@ -19,7 +19,7 @@ public class CommandKit extends CoKCommand {
 	
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-		return CoKGame.getTeamOfPlayer(icommandsender.getCommandSenderName()) != null;
+		return false; //CoKGame.getTeamOfPlayer(icommandsender.getCommandSenderName()) != null;
 	}
 
 	@Override
