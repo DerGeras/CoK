@@ -104,7 +104,6 @@ public class CoKGamePacket {
 	
 	public static void addSpectator(DataInputStream inputStream){
 		try{
-			System.out.println("Hi2");
 			String playerName = inputStream.readUTF();
 			CoKGame.setPlayerSpectator(playerName);
 		} catch (IOException e){

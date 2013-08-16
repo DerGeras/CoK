@@ -171,7 +171,7 @@ public class ClashOfKingdoms {
 		TickRegistry.registerTickHandler(new PlayerTickHandler(EnumSet.of(TickType.PLAYER)), Side.CLIENT);
 		
 		//init KeyBindings
-		KeyBinding[] key = {new KeyBinding("CoK Menu", Keyboard.KEY_G)};
+		KeyBinding[] key = {new KeyBinding(Reference.CoKMenuKey, Keyboard.KEY_G)};
         boolean[] repeat = {false};
         KeyBindingRegistry.registerKeyBinding(new CoKKeyHandler(key, repeat));
 		

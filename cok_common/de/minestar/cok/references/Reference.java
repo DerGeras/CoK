@@ -21,4 +21,8 @@ public class Reference {
 	//GUI
 	public static final int COK_GUI_ID = 0;
 	
+	//KEYS
+	public static final String CoKMenuKey = "CoK Menu";
+	public static final String CoKFlightKey = "CoK Flight";
+	
 }

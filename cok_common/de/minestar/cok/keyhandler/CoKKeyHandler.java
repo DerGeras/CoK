@@ -30,10 +30,13 @@ public class CoKKeyHandler extends KeyHandler{
 			boolean tickEnd, boolean isRepeat) {
 		//Check whether we are in a gui
 		if (FMLClientHandler.instance().getClient().inGameHasFocus) {
-			EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-			if(player != null){
-				player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
-						(int) player.posX, (int) player.posY, (int) player.posZ);
+			//Menu key
+			if(kb.keyDescription.equals(Reference.CoKMenuKey)){
+				EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+				if(player != null){
+					player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
+							(int) player.posX, (int) player.posY, (int) player.posZ);
+				}
 			}
 		}
 	}
