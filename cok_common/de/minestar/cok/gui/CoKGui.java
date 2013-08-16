@@ -6,16 +6,26 @@ import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.opengl.GL11;
 
+import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.packet.CoKCommandPacket;
+import de.minestar.cok.packet.PacketHandler;
+
 public class CoKGui extends GuiScreen {
 	
-	private static final int backgroundX = 176;
-	private static final int backgroundY = 88;
+	private static final int backgroundX = 243;
+	private static final int backgroundY = 139;
 	
 	private static final int START_GAME_BUTTON_ID = 0;
+	private static final int STOP_GAME_BUTTON_ID = 1;
+	
+	private GuiButton startGameButton;
+	private GuiButton stopGameButton;
 	
 	
 	@Override
 	public void drawScreen(int x, int y, float f){
+		initGui(); //TODO temporary....
+		
 		drawDefaultBackground();
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture("/mods/ClashOfKingdoms/gui/GuiBackground.png");		
@@ -29,15 +39,50 @@ public class CoKGui extends GuiScreen {
 		super.drawScreen(x, y, f);
 	}
 	
+	@Override
+	public boolean doesGuiPauseGame() {
+		return false;
+	}
+	
+	
+	/**
+     * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
+     */
+	@SuppressWarnings("unchecked")
+	@Override
+    protected void actionPerformed(GuiButton button) {
+		switch(button.id){
+		case START_GAME_BUTTON_ID: {
+			CoKCommandPacket.sendPacketToServer(PacketHandler.START_GAME_COMMAND, null);
+			this.buttonList.clear();
+			this.buttonList.add(stopGameButton);
+			break;
+		}
+		case STOP_GAME_BUTTON_ID: {
+			CoKCommandPacket.sendPacketToServer(PacketHandler.STOP_GAME_COMMAND, null);
+			this.buttonList.clear();
+			this.buttonList.add(startGameButton);
+			break;
+		}
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void initGui() {
 		this.buttonList.clear();
 		
-		int posX = (this.width - backgroundX) / 2;
-		int posY = (this.height - backgroundY) / 2;
+		int posX = (width - backgroundX) / 2;
+		int posY = (height - backgroundY) / 2;
 		
-		this.buttonList.add(new GuiButton(START_GAME_BUTTON_ID, posX + 40, posY + 40, "Start Game"));
+		startGameButton = new GuiButton(START_GAME_BUTTON_ID, posX + 20, posY + 20, "Start Game");
+		stopGameButton = new GuiButton(STOP_GAME_BUTTON_ID, posX + 20, posY + 20, "Stop Game");
+		
+		if(!CoKGame.gameRunning){
+			this.buttonList.add(startGameButton);
+		} else{
+			this.buttonList.add(stopGameButton);
+		}
 	}
 
 }

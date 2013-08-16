@@ -21,9 +21,11 @@ public class CoKGamePacket {
 	 */
 	public static void setGameState(DataInputStream inputStream){
 		try {
+			//read gameState
+			CoKGame.gameRunning = inputStream.readBoolean();
 			//read teams
-			int numberOfPlayers = 0;
 			int numberOfTeams = inputStream.readInt();
+			int numberOfPlayers = 0;
 			for(int i = 0; i < numberOfTeams; i++){
 				String teamName = inputStream.readUTF();
 				CoKGame.addTeam(teamName, inputStream.readChar());
@@ -33,6 +35,14 @@ public class CoKGamePacket {
 					CoKGame.addPlayerToTeam(teamName, inputStream.readUTF());
 				}
 			}
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void updateGameRunning(DataInputStream inputStream){
+		try {
+			CoKGame.gameRunning = inputStream.readBoolean();
 		} catch (IOException e){
 			e.printStackTrace();
 		}
@@ -99,6 +109,30 @@ public class CoKGamePacket {
 	}
 	
 	/**
+	 * secifically used to send gameRunning
+	 * @param code
+	 * @param data
+	 */
+	public static void sendPacketToAllPlayers(byte code, boolean b){
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeByte(code);
+			outputStream.writeBoolean(b);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//build packet
+		Packet250CustomPayload packet = new Packet250CustomPayload();
+		packet.channel = Reference.CHANNEL_NAME;
+		packet.data = bos.toByteArray();
+		packet.length = bos.size();
+		//send packet
+		PacketDispatcher.sendPacketToAllPlayers(packet);
+	}
+	
+	/**
 	 * send the gamestate to one specific Player
 	 */
 	public static void sendGameStateToPlayer(Player player){
@@ -106,6 +140,8 @@ public class CoKGamePacket {
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
 			outputStream.writeByte(PacketHandler.GAME_STATE);
+			//write gameState
+			outputStream.writeBoolean(CoKGame.gameRunning);
 			//write teams
 			outputStream.writeInt(CoKGame.teams.size());
 			for(Team team: CoKGame.teams.values()){

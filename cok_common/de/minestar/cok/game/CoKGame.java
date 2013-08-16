@@ -67,6 +67,7 @@ public class CoKGame {
 	/**
 	 * start a round of CoK
 	 */
+	//@SideOnly(Side.SERVER)
 	public static void startGame(){
 		gameRunning = true;
 		for(Team team: teams.values()){
@@ -91,6 +92,7 @@ public class CoKGame {
 	/**
 	 * Stop the current round and declare the scores
 	 */
+	//@SideOnly(Side.SERVER)
 	public static void stopGame(){
 		if(!gameRunning){
 			return;
