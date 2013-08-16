@@ -110,10 +110,10 @@ public class ClashOfKingdoms {
         }
     };
     public static CreativeTabs cokItemTab = new CreativeTabs("Clash of Kingdoms Items") {
-                public ItemStack getIconItemStack() {
-                        return new ItemStack(crossBowItem, 1, 0);
-                }
-        };
+            public ItemStack getIconItemStack() {
+                    return new ItemStack(crossBowItem, 1, 0);
+            }
+    };
     
     //Configuration
     public static Configuration config;
@@ -171,7 +171,7 @@ public class ClashOfKingdoms {
 		TickRegistry.registerTickHandler(new PlayerTickHandler(EnumSet.of(TickType.PLAYER)), Side.CLIENT);
 		
 		//init KeyBindings
-		KeyBinding[] key = {new KeyBinding("CoKButton", Keyboard.KEY_G)};
+		KeyBinding[] key = {new KeyBinding("CoK Menu", Keyboard.KEY_G)};
         boolean[] repeat = {false};
         KeyBindingRegistry.registerKeyBinding(new CoKKeyHandler(key, repeat));
 		
