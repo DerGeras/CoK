@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;import net.minecraft.client.Minecraft;
+
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -308,7 +312,11 @@ public class CoKGame {
 	 */
 	public static void setPlayerSpectator(EntityPlayer player){
 		spectators.add(player.username);
-		player.capabilities.allowFlying = true;
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT
+				&& player.username.equals(Minecraft.getMinecraft().thePlayer.username)){
+			Minecraft.getMinecraft().thePlayer.capabilities.allowFlying = true;
+		}
+		//player.capabilities.allowFlying = true;
 		player.capabilities.disableDamage = true;
 		player.capabilities.allowEdit = false;
 		player.setInvisible(true);
@@ -331,13 +339,15 @@ public class CoKGame {
 	 * @param player
 	 */
 	public static void removeSpectator(EntityPlayer player){
-		if(spectators.contains(player.username)){
-			spectators.remove(player.username);
-			player.capabilities.allowFlying = false;
-			player.capabilities.disableDamage = false;
-			player.capabilities.allowEdit = true;
-			player.setInvisible(false);
+		spectators.remove(player.username);
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT
+				&& player.username.equals(Minecraft.getMinecraft().thePlayer.username)){
+			Minecraft.getMinecraft().thePlayer.capabilities.allowFlying = false;
 		}
+		//player.capabilities.allowFlying = false;
+		player.capabilities.disableDamage = false;
+		player.capabilities.allowEdit = true;
+		player.setInvisible(false);
 	}
 	
 	/**

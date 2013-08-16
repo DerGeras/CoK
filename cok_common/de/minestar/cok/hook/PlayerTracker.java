@@ -1,6 +1,7 @@
 package de.minestar.cok.hook;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.network.Player;
@@ -20,7 +21,7 @@ public class PlayerTracker implements IPlayerTracker {
         if (side == Side.SERVER) {
         	CoKGamePacket.sendGameStateToPlayer((Player) player);
         	if(CoKGame.gameRunning && CoKGame.getTeamOfPlayer(player.username) == null){
-        		CoKGame.setPlayerSpectator(player);
+        		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
         		String[] usernames = {player.username};
         		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
         	}
@@ -74,7 +75,7 @@ public class PlayerTracker implements IPlayerTracker {
 			if(team != null && profession != null){
 				profession.giveKit(player, team);
 			} else{
-        		CoKGame.setPlayerSpectator(player);
+        		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
         		String[] usernames = {player.username};
         		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
         	}
