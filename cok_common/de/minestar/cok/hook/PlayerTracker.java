@@ -7,7 +7,9 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.network.CoKGamePacket;
+import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
 
 public class PlayerTracker implements IPlayerTracker {
@@ -17,6 +19,11 @@ public class PlayerTracker implements IPlayerTracker {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
         if (side == Side.SERVER) {
         	CoKGamePacket.sendGameStateToPlayer((Player) player);
+        	if(CoKGame.gameRunning && CoKGame.getTeamOfPlayer(player.username) == null){
+        		CoKGame.setPlayerSpectator(player);
+        		String[] usernames = {player.username};
+        		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
+        	}
         }
 
 	}
@@ -28,7 +35,18 @@ public class PlayerTracker implements IPlayerTracker {
         	if(!CoKGame.gameRunning){
         		return;
         	}
-        	
+        	Team team = CoKGame.getTeamOfPlayer(player.username);
+        	if(team != null){
+        		if(team.getCaptain() == player.username){
+        			team.setRandomCaptain();
+        			ChatSendHelper.broadCastError(player.username + " ,the king of team " + team.getName() + " fled!");
+        			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
+        		}
+        	} else{
+        		CoKGame.removeSpectator(player);
+        		String[] usernames = {player.username};
+        		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, usernames);
+        	}
         }
 
 	}
@@ -55,7 +73,11 @@ public class PlayerTracker implements IPlayerTracker {
 			Profession profession = CoKGame.playerProfessions.get(player.username);
 			if(team != null && profession != null){
 				profession.giveKit(player, team);
-			}
+			} else{
+        		CoKGame.setPlayerSpectator(player);
+        		String[] usernames = {player.username};
+        		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
+        	}
         }
 	}
 

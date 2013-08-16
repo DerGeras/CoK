@@ -25,6 +25,7 @@ public class CoKGame {
 	public static HashSet<TileEntitySocket> unsortedSockets;
 	public static ArrayList<Profession> professions;
 	public static HashMap<String, Profession> playerProfessions;
+	public static HashSet<String> spectators;
 	public static Random rand = new Random();
 	
 	public static boolean gameRunning = false;
@@ -42,6 +43,7 @@ public class CoKGame {
 		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
 		unsortedSockets = new HashSet<TileEntitySocket>();
 		playerProfessions = new HashMap<String, Profession>();
+		spectators = new HashSet<String>();
 		
 		professions = new ArrayList<Profession>();
 		professions.add(new ProfessionArcher());
@@ -61,6 +63,7 @@ public class CoKGame {
 		unsortedSockets.clear();
 		professions.clear();
 		playerProfessions.clear();
+		spectators.clear();
 		gameRunning = false;
 	}
 	
@@ -85,6 +88,12 @@ public class CoKGame {
 				EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 				player.inventory.clearInventory(-1, -1);
 				playerProfessions.get(playername).giveKit(player, team);
+			}
+		}
+		//set non-team players as spectators
+		for(String player : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
+			if(getTeamOfPlayer(player) == null){
+				setPlayerSpectator(player);
 			}
 		}
 	}
@@ -208,8 +217,12 @@ public class CoKGame {
 	public static boolean removeTeam(String name){
 		boolean res = teams.containsKey(name);
 		if(res){
-			for(String player: teams.get(name).getAllPlayers()){
+			Team team = teams.get(name);
+			for(String player: team.getAllPlayers()){
 				playerProfessions.remove(player);
+				if(gameRunning){
+					setPlayerSpectator(player);
+				}
 			}
 			teams.remove(name);
 		}
@@ -260,6 +273,7 @@ public class CoKGame {
 	 * @return
 	 */
 	public static boolean addPlayerToTeam(String teamname, String playername){
+		removeSpectator(playername);
 		boolean res = teams.containsKey(teamname) && getTeamOfPlayer(playername) == null;
 			if(res){
 				res = teams.get(teamname).addPlayer(playername);
@@ -285,6 +299,57 @@ public class CoKGame {
 			res = teams.get(teamname).removePlayer(playername);
 		}
 		return res;
+	}
+	
+	/**
+	 * Sets a player to spectator mode
+	 * Sets capabilities
+	 * @param player EntityPlayer
+	 */
+	public static void setPlayerSpectator(EntityPlayer player){
+		spectators.add(player.username);
+		player.capabilities.allowFlying = true;
+		player.capabilities.disableDamage = true;
+		player.capabilities.allowEdit = false;
+		player.setInvisible(true);
+	}
+	
+	/**
+	 * Sets a player to spectator mode
+	 * Sets capabilities
+	 * @param playername String
+	 */
+	public static void setPlayerSpectator(String playername){
+		EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+		if(player != null){
+			setPlayerSpectator(player);
+		}
+	}
+	
+	/**
+	 * remove spectator
+	 * @param player
+	 */
+	public static void removeSpectator(EntityPlayer player){
+		if(spectators.contains(player.username)){
+			spectators.remove(player.username);
+			player.capabilities.allowFlying = false;
+			player.capabilities.disableDamage = false;
+			player.capabilities.allowEdit = true;
+			player.setInvisible(false);
+		}
+	}
+	
+	/**
+	 * Remove Spectator
+	 * sets capabilities
+	 * @param playername
+	 */
+	public static void removeSpectator(String playername){
+		EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+		if(player != null){
+			removeSpectator(player);
+		}
 	}
 	
 }
