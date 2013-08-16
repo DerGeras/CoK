@@ -7,7 +7,7 @@ import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
-import de.minestar.cok.packet.CoKGamePacket;
+import de.minestar.cok.network.CoKGamePacket;
 import de.minestar.cok.profession.Profession;
 
 public class PlayerTracker implements IPlayerTracker {

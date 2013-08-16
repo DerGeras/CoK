@@ -50,7 +50,7 @@ import de.minestar.cok.hook.PlayerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.keyhandler.CoKKeyHandler;
-import de.minestar.cok.packet.PacketHandler;
+import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 import de.minestar.cok.weapon.ItemCrossBow;

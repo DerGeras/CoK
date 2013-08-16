@@ -7,8 +7,8 @@ import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.opengl.GL11;
 
 import de.minestar.cok.game.CoKGame;
-import de.minestar.cok.packet.CoKCommandPacket;
-import de.minestar.cok.packet.PacketHandler;
+import de.minestar.cok.network.CoKCommandPacket;
+import de.minestar.cok.network.PacketHandler;
 
 public class CoKGui extends GuiScreen {
 	
@@ -25,6 +25,7 @@ public class CoKGui extends GuiScreen {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void drawScreen(int x, int y, float f){
+		//Setup buttons
 		this.buttonList.remove(startGameButton);
 		this.buttonList.remove(stopGameButton);
 		if(!CoKGame.gameRunning){
@@ -33,6 +34,7 @@ public class CoKGui extends GuiScreen {
 			this.buttonList.add(stopGameButton);
 		}
 		
+		//draw screen
 		drawDefaultBackground();
 		
 		Minecraft.getMinecraft().renderEngine.bindTexture("/mods/ClashOfKingdoms/gui/GuiBackground.png");		

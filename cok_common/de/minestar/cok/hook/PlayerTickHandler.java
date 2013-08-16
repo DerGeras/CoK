@@ -20,8 +20,10 @@ public class PlayerTickHandler implements ITickHandler {
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
 		if(CoKKeyHandler.keyPressed){
+			CoKKeyHandler.keyPressed = false;
 			EntityPlayer player = (EntityPlayer) tickData[0];
-			player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj, 0, 0, 0);
+			player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
+					(int) player.posX, (int) player.posY, (int) player.posZ);
 		}
 
 	}

@@ -4,8 +4,8 @@ import java.util.List;
 
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.packet.CoKGamePacket;
-import de.minestar.cok.packet.PacketHandler;
+import de.minestar.cok.network.CoKGamePacket;
+import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.references.Reference;
 
 import net.minecraft.command.ICommandSender;

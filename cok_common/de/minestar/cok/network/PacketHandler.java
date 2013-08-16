@@ -1,4 +1,4 @@
-package de.minestar.cok.packet;
+package de.minestar.cok.network;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;

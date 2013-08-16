@@ -8,8 +8,8 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Settings;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.packet.CoKGamePacket;
-import de.minestar.cok.packet.PacketHandler;
+import de.minestar.cok.network.CoKGamePacket;
+import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.references.Reference;
 

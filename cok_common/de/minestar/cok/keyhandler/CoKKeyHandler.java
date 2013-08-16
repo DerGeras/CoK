@@ -19,7 +19,7 @@ public class CoKKeyHandler extends KeyHandler{
 	@Override
     public String getLabel()
     {
-            return "TutorialKey";
+            return "CoKKey";
     }
 
 	@Override
@@ -35,7 +35,6 @@ public class CoKKeyHandler extends KeyHandler{
 
 	@Override
 	public EnumSet<TickType> ticks() {
-		// TODO Auto-generated method stub
 		return tickTypes;
 	}
 	
