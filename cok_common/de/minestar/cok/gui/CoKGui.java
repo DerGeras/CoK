@@ -22,9 +22,16 @@ public class CoKGui extends GuiScreen {
 	private GuiButton stopGameButton;
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public void drawScreen(int x, int y, float f){
-		initGui(); //TODO temporary....
+		this.buttonList.remove(startGameButton);
+		this.buttonList.remove(stopGameButton);
+		if(!CoKGame.gameRunning){
+			this.buttonList.add(startGameButton);
+		} else{
+			this.buttonList.add(stopGameButton);
+		}
 		
 		drawDefaultBackground();
 		
