@@ -301,6 +301,9 @@ public class CoKGame {
 		boolean res = teams.containsKey(teamname);
 		if(res){
 			res = teams.get(teamname).removePlayer(playername);
+			if(gameRunning){
+				setPlayerSpectator(playername);
+			}
 		}
 		return res;
 	}
