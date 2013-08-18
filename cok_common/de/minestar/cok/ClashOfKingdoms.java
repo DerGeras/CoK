@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import net.minecraft.block.Block;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -48,6 +49,7 @@ import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.hook.PlayerListener;
 import de.minestar.cok.hook.PlayerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
+import de.minestar.cok.item.ItemCoKHelmet;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.keyhandler.CoKKeyHandler;
 import de.minestar.cok.network.PacketHandler;
@@ -98,9 +100,13 @@ public class ClashOfKingdoms {
     public static int crossBowID;
     public static int warhammerID;
     
+    public static int cokHelmetID;
+    
     //Items
     public static Item crossBowItem;
     public static Item warhammerItem;
+    
+    public static Item cokHelmetItem;
     
     
     //General creativeTabs
@@ -207,6 +213,8 @@ public class ClashOfKingdoms {
 	private void initItemIDs(){
 		crossBowID = config.getItem(Configuration.CATEGORY_ITEM, "Crossbow", 5000).getInt();
 		warhammerID = config.getItem(Configuration.CATEGORY_ITEM, "Warhammer", 5001).getInt();
+		
+		cokHelmetID = config.getItem(Configuration.CATEGORY_ITEM, "CoKHelmet", 5020).getInt();
 	}
 	
 	
@@ -234,6 +242,10 @@ public class ClashOfKingdoms {
 		//register warhammer
 		warhammerItem = new ItemWarhammer(warhammerID, EnumToolMaterial.IRON);
 		LanguageRegistry.addName(warhammerItem, "Warhammer");
+		
+		//register cokHelmet
+		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);
+		LanguageRegistry.addName(cokHelmetItem, "CoK Helmet");
 	}
 
 }
