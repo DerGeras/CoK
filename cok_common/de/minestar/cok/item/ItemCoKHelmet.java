@@ -1,6 +1,7 @@
 package de.minestar.cok.item;
 
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.EnumArmorMaterial;
@@ -10,6 +11,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.model.ModelArmorHelmet;
+import de.minestar.cok.references.Reference;
 
 public class ItemCoKHelmet extends ItemArmor{
 	
@@ -33,6 +35,7 @@ public class ItemCoKHelmet extends ItemArmor{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ModelBiped getArmorModel(EntityLiving entityLiving, ItemStack itemStack, int armorSlot){
+		modelArmorHelmet.setLivingAnimations(entityLiving, 0, 0, 0);
 		return modelArmorHelmet;
 	}
 	
@@ -53,5 +56,11 @@ public class ItemCoKHelmet extends ItemArmor{
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer){
 		return "/mods/ClashOfKingdoms/models/ModelArmorHelmet.png";
 	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+    public void registerIcons(IconRegister register){
+    	this.itemIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
+    }
 
 }
