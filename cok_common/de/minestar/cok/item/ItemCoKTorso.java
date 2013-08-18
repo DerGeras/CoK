@@ -1,5 +1,10 @@
 package de.minestar.cok.item;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import de.minestar.cok.ClashOfKingdoms;
+import de.minestar.cok.model.ModelArmorTorso;
+import de.minestar.cok.references.Reference;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
@@ -7,19 +12,14 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import de.minestar.cok.ClashOfKingdoms;
-import de.minestar.cok.model.ModelArmorHelmet;
-import de.minestar.cok.references.Reference;
 
-public class ItemCoKHelmet extends ItemArmor{
+public class ItemCoKTorso extends ItemArmor{
+
+	private ModelArmorTorso modelArmorTorso = new ModelArmorTorso();
 	
-	ModelBiped modelArmorHelmet = new ModelArmorHelmet();
-
-	public ItemCoKHelmet(int id, EnumArmorMaterial material) {
-		super(id, material, 1, 0);
-        setUnlocalizedName("cokhelmet");
+	public ItemCoKTorso(int id, EnumArmorMaterial material) {
+		super(id, material, 1, 1);
+        setUnlocalizedName("coktorso");
         this.setCreativeTab(ClashOfKingdoms.cokItemTab);
 	}
 	
@@ -35,8 +35,8 @@ public class ItemCoKHelmet extends ItemArmor{
 	@SideOnly(Side.CLIENT)
 	@Override
 	public ModelBiped getArmorModel(EntityLiving entityLiving, ItemStack itemStack, int armorSlot){
-		modelArmorHelmet.setLivingAnimations(entityLiving, 0, 0, 0);
-		return modelArmorHelmet;
+		modelArmorTorso.setLivingAnimations(entityLiving, 0, 0, 0);
+		return modelArmorTorso;
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class ItemCoKHelmet extends ItemArmor{
      */
 	@Override
     public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer){
-		return "/mods/ClashOfKingdoms/models/ModelArmorHelmet.png";
+		return "/mods/ClashOfKingdoms/models/ModelArmorTorso.png";
 	}
 	
 	@SideOnly(Side.CLIENT)

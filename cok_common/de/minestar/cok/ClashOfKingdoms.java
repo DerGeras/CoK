@@ -50,6 +50,7 @@ import de.minestar.cok.hook.PlayerListener;
 import de.minestar.cok.hook.PlayerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.item.ItemCoKHelmet;
+import de.minestar.cok.item.ItemCoKTorso;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.keyhandler.CoKKeyHandler;
 import de.minestar.cok.network.PacketHandler;
@@ -101,12 +102,14 @@ public class ClashOfKingdoms {
     public static int warhammerID;
     
     public static int cokHelmetID;
+    public static int cokTorsoID;
     
     //Items
     public static Item crossBowItem;
     public static Item warhammerItem;
     
     public static Item cokHelmetItem;
+    public static Item cokTorsoItem;
     
     
     //General creativeTabs
@@ -215,6 +218,7 @@ public class ClashOfKingdoms {
 		warhammerID = config.getItem(Configuration.CATEGORY_ITEM, "Warhammer", 5001).getInt();
 		
 		cokHelmetID = config.getItem(Configuration.CATEGORY_ITEM, "CoKHelmet", 5020).getInt();
+		cokTorsoID = config.getItem(Configuration.CATEGORY_ITEM, "CoKTorso", 5021).getInt();
 	}
 	
 	
@@ -246,6 +250,9 @@ public class ClashOfKingdoms {
 		//register cokHelmet
 		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);
 		LanguageRegistry.addName(cokHelmetItem, "CoK Helmet");
+		//register cokTorso
+		cokTorsoItem = new ItemCoKTorso(cokTorsoID, EnumArmorMaterial.IRON);
+		LanguageRegistry.addName(cokTorsoItem, "CoK Torso");
 	}
 
 }
