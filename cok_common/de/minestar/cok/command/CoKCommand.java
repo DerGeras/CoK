@@ -2,10 +2,10 @@ package de.minestar.cok.command;
 
 import java.util.List;
 
-import net.minecraft.command.ICommand;
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 
-public abstract class CoKCommand implements ICommand {
+public abstract class CoKCommand extends CommandBase {
 
 	
 	@Override
