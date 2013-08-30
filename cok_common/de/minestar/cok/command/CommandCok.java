@@ -8,8 +8,6 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Settings;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.network.CoKGamePacket;
-import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.references.Reference;
 
@@ -37,8 +35,6 @@ public class CommandCok extends CoKCommand {
 				return;
 			}
 			CoKGame.startGame();
-			//send state to clients
-			CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
 			return;
 		}
 		if(astring[0].equals("score")){
@@ -46,15 +42,14 @@ public class CommandCok extends CoKCommand {
 				ChatSendHelper.sendError(icommandsender, "There is no game running");
 				return;
 			}
-			//send state to clients
-			CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
-			
-			ChatSendHelper.sendMessage(icommandsender, "Results:");
-			for(Team team : CoKGame.teams.values()){
-				int maxScore = Settings.buildingHeight * (CoKGame.sockets.get(team.getColorAsInt()) == null ? 0 : CoKGame.sockets.get(team.getColorAsInt()).size());
-				ChatSendHelper.sendMessage(icommandsender, Color.getColorCodeFromChar(team.getColor())
-						+ team.getName() + Color.getColorCodeFromString("white") + ": "
-						+ CoKGame.getScoreForTeam(team) + "/" + maxScore);
+			if(CoKGame.teams.size() > 0){
+				ChatSendHelper.sendMessage(icommandsender, "Results:");
+				for(Team team : CoKGame.teams.values()){
+					int maxScore = Settings.buildingHeight * (CoKGame.sockets.get(team.getColorAsInt()) == null ? 0 : CoKGame.sockets.get(team.getColorAsInt()).size());
+					ChatSendHelper.sendMessage(icommandsender, Color.getColorCodeFromChar(team.getColor())
+							+ team.getName() + Color.getColorCodeFromString("white") + ": "
+							+ CoKGame.getScoreForTeam(team) + "/" + maxScore);
+				}
 			}
 			return;
 		}
@@ -63,8 +58,6 @@ public class CommandCok extends CoKCommand {
 				return;
 			}
 			CoKGame.stopGame();
-			//send state to clients
-			CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
 			return;
 		}
 		ChatSendHelper.sendMessage(icommandsender, "Usage: " + getCommandUsage(icommandsender));

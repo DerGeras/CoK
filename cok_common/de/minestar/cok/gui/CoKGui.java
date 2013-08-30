@@ -57,7 +57,6 @@ public class CoKGui extends GuiScreen {
 	/**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
-	@SuppressWarnings("unchecked")
 	@Override
     protected void actionPerformed(GuiButton button) {
 		switch(button.id){

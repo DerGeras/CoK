@@ -13,6 +13,8 @@ public class PlayerTickHandler implements ITickHandler {
 	
 	private final EnumSet<TickType> ticksToGet;
 	
+	public static boolean isScoreCheckQueued = false;
+	
 	public PlayerTickHandler(EnumSet<TickType> ticksToGet){
 		this.ticksToGet = ticksToGet;
 	}
@@ -29,8 +31,10 @@ public class PlayerTickHandler implements ITickHandler {
 
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-		// TODO Auto-generated method stub
-
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && isScoreCheckQueued){
+			CoKGame.checkWinningCondition();
+		}
+		isScoreCheckQueued = false;
 	}
 
 	@Override

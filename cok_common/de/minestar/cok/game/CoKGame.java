@@ -5,15 +5,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;import net.minecraft.client.Minecraft;
-
-
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.network.CoKGamePacket;
+import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
 import de.minestar.cok.profession.ProfessionArcher;
 import de.minestar.cok.profession.ProfessionBarbarian;
@@ -65,7 +66,7 @@ public class CoKGame {
 		teams.clear();
 		sockets.clear();
 		unsortedSockets.clear();
-		professions.clear();
+		//professions.clear(); Caused errors, professiosn are not supposed to be empty
 		playerProfessions.clear();
 		spectators.clear();
 		gameRunning = false;
@@ -100,6 +101,8 @@ public class CoKGame {
 				setPlayerSpectator(player);
 			}
 		}
+		//send state to clients
+		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
 	}
 	
 	/**
@@ -112,14 +115,18 @@ public class CoKGame {
 		}
 		gameRunning = false;
 		ChatSendHelper.broadCastError("The game has ended!");
-		ChatSendHelper.broadCastError("Results:");
-		for(Team team : teams.values()){
-			int maxScore = Settings.buildingHeight * (sockets.get(team.getColorAsInt()) == null ? 0 : sockets.get(team.getColorAsInt()).size());
-			ChatSendHelper.broadCastMessage(Color.getColorCodeFromChar(team.getColor())
-					+ team.getName() + Color.getColorCodeFromString("white") + ": "
-					+ getScoreForTeam(team) + "/" + maxScore);
-			//TODO finish call
+		if(CoKGame.teams.size() > 0){
+			ChatSendHelper.broadCastError("Results:");
+			for(Team team : teams.values()){
+				int maxScore = Settings.buildingHeight * (sockets.get(team.getColorAsInt()) == null ? 0 : sockets.get(team.getColorAsInt()).size());
+				ChatSendHelper.broadCastMessage(Color.getColorCodeFromChar(team.getColor())
+						+ team.getName() + Color.getColorCodeFromString("white") + ": "
+						+ getScoreForTeam(team) + "/" + maxScore);
+				//TODO finish call
+			}
 		}
+		//send state to clients
+		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
 	}
 	
 	/**
@@ -137,6 +144,42 @@ public class CoKGame {
 			res += socket.countBlocks();
 		}
 		return res;
+	}
+	
+	/**
+	 * Compute the score of every team, and remove teams that are defeated
+	 * 
+	 */
+	public static void checkWinningCondition(){
+		if(!gameRunning){
+			return;
+		}
+		sortSockets();
+		for(Team team: teams.values()){
+			int maxScore = Settings.buildingHeight * (CoKGame.sockets.get(team.getColorAsInt()) == null ? 0 : CoKGame.sockets.get(team.getColorAsInt()).size());
+			if(maxScore > 0){
+				int score = getScoreForTeam(team);
+				if(score >= maxScore){
+					ChatSendHelper.broadCastError("The kingdom " + team.getName() + " has fallen!");
+					removeTeam(team.getName());
+				}
+			}
+		}
+		if(teams.size() == 1){
+			Team lastTeam = null;
+			for(Team team : teams.values()){
+				lastTeam = team;
+			}
+			if(lastTeam != null){
+				ChatSendHelper.broadCastError("The kingdom " + lastTeam.getName() + " has crushed all their ennemies!");
+				ChatSendHelper.broadCastError("Long live king " + lastTeam.getCaptain() + "!");
+			}
+			CoKGame.stopGame();
+		}
+		if(teams.size() == 0){
+			ChatSendHelper.broadCastError("Is this even possible? All kingdoms have been defeated!");
+			CoKGame.stopGame();
+		}
 	}
 	
 	/**
@@ -319,10 +362,10 @@ public class CoKGame {
 				&& player.username.equals(Minecraft.getMinecraft().thePlayer.username)){
 			Minecraft.getMinecraft().thePlayer.capabilities.allowFlying = true;
 		}
-		//player.capabilities.allowFlying = true;
 		player.capabilities.disableDamage = true;
 		player.capabilities.allowEdit = false;
 		player.setInvisible(true);
+		player.inventory.clearInventory(-1, -1);
 	}
 	
 	/**

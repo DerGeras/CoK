@@ -8,6 +8,7 @@ import de.minestar.cok.event.EventBlockPlace;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Settings;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.hook.PlayerTickHandler;
 
 /**
  * 
@@ -52,11 +53,13 @@ public class TileEntitySocket extends TileEntity {
      */
     @Override
     public void updateEntity(){
-    	for(int i = 0; i < Settings.buildingHeight; i++){
+    	for(int i = 1; i <= Settings.buildingHeight; i++){
     		int blockID = this.worldObj.getBlockId(xCoord, yCoord + i, zCoord);
     		if(blockID == Settings.defaultbuildingBlockID) {
     			//Change to tower bricks
     			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ClashOfKingdoms.towerBrickID);
+    			//queue a score check
+    			PlayerTickHandler.isScoreCheckQueued = true;
     		}
     	}
     }
@@ -67,7 +70,7 @@ public class TileEntitySocket extends TileEntity {
      */
     public int countBlocks(){
     	int res = 0;
-    	for(int i = 0; i < Settings.buildingHeight; i++){
+    	for(int i = 1; i <= Settings.buildingHeight; i++){
     		int blockID = this.worldObj.getBlockId(xCoord, yCoord + i, zCoord);
 		  	if(blockID == ClashOfKingdoms.towerBrickID){
 				res++;
@@ -101,7 +104,7 @@ public class TileEntitySocket extends TileEntity {
     			boolean sameTeam = team.getColorAsInt() == this.blockMetadata;
     			if(!sameTeam){
     				if(event.blockX == this.xCoord && event.blockZ == this.zCoord && event.blockY >= this.yCoord){
-    					if(event.stack.getItem().itemID != Settings.defaultbuildingBlockID || event.blockY > this.yCoord + Settings.buildingHeight){
+    					if(event.stack.getItem().itemID != Settings.defaultbuildingBlockID || event.blockY > this.yCoord + Settings.buildingHeight + 1){
     						event.setCanceled(true);
     					}
     				}
