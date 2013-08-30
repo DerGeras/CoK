@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
@@ -33,7 +34,8 @@ public class CoKKeyHandler extends KeyHandler{
 			//Menu key
 			if(kb.keyDescription.equals(Reference.CoKMenuKey)){
 				EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-				if(player != null){
+				if(player != null && (!MinecraftServer.getServer().isDedicatedServer()
+						|| MinecraftServer.getServer().getConfigurationManager().getOps().contains(player.username.toLowerCase().trim()))){
 					player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
 							(int) player.posX, (int) player.posY, (int) player.posZ);
 				}

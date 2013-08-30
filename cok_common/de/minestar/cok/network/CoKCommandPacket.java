@@ -4,27 +4,38 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.references.Reference;
 
 public class CoKCommandPacket {
 	
-	public static void startGame(){
+	public static void startGame(Player player){
 		if(!(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) || CoKGame.gameRunning){
 			return;
+		}
+		EntityPlayerMP playerMP = (EntityPlayerMP) player;
+		if(MinecraftServer.getServer().isDedicatedServer() && !MinecraftServer.getServer().getConfigurationManager().getOps().contains(playerMP.username.toLowerCase().trim())){
+			return; //Only OPs are allowed to start a game.
 		}
 		CoKGame.startGame();
 		//send state to clients
 		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
 	}
 	
-	public static void stopGame(){
+	public static void stopGame(Player player){
 		if(!(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) || !CoKGame.gameRunning){
 			return;
+		}
+		EntityPlayerMP playerMP = (EntityPlayerMP) player;
+		if(MinecraftServer.getServer().isDedicatedServer() && !MinecraftServer.getServer().getConfigurationManager().getOps().contains(playerMP.username.toLowerCase().trim())){
+			return; //Only OPs are allowed to stop a game on a dedicated server.
 		}
 		CoKGame.stopGame();
 		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);

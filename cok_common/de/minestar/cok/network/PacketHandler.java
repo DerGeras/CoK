@@ -55,8 +55,8 @@ public class PacketHandler implements IPacketHandler{
 		case SPECTATOR_REMOVE: CoKGamePacket.removeSpectator(inputStream); break;
 		
 		//commands
-		case START_GAME_COMMAND: CoKCommandPacket.startGame();break;
-		case STOP_GAME_COMMAND: CoKCommandPacket.stopGame(); break;
+		case START_GAME_COMMAND: CoKCommandPacket.startGame(player);break;
+		case STOP_GAME_COMMAND: CoKCommandPacket.stopGame(player); break;
 		default: return;
 		}
 	}
