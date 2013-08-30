@@ -87,7 +87,7 @@ public class CoKGamePacketClient {
 			String playerName = inputStream.readUTF();
 			CoKGame.setPlayerSpectator(playerName);
 			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username == playerName){
+			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playerName)){
 				thisPlayer.capabilities.allowFlying = true;
 			}
 		} catch (IOException e){
@@ -99,7 +99,7 @@ public class CoKGamePacketClient {
 		try{
 			String playerName = inputStream.readUTF();
 			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username == playerName){
+			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playerName)){
 				thisPlayer.capabilities.allowFlying = true;
 			}
 		} catch (IOException e){
