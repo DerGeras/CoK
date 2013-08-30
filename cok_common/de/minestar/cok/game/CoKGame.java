@@ -55,7 +55,7 @@ public class CoKGame {
 		professions.add(new ProfessionKnight());
 		professions.add(new ProfessionBarbarian());
 		professions.add(new ProfessionCrossbowman());
-		
+
 		gameRunning = false;
 	}
 	
