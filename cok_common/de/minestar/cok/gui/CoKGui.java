@@ -63,14 +63,10 @@ public class CoKGui extends GuiScreen {
 		switch(button.id){
 		case START_GAME_BUTTON_ID: {
 			CoKCommandPacket.sendPacketToServer(PacketHandler.START_GAME_COMMAND, null);
-			this.buttonList.clear();
-			this.buttonList.add(stopGameButton);
 			break;
 		}
 		case STOP_GAME_BUTTON_ID: {
 			CoKCommandPacket.sendPacketToServer(PacketHandler.STOP_GAME_COMMAND, null);
-			this.buttonList.clear();
-			this.buttonList.add(startGameButton);
 			break;
 		}
 		}
