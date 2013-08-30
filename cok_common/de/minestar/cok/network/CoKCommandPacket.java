@@ -26,7 +26,7 @@ public class CoKCommandPacket {
 		}
 		CoKGame.startGame();
 		//send state to clients
-		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
+		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
 	}
 	
 	public static void stopGame(Player player){
@@ -38,7 +38,7 @@ public class CoKCommandPacket {
 			return; //Only OPs are allowed to stop a game on a dedicated server.
 		}
 		CoKGame.stopGame();
-		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
+		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
 	}
 	
 	

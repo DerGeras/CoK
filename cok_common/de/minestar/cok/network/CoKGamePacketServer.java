@@ -1,115 +1,18 @@
 package de.minestar.cok.network;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
-import de.minestar.cok.references.Color;
 import de.minestar.cok.references.Reference;
 
-public class CoKGamePacket {
-	
-	/**
-	 * sets the gamestate of clients on login.
-	 * @param inputStream
-	 */
-	public static void setGameState(DataInputStream inputStream){
-		try {
-			//read gameState
-			CoKGame.gameRunning = inputStream.readBoolean();
-			//read teams
-			int numberOfTeams = inputStream.readInt();
-			int numberOfPlayers = 0;
-			for(int i = 0; i < numberOfTeams; i++){
-				String teamName = inputStream.readUTF();
-				CoKGame.addTeam(teamName, inputStream.readChar());
-				//read users
-				numberOfPlayers = inputStream.readInt();
-				for(int j = 0; j < numberOfPlayers; i++){
-					CoKGame.addPlayerToTeam(teamName, inputStream.readUTF());
-				}
-			}
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void updateGameRunning(DataInputStream inputStream){
-		try {
-			CoKGame.gameRunning = inputStream.readBoolean();
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
+public class CoKGamePacketServer {
 
-	public static void addTeam(DataInputStream inputStream){
-		try {
-			String teamName = inputStream.readUTF();
-			String color = inputStream.readUTF();
-			CoKGame.addTeam(teamName, Color.getColorFromString(color));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void removeTeam(DataInputStream inputStream){
-		try {
-			String teamName = inputStream.readUTF();
-			CoKGame.removeTeam(teamName);
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void addPlayer(DataInputStream inputStream){
-		try {
-			String teamName = inputStream.readUTF();
-			String playerName = inputStream.readUTF();
-			CoKGame.addPlayerToTeam(teamName, playerName);
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void removePlayer(DataInputStream inputStream){
-		try {
-			String teamName = inputStream.readUTF();
-			String playerName = inputStream.readUTF();
-			CoKGame.removePlayerFromTeam(teamName, playerName);
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void addSpectator(DataInputStream inputStream){
-		try{
-			String playerName = inputStream.readUTF();
-			CoKGame.setPlayerSpectator(playerName);
-			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username == playerName){
-				thisPlayer.capabilities.allowFlying = true;
-			}
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void removeSpectator(DataInputStream inputStream){
-		try{
-			String playerName = inputStream.readUTF();
-			CoKGame.removeSpectator(playerName);
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
 	
 	public static void sendPacketToAllPlayers(byte code, String[] data){
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
@@ -191,5 +94,4 @@ public class CoKGamePacket {
 		//send packet
 		PacketDispatcher.sendPacketToPlayer(packet, player);
 	}
-	
 }

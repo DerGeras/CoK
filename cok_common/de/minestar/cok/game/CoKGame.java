@@ -6,14 +6,13 @@ import java.util.HashSet;
 import java.util.Random;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.network.CoKGamePacket;
+import de.minestar.cok.network.CoKGamePacketServer;
 import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
 import de.minestar.cok.profession.ProfessionArcher;
@@ -102,7 +101,7 @@ public class CoKGame {
 			}
 		}
 		//send state to clients
-		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
+		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
 	}
 	
 	/**
@@ -126,7 +125,7 @@ public class CoKGame {
 			}
 		}
 		//send state to clients
-		CoKGamePacket.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
+		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
 	}
 	
 	/**
@@ -379,11 +378,6 @@ public class CoKGame {
 			if(player != null){
 				setPlayerSpectator(player);
 			}
-		} else{
-			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playername)){
-				setPlayerSpectator(thisPlayer);
-			}
 		}
 	}
 	
@@ -410,11 +404,6 @@ public class CoKGame {
 			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 			if(player != null){
 				removeSpectator(player);
-			}
-		} else{
-			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playername)){
-				removeSpectator(thisPlayer);
 			}
 		}
 	}

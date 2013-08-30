@@ -25,7 +25,7 @@ public class ServerTickHandler implements ITickHandler {
 
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT && isScoreCheckQueued){
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && isScoreCheckQueued){
 			CoKGame.checkWinningCondition();
 		}
 		isScoreCheckQueued = false;
@@ -38,7 +38,7 @@ public class ServerTickHandler implements ITickHandler {
 
 	@Override
 	public String getLabel() {
-		return "PlayerTickHandler";
+		return "ServerTickHandler";
 	}
 
 }

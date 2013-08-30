@@ -45,14 +45,14 @@ public class PacketHandler implements IPacketHandler{
 		}
 		switch(code){
 		//game state
-		case TEAM_ADD: CoKGamePacket.addTeam(inputStream); break;
-		case TEAM_REMOVE: CoKGamePacket.removeTeam(inputStream); break;
-		case PLAYER_ADD: CoKGamePacket.addPlayer(inputStream); break;
-		case PLAYER_REMOVE: CoKGamePacket.removePlayer(inputStream); break;
-		case GAME_STATE: CoKGamePacket.setGameState(inputStream); break;
-		case GAME_RUNNING: CoKGamePacket.updateGameRunning(inputStream); break;
-		case SPECTATOR_ADD: CoKGamePacket.addSpectator(inputStream); break;
-		case SPECTATOR_REMOVE: CoKGamePacket.removeSpectator(inputStream); break;
+		case TEAM_ADD: CoKGamePacketClient.addTeam(inputStream); break;
+		case TEAM_REMOVE: CoKGamePacketClient.removeTeam(inputStream); break;
+		case PLAYER_ADD: CoKGamePacketClient.addPlayer(inputStream); break;
+		case PLAYER_REMOVE: CoKGamePacketClient.removePlayer(inputStream); break;
+		case GAME_STATE: CoKGamePacketClient.setGameState(inputStream); break;
+		case GAME_RUNNING: CoKGamePacketClient.updateGameRunning(inputStream); break;
+		case SPECTATOR_ADD: CoKGamePacketClient.addSpectator(inputStream); break;
+		case SPECTATOR_REMOVE: CoKGamePacketClient.removeSpectator(inputStream); break;
 		
 		//commands
 		case START_GAME_COMMAND: CoKCommandPacket.startGame(player);break;

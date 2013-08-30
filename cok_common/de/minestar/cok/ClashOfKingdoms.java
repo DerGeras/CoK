@@ -168,7 +168,7 @@ public class ClashOfKingdoms {
 		MinecraftForge.EVENT_BUS.register(new PlayerListener());
 		
 		GameRegistry.registerPlayerTracker(new PlayerTracker());
-		TickRegistry.registerTickHandler(new ServerTickHandler(EnumSet.of(TickType.SERVER)), Side.CLIENT);
+		TickRegistry.registerTickHandler(new ServerTickHandler(EnumSet.of(TickType.SERVER)), Side.SERVER);
 		
 		//Name Creative tabs
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Blocks", "en_US", "CoK Blocks");
