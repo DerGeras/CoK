@@ -3,8 +3,8 @@ package de.minestar.cok.keyhandler;
 import java.util.EnumSet;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
@@ -33,7 +33,7 @@ public class CoKKeyHandler extends KeyHandler{
 		if (FMLClientHandler.instance().getClient().inGameHasFocus) {
 			//Menu key
 			if(kb.keyDescription.equals(Reference.CoKMenuKey)){
-				EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
+				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				System.out.println(MinecraftServer.getServer() == null);
 				if(player != null){
 					player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
