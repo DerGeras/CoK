@@ -1,6 +1,8 @@
 package de.minestar.cok.hook;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
@@ -29,6 +31,17 @@ public class PlayerListener {
 				ChatSendHelper.broadCastError("THERE IS NO NEW RULER TO ANOUNCE... THIS IS BAD!");
 			} else{
 				ChatSendHelper.broadCastError("LONG LIFE KING " + team.getCaptain() + "!");
+			}
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onPlayerHit(LivingAttackEvent event){
+		if(event.entity instanceof EntityPlayer){
+			System.out.println("Hi");
+			EntityPlayer attacker = (EntityPlayer) event.entity;
+			if(CoKGame.spectators.contains(attacker.username)){
+				event.setCanceled(true);
 			}
 		}
 	}
