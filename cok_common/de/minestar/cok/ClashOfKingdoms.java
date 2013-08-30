@@ -41,7 +41,7 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.hook.BlockListener;
 import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.hook.PlayerListener;
-import de.minestar.cok.hook.PlayerTickHandler;
+import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.network.PacketHandler;
@@ -168,7 +168,7 @@ public class ClashOfKingdoms {
 		MinecraftForge.EVENT_BUS.register(new PlayerListener());
 		
 		GameRegistry.registerPlayerTracker(new PlayerTracker());
-		TickRegistry.registerTickHandler(new PlayerTickHandler(EnumSet.of(TickType.PLAYER)), Side.CLIENT);
+		TickRegistry.registerTickHandler(new ServerTickHandler(EnumSet.of(TickType.SERVER)), Side.CLIENT);
 		
 		//Name Creative tabs
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Blocks", "en_US", "CoK Blocks");

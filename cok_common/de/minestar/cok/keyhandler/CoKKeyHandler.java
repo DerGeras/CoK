@@ -34,8 +34,8 @@ public class CoKKeyHandler extends KeyHandler{
 			//Menu key
 			if(kb.keyDescription.equals(Reference.CoKMenuKey)){
 				EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
-				if(player != null && (!MinecraftServer.getServer().isDedicatedServer()
-						|| MinecraftServer.getServer().getConfigurationManager().getOps().contains(player.username.toLowerCase().trim()))){
+				System.out.println(MinecraftServer.getServer() == null);
+				if(player != null){
 					player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
 							(int) player.posX, (int) player.posY, (int) player.posZ);
 				}

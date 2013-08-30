@@ -5,8 +5,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import de.minestar.cok.game.CoKGame;
@@ -36,13 +37,6 @@ public class CoKGamePacket {
 					CoKGame.addPlayerToTeam(teamName, inputStream.readUTF());
 				}
 			}
-			if(CoKGame.gameRunning){
-				for(String playerName : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
-					if(CoKGame.getTeamOfPlayer(playerName) == null){
-						CoKGame.setPlayerSpectator(playerName);
-					}
-				}
-			}
 		} catch (IOException e){
 			e.printStackTrace();
 		}
@@ -51,13 +45,6 @@ public class CoKGamePacket {
 	public static void updateGameRunning(DataInputStream inputStream){
 		try {
 			CoKGame.gameRunning = inputStream.readBoolean();
-			if(CoKGame.gameRunning){
-				for(String playerName : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
-					if(CoKGame.getTeamOfPlayer(playerName) == null){
-						CoKGame.setPlayerSpectator(playerName);
-					}
-				}
-			}
 		} catch (IOException e){
 			e.printStackTrace();
 		}
@@ -106,6 +93,10 @@ public class CoKGamePacket {
 		try{
 			String playerName = inputStream.readUTF();
 			CoKGame.setPlayerSpectator(playerName);
+			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
+			if(thisPlayer != null && thisPlayer.username == playerName){
+				thisPlayer.capabilities.allowFlying = true;
+			}
 		} catch (IOException e){
 			e.printStackTrace();
 		}

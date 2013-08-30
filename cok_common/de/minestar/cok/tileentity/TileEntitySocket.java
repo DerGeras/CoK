@@ -8,7 +8,7 @@ import de.minestar.cok.event.EventBlockPlace;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Settings;
 import de.minestar.cok.game.Team;
-import de.minestar.cok.hook.PlayerTickHandler;
+import de.minestar.cok.hook.ServerTickHandler;
 
 /**
  * 
@@ -59,7 +59,7 @@ public class TileEntitySocket extends TileEntity {
     			//Change to tower bricks
     			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ClashOfKingdoms.towerBrickID);
     			//queue a score check
-    			PlayerTickHandler.isScoreCheckQueued = true;
+    			ServerTickHandler.isScoreCheckQueued = true;
     		}
     	}
     }

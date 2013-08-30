@@ -326,9 +326,11 @@ public class CoKGame {
 				res = teams.get(teamname).addPlayer(playername);
 				if(gameRunning){
 					playerProfessions.put(playername, professions.get(rand.nextInt(professions.size())));
-					EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
-					player.inventory.clearInventory(-1, -1);
-					playerProfessions.get(playername).giveKit(player, teams.get(teamname));
+					if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+						EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+						player.inventory.clearInventory(-1, -1);
+						playerProfessions.get(playername).giveKit(player, teams.get(teamname));
+					}
 				}
 			}
 		return res;
@@ -358,10 +360,8 @@ public class CoKGame {
 	 */
 	public static void setPlayerSpectator(EntityPlayer player){
 		spectators.add(player.username);
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT
-				&& player.username.equals(Minecraft.getMinecraft().thePlayer.username)){
-			Minecraft.getMinecraft().thePlayer.capabilities.allowFlying = true;
-		}
+		
+		player.capabilities.allowFlying = true;
 		player.capabilities.disableDamage = true;
 		player.capabilities.allowEdit = false;
 		player.setInvisible(true);
@@ -374,9 +374,16 @@ public class CoKGame {
 	 * @param playername String
 	 */
 	public static void setPlayerSpectator(String playername){
-		EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
-		if(player != null){
-			setPlayerSpectator(player);
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+			if(player != null){
+				setPlayerSpectator(player);
+			}
+		} else{
+			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
+			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playername)){
+				setPlayerSpectator(thisPlayer);
+			}
 		}
 	}
 	
@@ -386,11 +393,8 @@ public class CoKGame {
 	 */
 	public static void removeSpectator(EntityPlayer player){
 		spectators.remove(player.username);
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT
-				&& player.username.equals(Minecraft.getMinecraft().thePlayer.username)){
-			Minecraft.getMinecraft().thePlayer.capabilities.allowFlying = false;
-		}
-		//player.capabilities.allowFlying = false;
+
+		player.capabilities.allowFlying = false;
 		player.capabilities.disableDamage = false;
 		player.capabilities.allowEdit = true;
 		player.setInvisible(false);
@@ -402,9 +406,16 @@ public class CoKGame {
 	 * @param playername
 	 */
 	public static void removeSpectator(String playername){
-		EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
-		if(player != null){
-			removeSpectator(player);
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+			if(player != null){
+				removeSpectator(player);
+			}
+		} else{
+			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
+			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playername)){
+				removeSpectator(thisPlayer);
+			}
 		}
 	}
 	
