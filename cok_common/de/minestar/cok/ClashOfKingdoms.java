@@ -3,18 +3,12 @@ package de.minestar.cok;
 import java.util.EnumSet;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
-
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -49,10 +43,7 @@ import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.hook.PlayerListener;
 import de.minestar.cok.hook.PlayerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
-import de.minestar.cok.item.ItemCoKHelmet;
-import de.minestar.cok.item.ItemCoKTorso;
 import de.minestar.cok.itemblock.ItemBlockSocket;
-import de.minestar.cok.keyhandler.CoKKeyHandler;
 import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
@@ -179,11 +170,6 @@ public class ClashOfKingdoms {
 		GameRegistry.registerPlayerTracker(new PlayerTracker());
 		TickRegistry.registerTickHandler(new PlayerTickHandler(EnumSet.of(TickType.PLAYER)), Side.CLIENT);
 		
-		//init KeyBindings
-		KeyBinding[] key = {new KeyBinding(Reference.CoKMenuKey, Keyboard.KEY_G)};
-        boolean[] repeat = {false};
-        KeyBindingRegistry.registerKeyBinding(new CoKKeyHandler(key, repeat));
-		
 		//Name Creative tabs
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Blocks", "en_US", "CoK Blocks");
 		LanguageRegistry.instance().addStringLocalization("itemGroup.Clash of Kingdoms Items", "en_US", "CoK Items");
@@ -194,6 +180,8 @@ public class ClashOfKingdoms {
 		
 		proxy.registerTileEntites();
 		proxy.registerRenderThings();
+		//init KeyBindings
+		proxy.registerKeyHandlers();
 	}
 	
 	
@@ -247,12 +235,12 @@ public class ClashOfKingdoms {
 		warhammerItem = new ItemWarhammer(warhammerID, EnumToolMaterial.IRON);
 		LanguageRegistry.addName(warhammerItem, "Warhammer");
 		
-		//register cokHelmet
-		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);
-		LanguageRegistry.addName(cokHelmetItem, "CoK Helmet");
-		//register cokTorso
-		cokTorsoItem = new ItemCoKTorso(cokTorsoID, EnumArmorMaterial.IRON);
-		LanguageRegistry.addName(cokTorsoItem, "CoK Torso");
+//		//register cokHelmet
+//		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);
+//		LanguageRegistry.addName(cokHelmetItem, "CoK Helmet");
+//		//register cokTorso
+//		cokTorsoItem = new ItemCoKTorso(cokTorsoID, EnumArmorMaterial.IRON);
+//		LanguageRegistry.addName(cokTorsoItem, "CoK Torso");
 	}
 
 }

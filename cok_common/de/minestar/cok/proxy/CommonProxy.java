@@ -16,6 +16,10 @@ public class CommonProxy implements IGuiHandler{
 	public void registerTileEntites(){
 		GameRegistry.registerTileEntity(TileEntitySocket.class, "tileSocket");
 	}
+	
+	public void registerKeyHandlers(){
+		//Empty
+	}
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
