@@ -16,6 +16,8 @@ public class CoKGamePacketClient {
 	 */
 	public static void setGameState(DataInputStream inputStream){
 		try {
+			//clean gameState
+			CoKGame.cleanUpGame();
 			//read gameState
 			CoKGame.gameRunning = inputStream.readBoolean();
 			//read teams
@@ -29,6 +31,10 @@ public class CoKGamePacketClient {
 				for(int j = 0; j < numberOfPlayers; i++){
 					CoKGame.addPlayerToTeam(teamName, inputStream.readUTF());
 				}
+			}
+			int numberOfSpectators = inputStream.readInt();
+			for(int i = 0; i < numberOfSpectators; i++){
+				addSpectator(inputStream);
 			}
 		} catch (IOException e){
 			e.printStackTrace();
@@ -100,7 +106,7 @@ public class CoKGamePacketClient {
 			String playerName = inputStream.readUTF();
 			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
 			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playerName)){
-				thisPlayer.capabilities.allowFlying = true;
+				thisPlayer.capabilities.allowFlying = false;
 			}
 		} catch (IOException e){
 			e.printStackTrace();

@@ -80,7 +80,10 @@ public class CoKGamePacketServer {
 				for(String playerName: team.getAllPlayers()){
 					outputStream.writeUTF(playerName);
 				}
-				
+			}
+			outputStream.writeInt(CoKGame.spectators.size());
+			for(String spectator: CoKGame.spectators){
+				outputStream.writeUTF(spectator);
 			}
 		} catch (IOException e){
 			e.printStackTrace();

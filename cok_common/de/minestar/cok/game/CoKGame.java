@@ -97,6 +97,8 @@ public class CoKGame {
 		//set non-team players as spectators
 		for(String player : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
 			if(getTeamOfPlayer(player) == null){
+				String[] name = { player };
+				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, name);
 				setPlayerSpectator(player);
 			}
 		}
@@ -403,6 +405,8 @@ public class CoKGame {
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 			if(player != null){
+				String[] name = { player.username };
+				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, name);
 				removeSpectator(player);
 			}
 		}
