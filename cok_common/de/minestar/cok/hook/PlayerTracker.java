@@ -25,6 +25,10 @@ public class PlayerTracker implements IPlayerTracker {
         		String[] usernames = {player.username};
         		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
         	}
+        	Team team = CoKGame.getTeamOfPlayer(player.username);
+        	if(team != null && team.getCaptain().equals("")){
+        		team.setRandomCaptain();
+        	}
         }
 
 	}

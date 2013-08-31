@@ -68,7 +68,7 @@ public class Team {
 		boolean res = players.contains(name);
 		if(!res){
 			players.add(name);
-			if(captain == ""){
+			if(captain.equals("")){
 				captain = name;
 			}
 		}	
@@ -79,7 +79,7 @@ public class Team {
 		boolean res = players.contains(name);
 		if(res){
 			players.remove(name);
-			if(name == captain){
+			if(name.equals(captain)){
 				setRandomCaptain();
 			}
 		}
