@@ -1,9 +1,12 @@
 package de.minestar.cok.hook;
 
+import java.util.ArrayList;
+
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -34,14 +37,27 @@ public class PlayerListener {
 			return;
 		}
 		//Remove given items from droplist
+		ArrayList<EntityItem> droppedItems = new ArrayList<EntityItem>();
 		for(EntityItem itemEntity : event.drops){
-			if(CoKGame.playerProfessions.get(name) != null
-					&& CoKGame.playerProfessions.get(name).givenItems.contains(itemEntity.getEntityItem().getItem())){
-				event.drops.remove(itemEntity);
+			if(!(CoKGame.playerProfessions.get(name) != null
+					&& CoKGame.playerProfessions.get(name).givenItems.contains(itemEntity.getEntityItem().getItem()))){
+				droppedItems.add(itemEntity);
 			}
 		}
+		event.drops.clear();
+		event.drops.addAll(droppedItems);
+		
 		//Set a new captain
 		if(team.getCaptain().equals(name)){
+			//drop head :D
+			ItemStack headStack = new ItemStack(Item.skull);
+			headStack.setItemDamage(3); //Skulltype head
+			headStack.setTagCompound(new NBTTagCompound("tag"));
+			NBTTagCompound headTag = headStack.getTagCompound();
+			headTag.setString("SkullOwner", name);
+			event.drops.add(new EntityItem(event.entityPlayer.worldObj, event.entityPlayer.posX,
+					event.entityPlayer.posY, event.entityPlayer.posZ, headStack));
+			//change captain
 			team.setRandomCaptain();
 			ChatSendHelper.broadCastError("THE RULER OF THE KINGDOM " + team.getName() + " " + name + " HAS DIED!");
 			if(team.getCaptain().equals("")){
