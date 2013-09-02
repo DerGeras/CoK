@@ -9,6 +9,7 @@ public class ProfessionBarbarian extends Profession {
 
 	public ProfessionBarbarian() {
 		super("Barbarian");
+		givenItems.add(ClashOfKingdoms.warhammerItem);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package de.minestar.cok.profession;
 
+import java.util.HashSet;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,8 +13,14 @@ public abstract class Profession {
 
 	private String name = "";
 	
+	public HashSet<Item> givenItems = new HashSet<Item>();
+	
 	public Profession(String name){
 		this.name = name;
+		givenItems.add(Item.helmetLeather);
+		givenItems.add(Item.plateLeather);
+		givenItems.add(Item.legsLeather);
+		givenItems.add(Item.bootsLeather);
 	}
 	
 	/**

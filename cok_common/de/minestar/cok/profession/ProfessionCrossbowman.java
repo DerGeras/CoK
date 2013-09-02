@@ -10,6 +10,7 @@ public class ProfessionCrossbowman extends Profession {
 
 	public ProfessionCrossbowman() {
 		super("Crossbowman");
+		givenItems.add(ClashOfKingdoms.crossBowItem);
 	}
 
 	@Override
