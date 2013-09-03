@@ -419,6 +419,7 @@ public class CoKGame {
 	 * @param amount
 	 */
 	public static void punishTeam(Team team, int amount){
+		sortSockets();
 		int rest = amount;
 		boolean added = true;
 		while(added && rest > 0){
