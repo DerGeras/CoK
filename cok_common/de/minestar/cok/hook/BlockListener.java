@@ -24,8 +24,6 @@ public class BlockListener {
 				socket.checkEvent(event);
 			}
 		}
-//		System.out.println("Block broke at " + event.blockX + " " + event.blockY  + " " +
-//				event.blockZ + " by " + event.player.username);
 	}
 	
 	@ForgeSubscribe
@@ -42,8 +40,6 @@ public class BlockListener {
 				socket.checkEvent(event);
 			}
 		}
-//		System.out.println("Block placed at " + event.blockX + " " + event.blockY  + " " +
-//				event.blockZ + " by " + event.player.username);
 	}
 
 }

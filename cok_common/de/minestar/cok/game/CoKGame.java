@@ -74,8 +74,8 @@ public class CoKGame {
 	/**
 	 * start a round of CoK
 	 */
-	//@SideOnly(Side.SERVER)
 	public static void startGame(){
+		sortSockets();
 		gameRunning = true;
 		for(Team team: teams.values()){
 			team.setRandomCaptain();
@@ -107,7 +107,6 @@ public class CoKGame {
 	/**
 	 * Stop the current round and declare the scores
 	 */
-	//@SideOnly(Side.SERVER)
 	public static void stopGame(){
 		if(!gameRunning){
 			return;
@@ -194,17 +193,17 @@ public class CoKGame {
 	 * Needed this due to divergation in the call "socket.getBlockMetadata()"
 	 */
 	public static void sortSockets(){
-		if(sockets != null){
-			for(TileEntitySocket socket : unsortedSockets){
-				HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
-				if(teamSockets == null){
-					teamSockets = new HashSet<TileEntitySocket>();
-					sockets.put(socket.getBlockMetadata(), teamSockets);
-				}
-				teamSockets.add(socket);
+		System.out.println(unsortedSockets.size());
+		System.out.println(sockets.values().size());
+		for(TileEntitySocket socket : unsortedSockets){
+			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
+			if(teamSockets == null){
+				teamSockets = new HashSet<TileEntitySocket>();
+				sockets.put(socket.getBlockMetadata(), teamSockets);
 			}
-			unsortedSockets.clear();
+			teamSockets.add(socket);
 		}
+		unsortedSockets.clear();
 	}
 	
 	/**

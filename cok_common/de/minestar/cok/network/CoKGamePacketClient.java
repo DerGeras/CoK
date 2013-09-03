@@ -16,13 +16,12 @@ public class CoKGamePacketClient {
 	 */
 	public static void setGameState(DataInputStream inputStream){
 		try {
-			//clean gameState
-			CoKGame.cleanUpGame();
 			//read gameState
 			CoKGame.gameRunning = inputStream.readBoolean();
 			//read teams
 			int numberOfTeams = inputStream.readInt();
 			int numberOfPlayers = 0;
+			CoKGame.teams.clear();
 			for(int i = 0; i < numberOfTeams; i++){
 				String teamName = inputStream.readUTF();
 				CoKGame.addTeam(teamName, inputStream.readChar());
@@ -33,6 +32,7 @@ public class CoKGamePacketClient {
 				}
 			}
 			int numberOfSpectators = inputStream.readInt();
+			CoKGame.spectators.clear();
 			for(int i = 0; i < numberOfSpectators; i++){
 				addSpectator(inputStream);
 			}
