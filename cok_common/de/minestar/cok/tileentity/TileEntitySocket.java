@@ -79,7 +79,10 @@ public class TileEntitySocket extends TileEntity {
     	return res;
     }
     
-    
+    /**
+     * Checks for possible rule violations in the vicinity
+     * @param event
+     */
     public void checkEvent(EventBlockBreak event){
     	if(!event.isCanceled()){
     		Team team = CoKGame.getTeamOfPlayer(event.player.username);
@@ -97,6 +100,10 @@ public class TileEntitySocket extends TileEntity {
     }
     
     
+    /**
+     * Checks for possible rule violations in the vicinity
+     * @param event
+     */
     public void checkEvent(EventBlockPlace event){
     	if(!event.isCanceled()){
     		Team team = CoKGame.getTeamOfPlayer(event.player.username);
@@ -113,6 +120,23 @@ public class TileEntitySocket extends TileEntity {
     			}
     		}
     	}
+    }
+    
+    /**
+     * Add a block to the tower
+     * @return whether a block could be placed ( < maxBuildingheight)
+     */
+    public boolean addBlock(){
+    	boolean added = false;
+    	for(int i = 1; i <= Settings.buildingHeight && !added; i++){
+    		if(this.worldObj.isAirBlock(xCoord, yCoord + i, zCoord)){
+				this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ClashOfKingdoms.towerBrickID);
+    			ServerTickHandler.isScoreCheckQueued = true;
+    			added = true;
+    			break;
+			}    		
+    	}
+    	return added;
     }
 
 }

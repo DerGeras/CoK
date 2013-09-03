@@ -1,6 +1,7 @@
 package de.minestar.cok.hook;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +15,7 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class PlayerListener {
 
@@ -64,6 +66,11 @@ public class PlayerListener {
 				ChatSendHelper.broadCastError("THERE IS NO NEW RULER TO ANOUNCE... THIS IS BAD!");
 			} else{
 				ChatSendHelper.broadCastError("LONG LIFE KING " + team.getCaptain() + "!");
+			}
+			//Punish team
+			HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
+			if(sockets != null){
+				CoKGame.punishTeam(team, sockets.size());
 			}
 		}
 	}

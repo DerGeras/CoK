@@ -153,7 +153,9 @@ public class CoKGame {
 			return;
 		}
 		sortSockets();
-		for(Team team: teams.values()){
+		HashSet<Team> teamCopies = new HashSet<Team>();
+		teamCopies.addAll(teams.values());
+		for(Team team: teamCopies){
 			int maxScore = Settings.buildingHeight * (CoKGame.sockets.get(team.getColorAsInt()) == null ? 0 : CoKGame.sockets.get(team.getColorAsInt()).size());
 			if(maxScore > 0){
 				int score = getScoreForTeam(team);
@@ -193,8 +195,6 @@ public class CoKGame {
 	 * Needed this due to divergation in the call "socket.getBlockMetadata()"
 	 */
 	public static void sortSockets(){
-		System.out.println(unsortedSockets.size());
-		System.out.println(sockets.values().size());
 		for(TileEntitySocket socket : unsortedSockets){
 			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
 			if(teamSockets == null){
@@ -407,6 +407,32 @@ public class CoKGame {
 				String[] name = { player.username };
 				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, name);
 				removeSpectator(player);
+			}
+		}
+	}
+	
+	
+	/**
+	 * punish a team by adding blocks to the tower
+	 * i.e. when the leader dies
+	 * @param team
+	 * @param amount
+	 */
+	public static void punishTeam(Team team, int amount){
+		int rest = amount;
+		boolean added = true;
+		while(added && rest > 0){
+			added = false;
+			HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
+			if(sockets != null){
+				for(TileEntitySocket socket : sockets){
+					if(socket.addBlock()){
+						added = true;
+						if(--rest <= 0){
+							break;
+						}
+					}
+				}
 			}
 		}
 	}
