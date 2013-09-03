@@ -53,8 +53,24 @@ public class CommandCreateTeam extends CoKCommand {
 	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
 			String[] astring) {
 		LinkedList<String> list = new LinkedList<String>();
-		list.add("Red");
-		list.add("Blue");
+		if(astring.length == 2){
+			list.add("black");
+			list.add("darkblue");
+			list.add("darkgreen");
+			list.add("darkaqua");
+			list.add("darkred");
+			list.add("purple");
+			list.add("gold");
+			list.add("gray");
+			list.add("darkgray");
+			list.add("blue");
+			list.add("green");
+			list.add("aqua");
+			list.add("red");
+			list.add("lightpurple");
+			list.add("yellow");
+			list.add("white");
+		}
 		return list;
 	}
 

@@ -1,5 +1,6 @@
 package de.minestar.cok.command;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.command.ICommandSender;
@@ -39,7 +40,12 @@ public class CommandRemoveTeam extends CoKCommand {
 	@Override
 	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
 			String[] astring) {
-		return (List<?>) CoKGame.teams.values();
+		//return teamNames
+		LinkedList<String> list = new LinkedList<String>();
+		for(String teamName : CoKGame.teams.keySet()){
+			list.add(teamName);
+		}
+		return list;
 	}
 
 }

@@ -17,6 +17,7 @@ public class Reference {
 	public static final String TeamsCommand = "teams";
 	public static final String CoKCommand = "cok";
 	public static final String KitCommand = "kit";
+	public static final String TeamSpawnCommand = "tspawn";
 	
 	//GUI
 	public static final int COK_GUI_ID = 0;

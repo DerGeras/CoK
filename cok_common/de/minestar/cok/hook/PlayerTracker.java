@@ -2,6 +2,7 @@ package de.minestar.cok.hook;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.util.ChunkCoordinates;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
 import cpw.mods.fml.common.network.Player;
@@ -26,8 +27,14 @@ public class PlayerTracker implements IPlayerTracker {
         		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
         	}
         	Team team = CoKGame.getTeamOfPlayer(player.username);
-        	if(team != null && team.getCaptain().equals("")){
-        		team.setRandomCaptain();
+        	if(team != null){
+        		if(team.getCaptain().equals("")){
+        			team.setRandomCaptain();
+        		}
+        		ChunkCoordinates spawnCoordinates = team.getSpawnCoordinates();
+        		if(spawnCoordinates != null){
+    				player.setSpawnChunk(spawnCoordinates, true);
+    			}
         	}
         }
 

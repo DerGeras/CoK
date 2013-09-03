@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.server.MinecraftServer;
 import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.helper.PlayerHelper;
 import de.minestar.cok.network.CoKGamePacketServer;
@@ -69,16 +71,44 @@ public class CommandPlayer extends CoKCommand {
 	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
 			String[] astring) {
 		LinkedList<String> list = new LinkedList<String>();
-		if(astring.length <= 1){
+		switch(astring.length){
+		case 1: {
 			list.add("add");
 			list.add("remove");
+		}
+		break;
+		case 2: {
+			for(String teamName : CoKGame.teams.keySet()){
+				list.add(teamName);
+			}
+		}
+		break;
+		case 3: {
+			if(astring[0].equals("add")){
+				for(String playerName : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
+					list.add(playerName);
+				}
+			}
+			if(astring[0].equals("remove")){
+				Team team = CoKGame.getTeam(astring[1]);
+				if(team != null){
+					for(String playerName : team.getAllPlayers()){
+						list.add(playerName);
+					}
+				}
+			}
+		}
+		break;
 		}
 		return list;
 	}
 	
+	/**
+	 * For some reason this is ignored in 1.5.2
+	 */
 	@Override
 	public boolean isUsernameIndex(String[] astring, int i) {
-		return true; //TODO check this method
+		return i == 2;
 	}
 
 }

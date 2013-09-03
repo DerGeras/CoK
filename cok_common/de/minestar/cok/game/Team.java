@@ -3,7 +3,11 @@ package de.minestar.cok.game;
 import java.util.LinkedList;
 import java.util.Random;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.helper.PlayerHelper;
 
 public class Team {
@@ -12,7 +16,7 @@ public class Team {
 	private char color;
 	private String captain;
 	
-	public ChunkCoordinates spawnCoordinates;
+	private ChunkCoordinates spawnCoordinates;
 
 
 	private LinkedList<String> players = new LinkedList<String>();
@@ -25,6 +29,7 @@ public class Team {
 		this.setName(name);
 		this.setColor(color);
 		this.captain = "";
+		this.setSpawnCoordinates(null);
 	}
 	
 	public Team(String name, char color, String captain){
@@ -70,6 +75,12 @@ public class Team {
 			players.add(name);
 			if(captain.equals("")){
 				captain = name;
+			}
+			if(spawnCoordinates != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+				EntityPlayer playerEntity = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
+				if(playerEntity != null){
+					playerEntity.setSpawnChunk(spawnCoordinates, true);
+				}
 			}
 		}	
 		return !res;
@@ -121,6 +132,26 @@ public class Team {
 
 	public void setCaptain(String captain) {
 		this.captain = captain;
+	}
+
+	public ChunkCoordinates getSpawnCoordinates() {
+		return spawnCoordinates;
+	}
+
+	/**
+	 * sets the spawnCoordinates for this team and it's members
+	 * @param spawnCoordinates
+	 */
+	public void setSpawnCoordinates(ChunkCoordinates spawnCoordinates) {
+		if(spawnCoordinates != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			for(String player : players){
+				EntityPlayer playerEntity = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(player);
+				if(playerEntity != null){
+					playerEntity.setSpawnChunk(spawnCoordinates, true);
+				}
+			}
+		}
+		this.spawnCoordinates = spawnCoordinates;
 	}
 	
 }

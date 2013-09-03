@@ -20,6 +20,7 @@ public class Color {
 	public static final char WHITE = 'f';
 	
 	public static char getColorFromString(String color){
+		System.out.println(color);
 		//SCREW YOU JAVA 1.5!!!!!!
 		if(color.equalsIgnoreCase("black")){
 			return BLACK;
