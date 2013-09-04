@@ -49,7 +49,7 @@ public class PlayerTracker implements IPlayerTracker {
         	}
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team != null){
-        		if(team.getCaptain() == player.username){
+        		if(team.getCaptain().equals(player.username)){
         			team.setRandomCaptain();
         			ChatSendHelper.broadCastError(player.username + " ,the king of team " + team.getName() + " fled!");
         			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
