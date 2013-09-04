@@ -32,7 +32,7 @@ public class ItemRendererCrossbow implements IItemRenderer {
 	}
 
 	@Override
-	public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+	public void renderItem(ItemRenderType type, ItemStack stack, Object... data) {
 		switch(type){
 		case EQUIPPED : {
 				GL11.glPushMatrix();
@@ -54,7 +54,7 @@ public class ItemRendererCrossbow implements IItemRenderer {
 					GL11.glTranslatef(0.05f, -0.05f, -0.8f);
 				}
 				
-				crossbowModel.render((Entity) data[1], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f);
+				crossbowModel.render((Entity) data[1], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f, stack);
 				
 				GL11.glPopMatrix();
 			}
