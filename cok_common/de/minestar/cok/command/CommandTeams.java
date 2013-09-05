@@ -42,5 +42,10 @@ public class CommandTeams extends CoKCommand {
 			String[] astring) {
 		return null;
 	}
+	
+	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+		return true;
+	}
 
 }
