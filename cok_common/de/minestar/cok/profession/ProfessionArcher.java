@@ -10,6 +10,7 @@ public class ProfessionArcher extends Profession{
 	public ProfessionArcher() {
 		super("Archer");
 		givenItems.add(Item.bow);
+		givenItems.add(Item.arrow);
 	}
 
 	@Override

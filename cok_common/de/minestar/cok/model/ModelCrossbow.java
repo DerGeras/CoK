@@ -108,7 +108,8 @@ public class ModelCrossbow extends ModelBase
     FrontRight1.render(f5);
     FrontRight2.render(f5);
     FrontRight3.render(f5);
-    if(stack.getTagCompound() != null && stack.getTagCompound().getBoolean(ItemCrossBow.CHARGED_STRING)){
+    if(stack.getTagCompound() != null && (stack.getTagCompound().getBoolean(ItemCrossBow.CHARGED_STRING)
+    		|| stack.getTagCompound().getBoolean(ItemCrossBow.CLIENT_CHARGED))){
     	Bolt.render(f5);
     }
   }

@@ -44,6 +44,7 @@ import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.hook.PlayerListener;
 import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
+import de.minestar.cok.item.ItemBolt;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.proxy.CommonProxy;
@@ -92,6 +93,7 @@ public class ClashOfKingdoms {
     //Item IDs
     public static int crossBowID;
     public static int warhammerID;
+    public static int boltID;
     
     public static int cokHelmetID;
     public static int cokTorsoID;
@@ -99,6 +101,7 @@ public class ClashOfKingdoms {
     //Items
     public static Item crossBowItem;
     public static Item warhammerItem;
+    public static Item boltItem;
     
     public static Item cokHelmetItem;
     public static Item cokTorsoItem;
@@ -180,6 +183,8 @@ public class ClashOfKingdoms {
 		
 		registerItems();
 		
+		proxy.registerRecipes();
+		
 		proxy.registerTileEntites();
 		proxy.registerRenderThings();
 		//init KeyBindings
@@ -206,6 +211,7 @@ public class ClashOfKingdoms {
 	private void initItemIDs(){
 		crossBowID = config.getItem(Configuration.CATEGORY_ITEM, "Crossbow", 5000).getInt();
 		warhammerID = config.getItem(Configuration.CATEGORY_ITEM, "Warhammer", 5001).getInt();
+		boltID = config.getItem(Configuration.CATEGORY_ITEM, "Bolt", 5010).getInt();
 		
 		cokHelmetID = config.getItem(Configuration.CATEGORY_ITEM, "CoKHelmet", 5020).getInt();
 		cokTorsoID = config.getItem(Configuration.CATEGORY_ITEM, "CoKTorso", 5021).getInt();
@@ -236,6 +242,9 @@ public class ClashOfKingdoms {
 		//register warhammer
 		warhammerItem = new ItemWarhammer(warhammerID, EnumToolMaterial.IRON);
 		LanguageRegistry.addName(warhammerItem, "Warhammer");
+		//register bolt
+		boltItem = new ItemBolt(boltID);
+		LanguageRegistry.addName(boltItem, "Bolt");
 		
 //		//register cokHelmet
 //		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);
@@ -244,5 +253,5 @@ public class ClashOfKingdoms {
 //		cokTorsoItem = new ItemCoKTorso(cokTorsoID, EnumArmorMaterial.IRON);
 //		LanguageRegistry.addName(cokTorsoItem, "CoK Torso");
 	}
-
+	
 }

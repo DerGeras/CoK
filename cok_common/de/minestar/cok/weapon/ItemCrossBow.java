@@ -3,14 +3,13 @@ package de.minestar.cok.weapon;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import de.minestar.cok.ClashOfKingdoms;
+import de.minestar.cok.entity.EntityBolt;
 import de.minestar.cok.item.CoKItem;
 
 public class ItemCrossBow extends CoKItem{
@@ -18,6 +17,7 @@ public class ItemCrossBow extends CoKItem{
 	private static int ticksToCharge = 3 * 20 + 200;
 	
 	public static final String CHARGED_STRING = "charged";
+	public static final String CLIENT_CHARGED = "clientcharged";
 	
 	public ItemCrossBow(int par1) {
 		super(par1);
@@ -30,14 +30,14 @@ public class ItemCrossBow extends CoKItem{
 	
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer){
 		
-		//Shooting the arrow
+		//Shooting the bolt
 		boolean flag = par3EntityPlayer.capabilities.isCreativeMode;
 		
 		if(par1ItemStack.stackTagCompound == null){
 			par1ItemStack.setTagCompound(new NBTTagCompound());
 		}
 		
-        if (flag || par1ItemStack.stackTagCompound.hasKey(CHARGED_STRING) && par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING))
+        if (flag || par1ItemStack.stackTagCompound.getBoolean(CHARGED_STRING))
         {
         	
             float f = (float) 10 *72000 / 20.0F;
@@ -53,51 +53,50 @@ public class ItemCrossBow extends CoKItem{
                 f = 1.0F;
             }
 
-            EntityArrow entityarrow = new EntityArrow(par2World, par3EntityPlayer, f * 2.0F);
+            EntityBolt entityBolt = new EntityBolt(par2World, par3EntityPlayer, f * 2.0F);
 
             if (f == 1.0F)
             {
-                entityarrow.setIsCritical(true);
+                entityBolt.setIsCritical(true);
             }
 
             int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, par1ItemStack);
 
             if (k > 0)
             {
-                entityarrow.setDamage(entityarrow.getDamage() + (double)k * 0.5D + 0.5D);
+                entityBolt.setDamage(entityBolt.getDamage() + (double)k * 0.5D + 0.5D);
             }
 
             int l = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, par1ItemStack);
 
             if (l > 0)
             {
-                entityarrow.setKnockbackStrength(l);
+                entityBolt.setKnockbackStrength(l);
             }
 
             if (EnchantmentHelper.getEnchantmentLevel(Enchantment.flame.effectId, par1ItemStack) > 0)
             {
-                entityarrow.setFire(100);
+                entityBolt.setFire(100);
             }
             
             par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
             if (flag)
             {
-                entityarrow.canBePickedUp = 2;
+                entityBolt.canBePickedUp = 2;
             }
             
             if (!par2World.isRemote)
             {
             	par1ItemStack.stackTagCompound.setBoolean(CHARGED_STRING, false);
-                par2World.spawnEntityInWorld(entityarrow);
+            	par1ItemStack.stackTagCompound.setBoolean(CLIENT_CHARGED, false);
+                par2World.spawnEntityInWorld(entityBolt);
             }
         }
         else{
         	//reload
-        	if(par3EntityPlayer.inventory.hasItem(Item.arrow.itemID)){
-        		if(par3EntityPlayer.inventory.hasItem(Item.arrow.itemID)){
-            		par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
-        		}
+        	if(par3EntityPlayer.inventory.hasItem(ClashOfKingdoms.boltItem.itemID)){
+            	par3EntityPlayer.setItemInUse(par1ItemStack, this.getMaxItemUseDuration(par1ItemStack));
         	}
         }
         
@@ -109,6 +108,9 @@ public class ItemCrossBow extends CoKItem{
 	 */
 	public void onUsingItemTick(ItemStack stack, EntityPlayer player, int count){
 		super.onUsingItemTick(stack, player, count);
+		if(count < 200){
+			stack.stackTagCompound.setBoolean(CLIENT_CHARGED, true);
+		}
 	}
 	
 	/**
@@ -119,8 +121,8 @@ public class ItemCrossBow extends CoKItem{
 			if(EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0){
 				stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
 			} else{
-				if(player.inventory.hasItem(Item.arrow.itemID)){
-					player.inventory.consumeInventoryItem(Item.arrow.itemID);
+				if(player.inventory.hasItem(ClashOfKingdoms.boltItem.itemID)){
+					player.inventory.consumeInventoryItem(ClashOfKingdoms.boltItem.itemID);
 		    		stack.stackTagCompound.setBoolean(CHARGED_STRING, true);
 				}
 				
