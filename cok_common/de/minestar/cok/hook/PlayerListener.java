@@ -49,8 +49,17 @@ public class PlayerListener {
 		event.drops.clear();
 		event.drops.addAll(droppedItems);
 		
-		//Set a new captain
-		if(team.getCaptain().equals(name)){
+
+		//Punish team
+		HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
+		if(sockets != null){
+			CoKGame.punishTeam(team, sockets.size());
+		}
+		
+		//redistribute Professions if needed
+		String teamCaptain = team.getCaptain();
+		team.playerGone(event.entityPlayer.username);
+		if(teamCaptain.equals(name)){
 			//drop head :D
 			ItemStack headStack = new ItemStack(Item.skull);
 			headStack.setItemDamage(3); //Skulltype head
@@ -60,17 +69,11 @@ public class PlayerListener {
 			event.drops.add(new EntityItem(event.entityPlayer.worldObj, event.entityPlayer.posX,
 					event.entityPlayer.posY, event.entityPlayer.posZ, headStack));
 			//change captain
-			team.setRandomCaptain();
 			ChatSendHelper.broadCastError("THE RULER OF THE KINGDOM " + team.getName() + " " + name + " HAS DIED!");
-			if(team.getCaptain().equals("")){
+			if(team.getCaptain().equalsIgnoreCase("")){
 				ChatSendHelper.broadCastError("THERE IS NO NEW RULER TO ANOUNCE... THIS IS BAD!");
 			} else{
 				ChatSendHelper.broadCastError("LONG LIFE KING " + team.getCaptain() + "!");
-			}
-			//Punish team
-			HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
-			if(sockets != null){
-				CoKGame.punishTeam(team, sockets.size());
 			}
 		}
 	}

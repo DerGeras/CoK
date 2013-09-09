@@ -1,25 +1,30 @@
 package de.minestar.cok.game;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import de.minestar.cok.helper.PlayerHelper;
+import de.minestar.cok.profession.Profession;
 
 public class Team {
 	
 	private String name;
 	private char color;
+	
+	//Special Classes for this team
 	private String captain;
+	private String crossbowman;
+	private String barbarian;
 	
 	private ChunkCoordinates spawnCoordinates;
-
-
+	
 	private LinkedList<String> players = new LinkedList<String>();
+	
+	private LinkedList<String> onlinePlayers = new LinkedList<String>();
+
 	
 	public LinkedList<String> getAllPlayers(){
 		return players;
@@ -29,41 +34,11 @@ public class Team {
 		this.setName(name);
 		this.setColor(color);
 		this.captain = "";
+		this.crossbowman = "";
+		this.barbarian = "";
 		this.setSpawnCoordinates(null);
 	}
 	
-	public Team(String name, char color, String captain){
-		this(name, color);
-		this.captain = captain;
-	}
-	
-	
-	/**
-	 * get any team member that is currently online, empty string if there is none
-	 * @param rand
-	 * @return
-	 */
-	public String getRandomOnlinePlayer(Random rand){
-		LinkedList<String> onlinePlayers = new LinkedList<String>();
-		for(String player : players){
-			if(PlayerHelper.isOnlineUser(player)){
-				onlinePlayers.add(player);
-			}
-		}
-		if(onlinePlayers.size() == 0){
-			return "";
-		} else{
-			return onlinePlayers.get(rand.nextInt(onlinePlayers.size()));
-		}
-	}
-	
-	/**
-	 * sets a random player from the team as the captain. The player must be online,
-	 * if there is none, the captain will be ""
-	 */
-	public void setRandomCaptain(){
-		captain = getRandomOnlinePlayer(CoKGame.rand);		
-	}
 	
 	public int getColorAsInt(){
 		return color >= 97 ? color - 87 : color - 48;
@@ -73,13 +48,13 @@ public class Team {
 		boolean res = players.contains(name);
 		if(!res){
 			players.add(name);
-			if(captain.equals("")){
-				captain = name;
-			}
-			if(spawnCoordinates != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 				EntityPlayer playerEntity = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
 				if(playerEntity != null){
-					playerEntity.setSpawnChunk(spawnCoordinates, true);
+					playerReturned(playerEntity.username);
+					if(this.spawnCoordinates != null){
+						playerEntity.setSpawnChunk(spawnCoordinates, true);
+					}
 				}
 			}
 		}	
@@ -90,9 +65,7 @@ public class Team {
 		boolean res = players.contains(name);
 		if(res){
 			players.remove(name);
-			if(name.equals(captain)){
-				setRandomCaptain();
-			}
+			playerGone(name);
 		}
 		return res;
 	}
@@ -130,10 +103,6 @@ public class Team {
 		return captain;
 	}
 
-	public void setCaptain(String captain) {
-		this.captain = captain;
-	}
-
 	public ChunkCoordinates getSpawnCoordinates() {
 		return spawnCoordinates;
 	}
@@ -152,6 +121,60 @@ public class Team {
 			}
 		}
 		this.spawnCoordinates = spawnCoordinates;
+	}
+	
+	/**
+	 * Distribute the Professions to the online players.
+	 */
+	public void distributeProfessions(){
+		String playerName;
+		if(captain.equals("") && onlinePlayers.size() > 0){
+			playerName = onlinePlayers.removeFirst();
+			CoKGame.playerProfessions.put(playerName, Profession.KING);
+			captain = playerName;
+		}
+		if(crossbowman.equals("") && onlinePlayers.size() > 0){
+			playerName = onlinePlayers.removeFirst();
+			CoKGame.playerProfessions.put(playerName, Profession.CROSSBOWMAN);
+			crossbowman = playerName;
+		}
+		if(barbarian.equals("") && onlinePlayers.size() > 0){
+			playerName = onlinePlayers.removeFirst();
+			CoKGame.playerProfessions.put(playerName, Profession.BARBARIAN);
+			barbarian = playerName;
+		}
+	}
+	
+	/**
+	 * a player died or logged off -> redistribute professions
+	 * @param player
+	 */
+	public void playerGone(String player){
+		if(onlinePlayers.contains(player)){
+			onlinePlayers.remove(player);
+		}
+		CoKGame.playerProfessions.remove(player);
+		if(captain.equalsIgnoreCase(player)){
+			captain = "";
+		}
+		if(crossbowman.equalsIgnoreCase(player)){
+			crossbowman = "";
+		}
+		if(barbarian.equalsIgnoreCase(player)){
+			barbarian = "";
+		}
+		distributeProfessions();
+	}
+	
+	/**
+	 * player got back online/respawned
+	 * @param player
+	 */
+	public void playerReturned(String player){
+		if(!onlinePlayers.contains(player)){
+			onlinePlayers.add(player);
+		}
+		distributeProfessions();
 	}
 	
 }

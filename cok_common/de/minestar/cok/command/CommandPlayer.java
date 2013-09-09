@@ -50,7 +50,7 @@ public class CommandPlayer extends CoKCommand {
 			}
 			return;
 		}
-		if(astring[0].equals("remove")){
+		if(astring[0].equalsIgnoreCase("remove")){
 			if(!CoKGame.getTeam(astring[1]).hasPlayer(astring[2])){
 				ChatSendHelper.sendError(icommandsender, "User \"" + astring[2] + "\" is not part of team \"" + astring[1] + "\"!");
 				return;
@@ -84,12 +84,12 @@ public class CommandPlayer extends CoKCommand {
 		}
 		break;
 		case 3: {
-			if(astring[0].equals("add")){
+			if(astring[0].equalsIgnoreCase("add")){
 				for(String playerName : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
 					list.add(playerName);
 				}
 			}
-			if(astring[0].equals("remove")){
+			if(astring[0].equalsIgnoreCase("remove")){
 				Team team = CoKGame.getTeam(astring[1]);
 				if(team != null){
 					for(String playerName : team.getAllPlayers()){

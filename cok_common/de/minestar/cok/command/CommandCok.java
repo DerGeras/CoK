@@ -37,7 +37,7 @@ public class CommandCok extends CoKCommand {
 			CoKGame.startGame();
 			return;
 		}
-		if(astring[0].equals("score")){
+		if(astring[0].equalsIgnoreCase("score")){
 			if(!CoKGame.gameRunning){
 				ChatSendHelper.sendError(icommandsender, "There is no game running");
 				return;
@@ -53,7 +53,7 @@ public class CommandCok extends CoKCommand {
 			}
 			return;
 		}
-		if(astring[0].equals("end")){
+		if(astring[0].equalsIgnoreCase("end")){
 			if(!CoKGame.gameRunning){
 				return;
 			}

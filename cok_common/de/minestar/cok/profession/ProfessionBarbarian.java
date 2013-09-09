@@ -21,4 +21,9 @@ public class ProfessionBarbarian extends Profession {
 		player.inventory.addItemStackToInventory(new ItemStack(ClashOfKingdoms.warhammerItem));
 	}
 
+	@Override
+	public float getPunishment() {
+		return 0;
+	}
+
 }

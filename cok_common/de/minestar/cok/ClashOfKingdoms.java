@@ -33,7 +33,6 @@ import de.minestar.cok.block.BlockSocket;
 import de.minestar.cok.block.BlockTowerBrick;
 import de.minestar.cok.command.CommandCok;
 import de.minestar.cok.command.CommandCreateTeam;
-import de.minestar.cok.command.CommandKit;
 import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandRemoveTeam;
 import de.minestar.cok.command.CommandTeamSpawn;
@@ -42,8 +41,8 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.hook.BlockListener;
 import de.minestar.cok.hook.ChatListener;
 import de.minestar.cok.hook.PlayerListener;
-import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.hook.PlayerTracker;
+import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.item.ItemBolt;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.network.PacketHandler;
@@ -133,7 +132,6 @@ public class ClashOfKingdoms {
     	event.registerServerCommand(new CommandPlayer());
     	event.registerServerCommand(new CommandTeams());
     	event.registerServerCommand(new CommandCok());
-    	event.registerServerCommand(new CommandKit());
     	event.registerServerCommand(new CommandTeamSpawn());
     }
     

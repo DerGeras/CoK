@@ -30,7 +30,7 @@ public class CommandTeams extends CoKCommand {
 			captain = team.getCaptain();
 			ChatSendHelper.sendMessage(icommandsender, "Captain: " + captain);
 			for(String name : team.getAllPlayers()){
-				if(!name.equals(captain)){
+				if(!name.equalsIgnoreCase(captain)){
 					ChatSendHelper.sendMessage(icommandsender, "   -" + name);
 				}
 			}

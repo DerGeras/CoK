@@ -23,4 +23,9 @@ public class ProfessionArcher extends Profession{
 		player.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 64));
 	}
 
+	@Override
+	public float getPunishment() {
+		return 0;
+	}
+
 }

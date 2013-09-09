@@ -1,6 +1,5 @@
 package de.minestar.cok.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -15,10 +14,6 @@ import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.network.CoKGamePacketServer;
 import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
-import de.minestar.cok.profession.ProfessionArcher;
-import de.minestar.cok.profession.ProfessionBarbarian;
-import de.minestar.cok.profession.ProfessionCrossbowman;
-import de.minestar.cok.profession.ProfessionKnight;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
@@ -27,7 +22,6 @@ public class CoKGame {
 	public static HashMap<String, Team> teams;
 	public static HashMap<Integer, HashSet<TileEntitySocket>> sockets;
 	public static HashSet<TileEntitySocket> unsortedSockets;
-	public static ArrayList<Profession> professions;
 	public static HashMap<String, Profession> playerProfessions;
 	public static HashSet<String> spectators;
 	public static Random rand = new Random();
@@ -48,12 +42,6 @@ public class CoKGame {
 		unsortedSockets = new HashSet<TileEntitySocket>();
 		playerProfessions = new HashMap<String, Profession>();
 		spectators = new HashSet<String>();
-		
-		professions = new ArrayList<Profession>();
-		professions.add(new ProfessionArcher());
-		professions.add(new ProfessionKnight());
-		professions.add(new ProfessionBarbarian());
-		professions.add(new ProfessionCrossbowman());
 
 		gameRunning = false;
 	}
@@ -65,7 +53,6 @@ public class CoKGame {
 		teams.clear();
 		sockets.clear();
 		unsortedSockets.clear();
-		//professions.clear(); Caused errors, professiosn are not supposed to be empty
 		playerProfessions.clear();
 		spectators.clear();
 		gameRunning = false;
@@ -78,7 +65,7 @@ public class CoKGame {
 		sortSockets();
 		gameRunning = true;
 		for(Team team: teams.values()){
-			team.setRandomCaptain();
+			team.distributeProfessions();
 		}
 		ChatSendHelper.broadCastError("Let the clash of kingdoms begin!");
 		for(Team team : teams.values()){
@@ -88,10 +75,12 @@ public class CoKGame {
 						Color.getColorCodeFromString("white") + team.getCaptain());
 			}
 			for(String playername : team.getAllPlayers()){
-				playerProfessions.put(playername, professions.get(rand.nextInt(professions.size())));
 				EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 				player.inventory.clearInventory(-1, -1);
-				playerProfessions.get(playername).giveKit(player, team);
+				Profession playerProfession = playerProfessions.get(playername);
+				if(playerProfession != null){
+					playerProfession.giveKit(player, team);
+				}
 			}
 		}
 		//set non-team players as spectators
@@ -238,23 +227,6 @@ public class CoKGame {
 	}
 	
 	/**
-	 * Add a team
-	 * @param name
-	 * @param color
-	 * @param captain
-	 * @return if the team has been successfully added
-	 */
-	public static boolean addTeam(String name, char color, String captain){
-		boolean res = teams.containsKey(name);
-		if(!res){
-			Team team = new Team(name, color, captain);
-			team.addPlayer(name);
-			teams.put(name, team);
-		}
-		return !res;
-	}
-	
-	/**
 	 * remove a team with the given team
 	 * @param name
 	 * @return if the team could be removed (was present)
@@ -284,20 +256,6 @@ public class CoKGame {
 	}
 	
 	/**
-	 * Set the captain of the specified team
-	 * @param teamName
-	 * @param captain
-	 * @return
-	 */
-	public static boolean setCaptainForTeam(String teamName, String captain){
-		boolean res = teams.containsKey(teamName);
-		if(res){
-			teams.get(teamName).setCaptain(captain);
-		}
-		return res;
-	}
-	
-	/**
 	 * Get the team of a specified player
 	 * @param playername
 	 * @return
@@ -323,11 +281,13 @@ public class CoKGame {
 			if(res){
 				res = teams.get(teamname).addPlayer(playername);
 				if(gameRunning){
-					playerProfessions.put(playername, professions.get(rand.nextInt(professions.size())));
 					if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 						EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 						player.inventory.clearInventory(-1, -1);
-						playerProfessions.get(playername).giveKit(player, teams.get(teamname));
+						Profession profession = playerProfessions.get(playername);
+						if(profession != null){
+							profession.giveKit(player, teams.get(teamname));
+						}
 					}
 				}
 			}

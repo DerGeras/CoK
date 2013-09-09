@@ -32,11 +32,7 @@ public class CommandCreateTeam extends CoKCommand {
 		char color = Color.getColorFromString(astring[1]);
 		if(color != 'g'){
 			boolean res = false;
-			if(astring.length >= 3){
-				res = CoKGame.addTeam(astring[0], color, astring[2]);
-			} else{
-				res = CoKGame.addTeam(astring[0], color);
-			}
+			res = CoKGame.addTeam(astring[0], color);
 			if(!res){
 				ChatSendHelper.sendError(icommandsender, "Team \"" + astring[0] + "\" could not be created!");
 			} else{

@@ -10,6 +10,10 @@ import de.minestar.cok.game.Team;
 import de.minestar.cok.references.Color;
 
 public abstract class Profession {
+	
+	public static ProfessionKing KING = new ProfessionKing();
+	public static ProfessionCrossbowman CROSSBOWMAN = new ProfessionCrossbowman();
+	public static ProfessionBarbarian BARBARIAN = new ProfessionBarbarian();
 
 	private String name = "";
 	
@@ -62,9 +66,7 @@ public abstract class Profession {
 	 * returns the % of blocks that increase in case of a player death.
 	 * @return
 	 */
-	public int getPunishment(){
-		return 0;
-	}
+	public abstract float getPunishment();
 	
 	/**
 	 * @return the className

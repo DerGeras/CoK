@@ -28,9 +28,7 @@ public class PlayerTracker implements IPlayerTracker {
         	}
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team != null){
-        		if(team.getCaptain().equals("")){
-        			team.setRandomCaptain();
-        		}
+        		team.playerReturned(player.username);
         		ChunkCoordinates spawnCoordinates = team.getSpawnCoordinates();
         		if(spawnCoordinates != null){
     				player.setSpawnChunk(spawnCoordinates, true);
@@ -49,9 +47,10 @@ public class PlayerTracker implements IPlayerTracker {
         	}
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team != null){
-        		if(team.getCaptain().equals(player.username)){
-        			team.setRandomCaptain();
-        			ChatSendHelper.broadCastError(player.username + " ,the king of team " + team.getName() + " fled!");
+        		String captain = team.getCaptain();
+        		team.playerGone(player.username);
+        		if(captain.equalsIgnoreCase(player.username)){
+        			ChatSendHelper.broadCastError(captain + " ,the king of team " + team.getName() + " fled!");
         			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
         		}
         	} else{
@@ -76,12 +75,11 @@ public class PlayerTracker implements IPlayerTracker {
 			if(!CoKGame.gameRunning){
 				return;
 			}
-
-			//change profession
-			CoKGame.playerProfessions.remove(player.username);
-			CoKGame.playerProfessions.put(player.username, CoKGame.professions.get(CoKGame.rand.nextInt(CoKGame.professions.size())));
 			
 			Team team = CoKGame.getTeamOfPlayer(player.username);
+			if(team != null){
+				team.playerReturned(player.username);
+			}
 			Profession profession = CoKGame.playerProfessions.get(player.username);
 			if(team != null && profession != null){
 				profession.giveKit(player, team);

@@ -24,4 +24,9 @@ public class ProfessionCrossbowman extends Profession {
 		player.inventory.addItemStackToInventory(new ItemStack(ClashOfKingdoms.boltItem, 64));
 	}
 
+	@Override
+	public float getPunishment() {
+		return 0;
+	}
+
 }
