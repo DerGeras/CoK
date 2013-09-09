@@ -19,8 +19,7 @@ public class ProfessionArcher extends Profession{
 		
 		//Weaponry
 		player.inventory.addItemStackToInventory(new ItemStack(Item.bow));
-		player.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 64));
-		player.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 64));
+		player.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 32));
 	}
 
 	@Override

@@ -1,7 +1,6 @@
 package de.minestar.cok.hook;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,7 +14,7 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.tileentity.TileEntitySocket;
+import de.minestar.cok.profession.Profession;
 
 public class PlayerListener {
 
@@ -51,9 +50,9 @@ public class PlayerListener {
 		
 
 		//Punish team
-		HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
-		if(sockets != null){
-			CoKGame.punishTeam(team, sockets.size());
+		Profession profession = CoKGame.playerProfessions.get(event.entityPlayer.username);
+		if(profession != null){
+			CoKGame.punishTeam(team, profession);
 		}
 		
 		//redistribute Professions if needed

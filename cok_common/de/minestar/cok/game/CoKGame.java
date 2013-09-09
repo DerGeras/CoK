@@ -378,14 +378,14 @@ public class CoKGame {
 	 * @param team
 	 * @param amount
 	 */
-	public static void punishTeam(Team team, int amount){
+	public static void punishTeam(Team team, Profession profession){
 		sortSockets();
-		int rest = amount;
-		boolean added = true;
-		while(added && rest > 0){
-			added = false;
-			HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
-			if(sockets != null){
+		HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
+		if(sockets != null){
+			int rest = (int) Math.ceil((float)sockets.size() * profession.getPunishment());
+			boolean added = true;
+			while(added && rest > 0){
+				added = false;
 				for(TileEntitySocket socket : sockets){
 					if(socket.addBlock()){
 						added = true;
