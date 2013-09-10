@@ -21,9 +21,9 @@ public class Team {
 	
 	private ChunkCoordinates spawnCoordinates;
 	
-	private LinkedList<String> players = new LinkedList<String>();
+	private LinkedList<String> players;
 	
-	private LinkedList<String> onlinePlayers = new LinkedList<String>();
+	private LinkedList<String> onlinePlayers;
 
 	
 	public LinkedList<String> getAllPlayers(){
@@ -37,6 +37,8 @@ public class Team {
 		this.crossbowman = "";
 		this.barbarian = "";
 		this.setSpawnCoordinates(null);
+		this.players = new LinkedList<String>();
+		this.onlinePlayers = new LinkedList<String>();
 	}
 	
 	
@@ -150,9 +152,8 @@ public class Team {
 	 * @param player
 	 */
 	public void playerGone(String player){
-		if(onlinePlayers.contains(player)){
-			onlinePlayers.remove(player);
-		}
+		onlinePlayers.remove(player);
+		
 		CoKGame.playerProfessions.remove(player);
 		if(captain.equalsIgnoreCase(player)){
 			captain = "";

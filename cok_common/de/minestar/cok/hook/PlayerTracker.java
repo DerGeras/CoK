@@ -94,7 +94,8 @@ public class PlayerTracker implements IPlayerTracker {
 			Profession profession = CoKGame.playerProfessions.get(player.username);
 			if(team != null && profession != null){
 				profession.giveKit(player, team);
-			} else{
+			}
+			if(team == null){
         		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
         		String[] usernames = {player.username};
         		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
