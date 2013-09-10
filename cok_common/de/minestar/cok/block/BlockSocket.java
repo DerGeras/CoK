@@ -1,6 +1,7 @@
 package de.minestar.cok.block;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -76,5 +77,13 @@ public class BlockSocket extends BlockContainer {
 	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
 		//I shall not explode!
 	}
+	
+	/**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(Random par1Random)
+    {
+        return 0;
+    }
 
 }

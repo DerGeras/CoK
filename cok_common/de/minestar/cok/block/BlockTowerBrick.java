@@ -1,5 +1,7 @@
 package de.minestar.cok.block;
 
+import java.util.Random;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.ClashOfKingdoms;
@@ -41,5 +43,13 @@ public class BlockTowerBrick extends Block{
 	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
 		//I shall not explode!
 	}
+    
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(Random par1Random)
+    {
+        return 0;
+    }
     
 }
