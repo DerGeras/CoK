@@ -172,7 +172,8 @@ public class Team {
 	 * @param player
 	 */
 	public void playerReturned(String player){
-		if(!onlinePlayers.contains(player)){
+		if(!onlinePlayers.contains(player) && !captain.equalsIgnoreCase(player)
+				&& !crossbowman.equalsIgnoreCase(player) && !barbarian.equalsIgnoreCase(player)){
 			onlinePlayers.add(player);
 		}
 		distributeProfessions();
