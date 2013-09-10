@@ -56,32 +56,35 @@ public class ItemWarhammer extends CoKWeapon {
      */
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count){
     	player.clearItemInUse();
-    	double x1 = player.posX - knockBackRadius;
-    	double y1 = player.posY - knockBackRadius;
-    	double z1 = player.posZ - knockBackRadius;
-    	double x2 = player.posX + knockBackRadius;
-    	double y2 = player.posY + knockBackRadius;
-    	double z2 = player.posZ + knockBackRadius;
-    	AxisAlignedBB boundingBox = pool.getAABB(x1, y1, z1, x2, y2, z2);
-    	
-    	for(Object object : world.getEntitiesWithinAABBExcludingEntity(player, boundingBox)){
-    		if(object instanceof Entity){
-    			Entity entity = (Entity) object;
-    			//find distance
-    			double distX = entity.posX - player.posX;
-    			double distY = entity.posY - player.posY;
-    			double distZ = entity.posZ - player.posZ;
-    			//normalize distance
-    			float dist = MathHelper.sqrt_double(distX + distY + distZ);
-    			distX /= dist;
-    			distY /= dist;
-    			distZ /= dist;
-    			//knockback
-    			double knockBackStrength = (double)(getMaxItemUseDuration(stack)) * 0.01d;
-    			entity.setVelocity(distX * knockBackStrength, 0.3d, distZ * knockBackStrength);
-    			//attack
-    			player.attackTargetEntityWithCurrentItem(entity);
-    		}
+    	if(count < getMaxItemUseDuration(stack) - 20){
+	    	double x1 = player.posX - knockBackRadius;
+	    	double y1 = player.posY - knockBackRadius;
+	    	double z1 = player.posZ - knockBackRadius;
+	    	double x2 = player.posX + knockBackRadius;
+	    	double y2 = player.posY + knockBackRadius;
+	    	double z2 = player.posZ + knockBackRadius;
+	    	AxisAlignedBB boundingBox = pool.getAABB(x1, y1, z1, x2, y2, z2);
+	    	
+	    	for(Object object : world.getEntitiesWithinAABBExcludingEntity(player, boundingBox)){
+	    		if(object instanceof Entity){
+	    			Entity entity = (Entity) object;
+	    			//find distance
+	    			double distX = Math.abs(entity.posX - player.posX);
+	    			double distY = Math.abs(entity.posY - player.posY);
+	    			double distZ = Math.abs(entity.posZ - player.posZ);
+	    			//normalize distance
+	    			float dist = MathHelper.sqrt_double(distX + distY + distZ);
+	    			distX /= dist;
+	    			distY /= dist;
+	    			distZ /= dist;
+	    			//knockback
+	    			double knockBackStrength = (double)(getMaxItemUseDuration(stack)) * 0.01d;
+	    			entity.addVelocity(distX * knockBackStrength, 1.0d, distZ * knockBackStrength);
+	    			entity.isAirBorne = true;
+	    			//attack
+	    			player.attackTargetEntityWithCurrentItem(entity);
+	    		}
+	    	}
     	}
     }
 
