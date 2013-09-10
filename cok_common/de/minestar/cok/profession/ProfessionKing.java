@@ -9,6 +9,10 @@ public class ProfessionKing extends Profession {
 
 	public ProfessionKing() {
 		super("King");
+		givenItems.add(Item.plateDiamond);
+		givenItems.add(Item.legsDiamond);
+		givenItems.add(Item.bootsGold);
+		givenItems.add(Item.swordDiamond);
 	}
 	
 	@Override

@@ -6,7 +6,9 @@ import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -75,11 +77,15 @@ public class CoKGame {
 						Color.getColorCodeFromString("white") + team.getCaptain());
 			}
 			for(String playername : team.getAllPlayers()){
-				EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+				EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 				player.inventory.clearInventory(-1, -1);
 				Profession playerProfession = playerProfessions.get(playername);
 				if(playerProfession != null){
 					playerProfession.giveKit(player, team);
+				}
+				ChunkCoordinates coords = team.getSpawnCoordinates();
+				if(coords != null){
+					player.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0.0f, 0.0f);
 				}
 			}
 		}

@@ -2,6 +2,7 @@ package de.minestar.cok.hook;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.Item;
 import net.minecraft.util.ChunkCoordinates;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
@@ -33,6 +34,10 @@ public class PlayerTracker implements IPlayerTracker {
         		if(spawnCoordinates != null){
     				player.setSpawnChunk(spawnCoordinates, true);
     			}
+        		Profession profession = CoKGame.playerProfessions.get(player.username);
+        		if(profession != null){
+        			profession.giveKit(player, team);
+        		}
         	}
         }
 
@@ -48,10 +53,16 @@ public class PlayerTracker implements IPlayerTracker {
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team != null){
         		String captain = team.getCaptain();
+        		Profession profession = CoKGame.playerProfessions.get(player.username);
         		team.playerGone(player.username);
         		if(captain.equalsIgnoreCase(player.username)){
         			ChatSendHelper.broadCastError(captain + " ,the king of team " + team.getName() + " fled!");
         			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
+        		}
+        		if(profession != null){
+        			for(Item item: profession.givenItems){
+        				player.inventory.clearInventory(item.itemID, -1);
+        			}
         		}
         	} else{
         		CoKGame.removeSpectator(player);
