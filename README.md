@@ -14,5 +14,5 @@ The Game supports up to 4 Teams, which are trying to build a tower in the oppone
 Only few ressources are given to each team at start, the rest needs to be farmed and crafted (it is Minecraft after all). Be creative at attacking your oponents towers (by building them) and defending yours!
 
 ### Ressources
-[Wiki](wiki)
+[Wiki](https://github.com/DerGeras/CoK/wiki)
 
