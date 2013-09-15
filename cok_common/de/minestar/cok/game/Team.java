@@ -126,6 +126,21 @@ public class Team {
 		this.spawnCoordinates = spawnCoordinates;
 	}
 	
+	public void resetProfessions(){
+		if(!captain.equals("")){
+			CoKGame.playerProfessions.remove(captain);
+			captain = "";
+		}
+		if(!barbarian.equals("")){
+			CoKGame.playerProfessions.remove(barbarian);
+			barbarian = "";
+		}
+		if(!crossbowman.equals("")){
+			CoKGame.playerProfessions.remove(crossbowman);
+			crossbowman = "";
+		}
+	}
+	
 	/**
 	 * Distribute the Professions to the online players.
 	 */

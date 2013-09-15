@@ -104,9 +104,11 @@ public class CoKGame {
 		}
 		gameRunning = false;
 		ChatSendHelper.broadCastError("The game has ended!");
+		playerProfessions.clear();
 		if(CoKGame.teams.size() > 0){
 			ChatSendHelper.broadCastError("Results:");
 			for(Team team : teams.values()){
+				team.resetProfessions();
 				int maxScore = Settings.buildingHeight * (sockets.get(team.getColorAsInt()) == null ? 0 : sockets.get(team.getColorAsInt()).size());
 				ChatSendHelper.broadCastMessage(Color.getColorCodeFromChar(team.getColor())
 						+ team.getName() + Color.getColorCodeFromString("white") + ": "
