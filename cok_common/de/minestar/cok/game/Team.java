@@ -7,6 +7,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
+import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.profession.Profession;
 
 public class Team {
@@ -134,16 +135,19 @@ public class Team {
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.KING);
 			captain = playerName;
+			ServerTickHandler.changedProfessions.add(playerName);
 		}
 		if(crossbowman.equals("") && onlinePlayers.size() > 0){
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.CROSSBOWMAN);
 			crossbowman = playerName;
+			ServerTickHandler.changedProfessions.add(playerName);
 		}
 		if(barbarian.equals("") && onlinePlayers.size() > 0){
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.BARBARIAN);
 			barbarian = playerName;
+			ServerTickHandler.changedProfessions.add(playerName);
 		}
 	}
 	

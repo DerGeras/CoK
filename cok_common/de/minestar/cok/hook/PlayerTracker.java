@@ -34,10 +34,6 @@ public class PlayerTracker implements IPlayerTracker {
         		if(spawnCoordinates != null){
     				player.setSpawnChunk(spawnCoordinates, true);
     			}
-        		Profession profession = CoKGame.playerProfessions.get(player.username);
-        		if(profession != null && CoKGame.gameRunning){
-        			profession.giveKit(player, team);
-        		}
         	}
         }
 
@@ -90,10 +86,6 @@ public class PlayerTracker implements IPlayerTracker {
 			Team team = CoKGame.getTeamOfPlayer(player.username);
 			if(team != null){
 				team.playerReturned(player.username);
-			}
-			Profession profession = CoKGame.playerProfessions.get(player.username);
-			if(team != null && profession != null){
-				profession.giveKit(player, team);
 			}
 			if(team == null){
         		CoKGame.setPlayerSpectator((EntityPlayerMP) player);

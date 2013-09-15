@@ -79,10 +79,6 @@ public class CoKGame {
 			for(String playername : team.getAllPlayers()){
 				EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 				player.inventory.clearInventory(-1, -1);
-				Profession playerProfession = playerProfessions.get(playername);
-				if(playerProfession != null){
-					playerProfession.giveKit(player, team);
-				}
 				ChunkCoordinates coords = team.getSpawnCoordinates();
 				if(coords != null){
 					player.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0.0f, 0.0f);
@@ -211,7 +207,7 @@ public class CoKGame {
 		if(sockets != null){
 			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());
 			if(teamSockets == null){
-				return false;
+				return unsortedSockets.remove(socket);
 			}
 			return teamSockets.remove(socket);
 		}
@@ -290,10 +286,6 @@ public class CoKGame {
 					if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 						EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 						player.inventory.clearInventory(-1, -1);
-						Profession profession = playerProfessions.get(playername);
-						if(profession != null){
-							profession.giveKit(player, teams.get(teamname));
-						}
 					}
 				}
 			}
