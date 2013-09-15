@@ -71,6 +71,7 @@ public class CoKGame {
 		}
 		ChatSendHelper.broadCastError("Let the clash of kingdoms begin!");
 		for(Team team : teams.values()){
+			team.distributeProfessions();
 			if(team.getAllPlayers().size() > 0){
 				ChatSendHelper.broadCastMessage("Team " + Color.getColorCodeFromChar(team.getColor()) + team.getName()
 						+ Color.getColorCodeFromString("gray") + " with leader " +
