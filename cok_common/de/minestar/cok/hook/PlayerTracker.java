@@ -43,15 +43,12 @@ public class PlayerTracker implements IPlayerTracker {
 	public void onPlayerLogout(EntityPlayer player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
         if (side == Side.SERVER) {
-        	if(!CoKGame.gameRunning){
-        		return;
-        	}
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team != null){
         		String captain = team.getCaptain();
         		Profession profession = CoKGame.playerProfessions.get(player.username);
         		team.playerGone(player.username);
-        		if(captain.equalsIgnoreCase(player.username)){
+        		if(CoKGame.gameRunning && captain.equalsIgnoreCase(player.username)){
         			ChatSendHelper.broadCastError(captain + " ,the king of team " + team.getName() + " fled!");
         			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
         		}
