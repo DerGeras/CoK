@@ -13,8 +13,10 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.network.CoKGamePacketServer;
-import de.minestar.cok.network.PacketHandler;
+import de.minestar.cok.network.PacketHelper;
+import de.minestar.cok.network.packets.PacketGameUpdateRunning;
+import de.minestar.cok.network.packets.PacketSpectatorAdd;
+import de.minestar.cok.network.packets.PacketSpectatorRemove;
 import de.minestar.cok.profession.Profession;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.tileentity.TileEntitySocket;
@@ -91,7 +93,7 @@ public class CoKGame {
 			}
 		}
 		// send state to clients
-		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
+		PacketHelper.sendPacketToAllPlayers(new PacketGameUpdateRunning(true));
 	}
 
 	/**
@@ -114,7 +116,7 @@ public class CoKGame {
 			}
 		}
 		// send state to clients
-		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);
+		PacketHelper.sendPacketToAllPlayers(new PacketGameUpdateRunning(false));
 	}
 
 	/**
@@ -346,8 +348,7 @@ public class CoKGame {
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
 			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 			if (player != null) {
-				String[] name = {player.username};
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, name);
+				PacketHelper.sendPacketToAllPlayers(new PacketSpectatorAdd(player.username));
 				setPlayerSpectator(player);
 			}
 		}
@@ -376,8 +377,7 @@ public class CoKGame {
 		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
 			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 			if (player != null) {
-				String[] name = {player.username};
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, name);
+				PacketHelper.sendPacketToAllPlayers(new PacketSpectatorRemove(player.username));
 				removeSpectator(player);
 			}
 		}

@@ -6,8 +6,9 @@ import java.util.List;
 import net.minecraft.command.ICommandSender;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.network.CoKGamePacketServer;
+import de.minestar.cok.network.PacketHelper;
 import de.minestar.cok.network.PacketHandler;
+import de.minestar.cok.network.packets.PacketTeamAdd;
 import de.minestar.cok.references.Color;
 import de.minestar.cok.references.Reference;
 
@@ -36,8 +37,7 @@ public class CommandCreateTeam extends CoKCommand {
 			if (!res) {
 				ChatSendHelper.sendError(icommandsender, "Team \"" + astring[0] + "\" could not be created!");
 			} else {
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.TEAM_ADD, astring);
-
+				PacketHelper.sendPacketToAllPlayers(new PacketTeamAdd(astring[0], astring[1]));
 				ChatSendHelper.sendMessage(icommandsender, "Team \"" + astring[0] + "\" successfully created!");
 			}
 		} else {

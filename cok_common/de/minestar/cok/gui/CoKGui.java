@@ -7,8 +7,9 @@ import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.opengl.GL11;
 
 import de.minestar.cok.game.CoKGame;
-import de.minestar.cok.network.CoKCommandPacket;
-import de.minestar.cok.network.PacketHandler;
+import de.minestar.cok.network.PacketHelper;
+import de.minestar.cok.network.packets.PacketGameStart;
+import de.minestar.cok.network.packets.PacketGameStop;
 
 public class CoKGui extends GuiScreen {
 
@@ -60,11 +61,11 @@ public class CoKGui extends GuiScreen {
 	protected void actionPerformed(GuiButton button) {
 		switch (button.id) {
 			case START_GAME_BUTTON_ID : {
-				CoKCommandPacket.sendPacketToServer(PacketHandler.START_GAME_COMMAND, null);
+				PacketHelper.sendPacketToServer(new PacketGameStart());
 				break;
 			}
 			case STOP_GAME_BUTTON_ID : {
-				CoKCommandPacket.sendPacketToServer(PacketHandler.STOP_GAME_COMMAND, null);
+				PacketHelper.sendPacketToServer(new PacketGameStop());
 				break;
 			}
 		}

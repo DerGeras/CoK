@@ -11,8 +11,10 @@ import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
-import de.minestar.cok.network.CoKGamePacketServer;
-import de.minestar.cok.network.PacketHandler;
+import de.minestar.cok.network.PacketHelper;
+import de.minestar.cok.network.packets.PacketGameSetGamestate;
+import de.minestar.cok.network.packets.PacketSpectatorAdd;
+import de.minestar.cok.network.packets.PacketSpectatorRemove;
 import de.minestar.cok.profession.Profession;
 
 public class PlayerTracker implements IPlayerTracker {
@@ -21,12 +23,15 @@ public class PlayerTracker implements IPlayerTracker {
 	public void onPlayerLogin(EntityPlayer player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
 		if (side == Side.SERVER) {
-			CoKGamePacketServer.sendGameStateToPlayer((Player) player);
+			// send gamestate
+			PacketHelper.sendPacketToPlayer(new PacketGameSetGamestate(), (Player) player);
+			// update spectators
 			if (CoKGame.gameRunning && CoKGame.getTeamOfPlayer(player.username) == null) {
 				CoKGame.setPlayerSpectator((EntityPlayerMP) player);
-				String[] usernames = {player.username};
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
+				PacketHelper.sendPacketToAllPlayers(new PacketSpectatorAdd(player.username));
 			}
+			// update spawncoordinates and stay in line with the old team (in
+			// terms of disconnect)
 			Team team = CoKGame.getTeamOfPlayer(player.username);
 			if (team != null) {
 				team.playerReturned(player.username);
@@ -59,8 +64,7 @@ public class PlayerTracker implements IPlayerTracker {
 				}
 			} else {
 				CoKGame.removeSpectator(player);
-				String[] usernames = {player.username};
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, usernames);
+				PacketHelper.sendPacketToAllPlayers(new PacketSpectatorRemove(player.username));
 			}
 		}
 
@@ -86,8 +90,7 @@ public class PlayerTracker implements IPlayerTracker {
 			}
 			if (team == null) {
 				CoKGame.setPlayerSpectator((EntityPlayerMP) player);
-				String[] usernames = {player.username};
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
+				PacketHelper.sendPacketToAllPlayers(new PacketSpectatorAdd(player.username));
 			}
 		}
 	}
