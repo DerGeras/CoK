@@ -25,31 +25,30 @@ public class CommandCreateTeam extends CoKCommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
-		if(astring.length < 2){
+		if (astring.length < 2) {
 			ChatSendHelper.sendMessage(icommandsender, "Usage: " + getCommandUsage(icommandsender));
 			return;
 		}
 		char color = Color.getColorFromString(astring[1]);
-		if(color != 'g'){
+		if (color != 'g') {
 			boolean res = false;
 			res = CoKGame.addTeam(astring[0], color);
-			if(!res){
+			if (!res) {
 				ChatSendHelper.sendError(icommandsender, "Team \"" + astring[0] + "\" could not be created!");
-			} else{
+			} else {
 				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.TEAM_ADD, astring);
-				
+
 				ChatSendHelper.sendMessage(icommandsender, "Team \"" + astring[0] + "\" successfully created!");
 			}
-		} else{
+		} else {
 			ChatSendHelper.sendError(icommandsender, "Invalid colour \"" + astring[0] + "\"!");
 		}
 	}
 
 	@Override
-	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
+	public List<?> addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 		LinkedList<String> list = new LinkedList<String>();
-		if(astring.length == 2){
+		if (astring.length == 2) {
 			list.add("black");
 			list.add("darkblue");
 			list.add("darkgreen");

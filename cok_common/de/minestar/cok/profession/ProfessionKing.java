@@ -14,16 +14,16 @@ public class ProfessionKing extends Profession {
 		givenItems.add(Item.bootsGold);
 		givenItems.add(Item.swordDiamond);
 	}
-	
+
 	@Override
 	public void giveKit(EntityPlayer player, Team team) {
-		//Armor
+		// Armor
 		super.giveKit(player, team);
 		player.inventory.armorInventory[2] = new ItemStack(Item.plateDiamond);
 		player.inventory.armorInventory[1] = new ItemStack(Item.legsDiamond);
 		player.inventory.armorInventory[0] = new ItemStack(Item.bootsGold);
-		
-		//Weaponry
+
+		// Weaponry
 		player.inventory.addItemStackToInventory(new ItemStack(Item.swordDiamond));
 	}
 

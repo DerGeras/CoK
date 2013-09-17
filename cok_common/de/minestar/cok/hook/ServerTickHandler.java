@@ -14,35 +14,34 @@ import de.minestar.cok.game.Team;
 import de.minestar.cok.profession.Profession;
 
 public class ServerTickHandler implements ITickHandler {
-	
 
 	public static boolean isScoreCheckQueued = false;
 	public static ArrayList<String> changedProfessions = new ArrayList<String>();
-	
+
 	private final EnumSet<TickType> ticksToGet;
-	
-	public ServerTickHandler(EnumSet<TickType> ticksToGet){
+
+	public ServerTickHandler(EnumSet<TickType> ticksToGet) {
 		this.ticksToGet = ticksToGet;
 	}
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
-		//currently nothing
+		// currently nothing
 	}
 
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && CoKGame.gameRunning){
-			if(isScoreCheckQueued){
+		if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && CoKGame.gameRunning) {
+			if (isScoreCheckQueued) {
 				CoKGame.checkWinningCondition();
 			}
 			isScoreCheckQueued = false;
-			
-			for(String playerName : changedProfessions){
+
+			for (String playerName : changedProfessions) {
 				EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playerName);
 				Team team = CoKGame.getTeamOfPlayer(playerName);
 				Profession profession = CoKGame.playerProfessions.get(playerName);
-				if(player != null && profession != null && team != null){
+				if (player != null && profession != null && team != null) {
 					profession.giveKit(player, team);
 				}
 			}

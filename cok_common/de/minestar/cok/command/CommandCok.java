@@ -26,35 +26,33 @@ public class CommandCok extends CoKCommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 		CoKGame.sortSockets();
-		if(astring.length < 1){
+		if (astring.length < 1) {
 			ChatSendHelper.sendMessage(icommandsender, "Usage: " + getCommandUsage(icommandsender));
 			return;
 		}
-		if(astring[0].equals("start")){
-			if(CoKGame.gameRunning){
+		if (astring[0].equals("start")) {
+			if (CoKGame.gameRunning) {
 				return;
 			}
 			CoKGame.startGame();
 			return;
 		}
-		if(astring[0].equalsIgnoreCase("score")){
-			if(!CoKGame.gameRunning){
+		if (astring[0].equalsIgnoreCase("score")) {
+			if (!CoKGame.gameRunning) {
 				ChatSendHelper.sendError(icommandsender, "There is no game running");
 				return;
 			}
-			if(CoKGame.teams.size() > 0){
+			if (CoKGame.teams.size() > 0) {
 				ChatSendHelper.sendMessage(icommandsender, "Results:");
-				for(Team team : CoKGame.teams.values()){
+				for (Team team : CoKGame.teams.values()) {
 					int maxScore = Settings.buildingHeight * (CoKGame.sockets.get(team.getColorAsInt()) == null ? 0 : CoKGame.sockets.get(team.getColorAsInt()).size());
-					ChatSendHelper.sendMessage(icommandsender, Color.getColorCodeFromChar(team.getColor())
-							+ team.getName() + Color.getColorCodeFromString("white") + ": "
-							+ CoKGame.getScoreForTeam(team) + "/" + maxScore);
+					ChatSendHelper.sendMessage(icommandsender, Color.getColorCodeFromChar(team.getColor()) + team.getName() + Color.getColorCodeFromString("white") + ": " + CoKGame.getScoreForTeam(team) + "/" + maxScore);
 				}
 			}
 			return;
 		}
-		if(astring[0].equalsIgnoreCase("end")){
-			if(!CoKGame.gameRunning){
+		if (astring[0].equalsIgnoreCase("end")) {
+			if (!CoKGame.gameRunning) {
 				return;
 			}
 			CoKGame.stopGame();
@@ -64,10 +62,9 @@ public class CommandCok extends CoKCommand {
 	}
 
 	@Override
-	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
+	public List<?> addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 		LinkedList<String> list = new LinkedList<String>();
-		if(astring.length <= 1){
+		if (astring.length <= 1) {
 			list.add("start");
 			list.add("score");
 			list.add("end");

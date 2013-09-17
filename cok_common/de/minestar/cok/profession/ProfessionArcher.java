@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import de.minestar.cok.game.Team;
 
-public class ProfessionArcher extends Profession{
+public class ProfessionArcher extends Profession {
 
 	public ProfessionArcher() {
 		super("Archer");
@@ -16,8 +16,8 @@ public class ProfessionArcher extends Profession{
 	@Override
 	public void giveKit(EntityPlayer player, Team team) {
 		super.giveKit(player, team);
-		
-		//Weaponry
+
+		// Weaponry
 		player.inventory.addItemStackToInventory(new ItemStack(Item.bow));
 		player.inventory.addItemStackToInventory(new ItemStack(Item.arrow, 32));
 	}

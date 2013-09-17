@@ -24,25 +24,24 @@ public class CommandRemoveTeam extends CoKCommand {
 
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
-		if(astring.length < 1){
+		if (astring.length < 1) {
 			ChatSendHelper.sendMessage(icommandsender, "Usage: " + getCommandUsage(icommandsender));
 			return;
 		}
-		if(CoKGame.removeTeam(astring[0])){
+		if (CoKGame.removeTeam(astring[0])) {
 			CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.TEAM_REMOVE, astring);
-			
+
 			ChatSendHelper.sendMessage(icommandsender, "Team \"" + astring[0] + "\" successfully removed!");
-		} else{
+		} else {
 			ChatSendHelper.sendError(icommandsender, "Team \"" + astring[0] + "\" could not be removed!");
 		}
 	}
 
 	@Override
-	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
-		//return teamNames
+	public List<?> addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+		// return teamNames
 		LinkedList<String> list = new LinkedList<String>();
-		for(String teamName : CoKGame.teams.keySet()){
+		for (String teamName : CoKGame.teams.keySet()) {
 			list.add(teamName);
 		}
 		return list;

@@ -1,16 +1,16 @@
 package de.minestar.cok.references;
 
 public class Reference {
-	
-	//@Mod info
+
+	// @Mod info
 	public static final String MOD_ID = "ClashOfKingdoms";
 	public static final String MOD_NAME = "Clash of Kingdoms";
 	public static final String MOD_VERSION = "@VERSION@";
-	
-	//@NetworkMod info
+
+	// @NetworkMod info
 	public static final String CHANNEL_NAME = "cok";
-	
-	//Command names
+
+	// Command names
 	public static final String CreateTeamCommand = "cteam";
 	public static final String RemoveTeamCommand = "rteam";
 	public static final String PlayerCommand = "player";
@@ -18,12 +18,12 @@ public class Reference {
 	public static final String CoKCommand = "cok";
 	public static final String KitCommand = "kit";
 	public static final String TeamSpawnCommand = "tspawn";
-	
-	//GUI
+
+	// GUI
 	public static final int COK_GUI_ID = 0;
-	
-	//KEYS
+
+	// KEYS
 	public static final String CoKMenuKey = "CoK Menu";
 	public static final String CoKFlightKey = "CoK Flight";
-	
+
 }

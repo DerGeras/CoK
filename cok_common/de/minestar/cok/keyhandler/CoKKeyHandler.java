@@ -12,8 +12,8 @@ import cpw.mods.fml.common.TickType;
 import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.references.Reference;
 
-public class CoKKeyHandler extends KeyHandler{
-	
+public class CoKKeyHandler extends KeyHandler {
+
 	private EnumSet<TickType> tickTypes = EnumSet.of(TickType.CLIENT);
 
 	public CoKKeyHandler(KeyBinding[] keyBindings, boolean[] repeatings) {
@@ -21,23 +21,20 @@ public class CoKKeyHandler extends KeyHandler{
 	}
 
 	@Override
-    public String getLabel()
-    {
-            return "CoKKey";
-    }
+	public String getLabel() {
+		return "CoKKey";
+	}
 
 	@Override
-	public void keyDown(EnumSet<TickType> types, KeyBinding kb,
-			boolean tickEnd, boolean isRepeat) {
-		//Check whether we are in a gui
+	public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat) {
+		// Check whether we are in a gui
 		if (FMLClientHandler.instance().getClient().inGameHasFocus) {
-			//Menu key
-			if(kb.keyDescription.equals(Reference.CoKMenuKey)){
+			// Menu key
+			if (kb.keyDescription.equals(Reference.CoKMenuKey)) {
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				System.out.println(MinecraftServer.getServer() == null);
-				if(player != null){
-					player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj,
-							(int) player.posX, (int) player.posY, (int) player.posZ);
+				if (player != null) {
+					player.openGui(ClashOfKingdoms.instance, Reference.COK_GUI_ID, player.worldObj, (int) player.posX, (int) player.posY, (int) player.posZ);
 				}
 			}
 		}
@@ -45,12 +42,12 @@ public class CoKKeyHandler extends KeyHandler{
 
 	@Override
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
-		//nothing
+		// nothing
 	}
 
 	@Override
 	public EnumSet<TickType> ticks() {
 		return tickTypes;
 	}
-	
+
 }

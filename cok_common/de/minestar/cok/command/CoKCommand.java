@@ -8,7 +8,6 @@ import net.minecraft.server.MinecraftServer;
 
 public abstract class CoKCommand extends CommandBase {
 
-	
 	@Override
 	public int compareTo(Object o) {
 		return 0;
@@ -34,8 +33,7 @@ public abstract class CoKCommand extends CommandBase {
 	}
 
 	@Override
-	public abstract List<?> addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring);
+	public abstract List<?> addTabCompletionOptions(ICommandSender icommandsender, String[] astring);
 
 	@Override
 	public boolean isUsernameIndex(String[] astring, int i) {

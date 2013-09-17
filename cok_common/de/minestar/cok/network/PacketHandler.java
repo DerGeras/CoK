@@ -9,8 +9,8 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 import de.minestar.cok.references.Reference;
 
-public class PacketHandler implements IPacketHandler{
-	
+public class PacketHandler implements IPacketHandler {
+
 	public static final byte TEAM_ADD = 1;
 	public static final byte TEAM_REMOVE = 2;
 	public static final byte PLAYER_ADD = 3;
@@ -24,40 +24,60 @@ public class PacketHandler implements IPacketHandler{
 	public static final byte SPECTATOR_REMOVE = 11;
 
 	@Override
-	public void onPacketData(INetworkManager manager,
-			Packet250CustomPayload packet, Player player) {
-		
-		if(packet.channel.equals(Reference.CHANNEL_NAME)){
+	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+
+		if (packet.channel.equals(Reference.CHANNEL_NAME)) {
 			handlePacket(packet, player);
 		}
-		
+
 	}
-	
-	private void handlePacket(Packet250CustomPayload packet, Player player){
+
+	private void handlePacket(Packet250CustomPayload packet, Player player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		byte code = 0;
-		
-		try{
+
+		try {
 			code = inputStream.readByte();
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return;
 		}
-		switch(code){
-		//game state
-		case TEAM_ADD: CoKGamePacketClient.addTeam(inputStream); break;
-		case TEAM_REMOVE: CoKGamePacketClient.removeTeam(inputStream); break;
-		case PLAYER_ADD: CoKGamePacketClient.addPlayer(inputStream); break;
-		case PLAYER_REMOVE: CoKGamePacketClient.removePlayer(inputStream); break;
-		case GAME_STATE: CoKGamePacketClient.setGameState(inputStream); break;
-		case GAME_RUNNING: CoKGamePacketClient.updateGameRunning(inputStream); break;
-		case SPECTATOR_ADD: CoKGamePacketClient.addSpectator(inputStream); break;
-		case SPECTATOR_REMOVE: CoKGamePacketClient.removeSpectator(inputStream); break;
-		
-		//commands
-		case START_GAME_COMMAND: CoKCommandPacket.startGame(player);break;
-		case STOP_GAME_COMMAND: CoKCommandPacket.stopGame(player); break;
-		default: return;
+		switch (code) {
+		// game state
+			case TEAM_ADD :
+				CoKGamePacketClient.addTeam(inputStream);
+				break;
+			case TEAM_REMOVE :
+				CoKGamePacketClient.removeTeam(inputStream);
+				break;
+			case PLAYER_ADD :
+				CoKGamePacketClient.addPlayer(inputStream);
+				break;
+			case PLAYER_REMOVE :
+				CoKGamePacketClient.removePlayer(inputStream);
+				break;
+			case GAME_STATE :
+				CoKGamePacketClient.setGameState(inputStream);
+				break;
+			case GAME_RUNNING :
+				CoKGamePacketClient.updateGameRunning(inputStream);
+				break;
+			case SPECTATOR_ADD :
+				CoKGamePacketClient.addSpectator(inputStream);
+				break;
+			case SPECTATOR_REMOVE :
+				CoKGamePacketClient.removeSpectator(inputStream);
+				break;
+
+			// commands
+			case START_GAME_COMMAND :
+				CoKCommandPacket.startGame(player);
+				break;
+			case STOP_GAME_COMMAND :
+				CoKCommandPacket.stopGame(player);
+				break;
+			default :
+				return;
 		}
 	}
 

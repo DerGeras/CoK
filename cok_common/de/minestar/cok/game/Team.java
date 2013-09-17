@@ -11,26 +11,25 @@ import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.profession.Profession;
 
 public class Team {
-	
+
 	private String name;
 	private char color;
-	
-	//Special Classes for this team
+
+	// Special Classes for this team
 	private String captain;
 	private String crossbowman;
 	private String barbarian;
-	
+
 	private ChunkCoordinates spawnCoordinates;
-	
+
 	private LinkedList<String> players;
-	
+
 	private LinkedList<String> onlinePlayers;
 
-	
-	public LinkedList<String> getAllPlayers(){
+	public LinkedList<String> getAllPlayers() {
 		return players;
 	}
-	
+
 	public Team(String name, char color) {
 		this.setName(name);
 		this.setColor(color);
@@ -41,39 +40,38 @@ public class Team {
 		this.players = new LinkedList<String>();
 		this.onlinePlayers = new LinkedList<String>();
 	}
-	
-	
-	public int getColorAsInt(){
+
+	public int getColorAsInt() {
 		return color >= 97 ? color - 87 : color - 48;
 	}
-	
-	public boolean addPlayer(String name){
+
+	public boolean addPlayer(String name) {
 		boolean res = players.contains(name);
-		if(!res){
+		if (!res) {
 			players.add(name);
-			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			if (FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
 				EntityPlayer playerEntity = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
-				if(playerEntity != null){
+				if (playerEntity != null) {
 					playerReturned(playerEntity.username);
-					if(this.spawnCoordinates != null){
+					if (this.spawnCoordinates != null) {
 						playerEntity.setSpawnChunk(spawnCoordinates, true);
 					}
 				}
 			}
-		}	
+		}
 		return !res;
 	}
-	
-	public boolean removePlayer(String name){
+
+	public boolean removePlayer(String name) {
 		boolean res = players.contains(name);
-		if(res){
+		if (res) {
 			players.remove(name);
 			playerGone(name);
 		}
 		return res;
 	}
-	
-	public boolean hasPlayer(String name){
+
+	public boolean hasPlayer(String name) {
 		return players.contains(name);
 	}
 
@@ -90,18 +88,17 @@ public class Team {
 	}
 
 	public void setColor(char color) {
-		if(color < 0){
+		if (color < 0) {
 			this.color = 0;
 			return;
 		}
-		if(color > 'f'){
+		if (color > 'f') {
 			this.color = 'f';
 			return;
 		}
 		this.color = color;
 	}
-	
-	
+
 	public String getCaptain() {
 		return captain;
 	}
@@ -112,94 +109,96 @@ public class Team {
 
 	/**
 	 * sets the spawnCoordinates for this team and it's members
+	 * 
 	 * @param spawnCoordinates
 	 */
 	public void setSpawnCoordinates(ChunkCoordinates spawnCoordinates) {
-		if(spawnCoordinates != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-			for(String player : players){
+		if (spawnCoordinates != null && FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER) {
+			for (String player : players) {
 				EntityPlayer playerEntity = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(player);
-				if(playerEntity != null){
+				if (playerEntity != null) {
 					playerEntity.setSpawnChunk(spawnCoordinates, true);
 				}
 			}
 		}
 		this.spawnCoordinates = spawnCoordinates;
 	}
-	
-	public void resetProfessions(){
-		if(!captain.equals("")){
+
+	public void resetProfessions() {
+		if (!captain.equals("")) {
 			CoKGame.playerProfessions.remove(captain);
 			onlinePlayers.add(captain);
 			captain = "";
 		}
-		if(!barbarian.equals("")){
+		if (!barbarian.equals("")) {
 			CoKGame.playerProfessions.remove(barbarian);
 			onlinePlayers.add(barbarian);
 			barbarian = "";
 		}
-		if(!crossbowman.equals("")){
+		if (!crossbowman.equals("")) {
 			CoKGame.playerProfessions.remove(crossbowman);
 			onlinePlayers.add(crossbowman);
 			crossbowman = "";
 		}
-		
+
 	}
-	
+
 	/**
 	 * Distribute the Professions to the online players.
 	 */
-	public void distributeProfessions(){
+	public void distributeProfessions() {
 		String playerName;
-		if(captain.equals("") && onlinePlayers.size() > 0){
+		if (captain.equals("") && onlinePlayers.size() > 0) {
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.KING);
 			captain = playerName;
 			ServerTickHandler.changedProfessions.add(playerName);
 		}
-		if(crossbowman.equals("") && onlinePlayers.size() > 0){
+		if (crossbowman.equals("") && onlinePlayers.size() > 0) {
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.CROSSBOWMAN);
 			crossbowman = playerName;
 			ServerTickHandler.changedProfessions.add(playerName);
 		}
-		if(barbarian.equals("") && onlinePlayers.size() > 0){
+		if (barbarian.equals("") && onlinePlayers.size() > 0) {
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.BARBARIAN);
 			barbarian = playerName;
 			ServerTickHandler.changedProfessions.add(playerName);
 		}
 	}
-	
+
 	/**
 	 * a player died or logged off -> redistribute professions
+	 * 
 	 * @param player
 	 */
-	public void playerGone(String player){
+	public void playerGone(String player) {
 		onlinePlayers.remove(player);
-		
+
 		CoKGame.playerProfessions.remove(player);
-		if(captain.equalsIgnoreCase(player)){
+		if (captain.equalsIgnoreCase(player)) {
 			captain = "";
 		}
-		if(crossbowman.equalsIgnoreCase(player)){
+		if (crossbowman.equalsIgnoreCase(player)) {
 			crossbowman = "";
 		}
-		if(barbarian.equalsIgnoreCase(player)){
+		if (barbarian.equalsIgnoreCase(player)) {
 			barbarian = "";
 		}
 		distributeProfessions();
 	}
-	
+
 	/**
 	 * player got back online/respawned
+	 * 
 	 * @param player
 	 */
-	public void playerReturned(String player){
-		if(!onlinePlayers.contains(player) && !captain.equalsIgnoreCase(player)
-				&& !crossbowman.equalsIgnoreCase(player) && !barbarian.equalsIgnoreCase(player)){
+	public void playerReturned(String player) {
+		if (!onlinePlayers.contains(player) && !captain.equalsIgnoreCase(player) && !crossbowman.equalsIgnoreCase(player) && !barbarian.equalsIgnoreCase(player)) {
 			onlinePlayers.add(player);
 		}
 		distributeProfessions();
 	}
-	
+
 }

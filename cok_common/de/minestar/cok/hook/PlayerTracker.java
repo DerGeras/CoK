@@ -20,49 +20,49 @@ public class PlayerTracker implements IPlayerTracker {
 	@Override
 	public void onPlayerLogin(EntityPlayer player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
-        if (side == Side.SERVER) {
-        	CoKGamePacketServer.sendGameStateToPlayer((Player) player);
-        	if(CoKGame.gameRunning && CoKGame.getTeamOfPlayer(player.username) == null){
-        		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
-        		String[] usernames = {player.username};
-        		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
-        	}
-        	Team team = CoKGame.getTeamOfPlayer(player.username);
-        	if(team != null){
-        		team.playerReturned(player.username);
-        		ChunkCoordinates spawnCoordinates = team.getSpawnCoordinates();
-        		if(spawnCoordinates != null){
-    				player.setSpawnChunk(spawnCoordinates, true);
-    			}
-        	}
-        }
+		if (side == Side.SERVER) {
+			CoKGamePacketServer.sendGameStateToPlayer((Player) player);
+			if (CoKGame.gameRunning && CoKGame.getTeamOfPlayer(player.username) == null) {
+				CoKGame.setPlayerSpectator((EntityPlayerMP) player);
+				String[] usernames = {player.username};
+				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
+			}
+			Team team = CoKGame.getTeamOfPlayer(player.username);
+			if (team != null) {
+				team.playerReturned(player.username);
+				ChunkCoordinates spawnCoordinates = team.getSpawnCoordinates();
+				if (spawnCoordinates != null) {
+					player.setSpawnChunk(spawnCoordinates, true);
+				}
+			}
+		}
 
 	}
 
 	@Override
 	public void onPlayerLogout(EntityPlayer player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
-        if (side == Side.SERVER) {
-        	Team team = CoKGame.getTeamOfPlayer(player.username);
-        	if(team != null){
-        		String captain = team.getCaptain();
-        		Profession profession = CoKGame.playerProfessions.get(player.username);
-        		team.playerGone(player.username);
-        		if(CoKGame.gameRunning && captain.equalsIgnoreCase(player.username)){
-        			ChatSendHelper.broadCastError(captain + " ,the king of team " + team.getName() + " fled!");
-        			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
-        		}
-        		if(profession != null){
-        			for(Item item: profession.givenItems){
-        				player.inventory.clearInventory(item.itemID, -1);
-        			}
-        		}
-        	} else{
-        		CoKGame.removeSpectator(player);
-        		String[] usernames = {player.username};
-        		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, usernames);
-        	}
-        }
+		if (side == Side.SERVER) {
+			Team team = CoKGame.getTeamOfPlayer(player.username);
+			if (team != null) {
+				String captain = team.getCaptain();
+				Profession profession = CoKGame.playerProfessions.get(player.username);
+				team.playerGone(player.username);
+				if (CoKGame.gameRunning && captain.equalsIgnoreCase(player.username)) {
+					ChatSendHelper.broadCastError(captain + " ,the king of team " + team.getName() + " fled!");
+					ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
+				}
+				if (profession != null) {
+					for (Item item : profession.givenItems) {
+						player.inventory.clearInventory(item.itemID, -1);
+					}
+				}
+			} else {
+				CoKGame.removeSpectator(player);
+				String[] usernames = {player.username};
+				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, usernames);
+			}
+		}
 
 	}
 
@@ -75,21 +75,21 @@ public class PlayerTracker implements IPlayerTracker {
 	@Override
 	public void onPlayerRespawn(EntityPlayer player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
-        if (side == Side.SERVER) {
-			if(!CoKGame.gameRunning){
+		if (side == Side.SERVER) {
+			if (!CoKGame.gameRunning) {
 				return;
 			}
-			
+
 			Team team = CoKGame.getTeamOfPlayer(player.username);
-			if(team != null){
+			if (team != null) {
 				team.playerReturned(player.username);
 			}
-			if(team == null){
-        		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
-        		String[] usernames = {player.username};
-        		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
-        	}
-        }
+			if (team == null) {
+				CoKGame.setPlayerSpectator((EntityPlayerMP) player);
+				String[] usernames = {player.username};
+				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
+			}
+		}
 	}
 
 }

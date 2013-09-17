@@ -13,34 +13,34 @@ import de.minestar.cok.references.Reference;
 
 public class CoKGamePacketServer {
 
-	
-	public static void sendPacketToAllPlayers(byte code, String[] data){
+	public static void sendPacketToAllPlayers(byte code, String[] data) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
 			outputStream.writeByte(code);
-			for(int i = 0; i < data.length; i++){
+			for (int i = 0; i < data.length; i++) {
 				outputStream.writeUTF(data[i]);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//build packet
+
+		// build packet
 		Packet250CustomPayload packet = new Packet250CustomPayload();
 		packet.channel = Reference.CHANNEL_NAME;
 		packet.data = bos.toByteArray();
 		packet.length = bos.size();
-		//send packet
+		// send packet
 		PacketDispatcher.sendPacketToAllPlayers(packet);
 	}
-	
+
 	/**
 	 * secifically used to send gameRunning
+	 * 
 	 * @param code
 	 * @param data
 	 */
-	public static void sendPacketToAllPlayers(byte code, boolean b){
+	public static void sendPacketToAllPlayers(byte code, boolean b) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
@@ -49,52 +49,52 @@ public class CoKGamePacketServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//build packet
+
+		// build packet
 		Packet250CustomPayload packet = new Packet250CustomPayload();
 		packet.channel = Reference.CHANNEL_NAME;
 		packet.data = bos.toByteArray();
 		packet.length = bos.size();
-		//send packet
+		// send packet
 		PacketDispatcher.sendPacketToAllPlayers(packet);
 	}
-	
+
 	/**
 	 * send the gamestate to one specific Player
 	 */
-	public static void sendGameStateToPlayer(Player player){
+	public static void sendGameStateToPlayer(Player player) {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		try {
 			outputStream.writeByte(PacketHandler.GAME_STATE);
-			//write gameState
+			// write gameState
 			outputStream.writeBoolean(CoKGame.gameRunning);
-			//write teams
+			// write teams
 			outputStream.writeInt(CoKGame.teams.size());
-			for(Team team: CoKGame.teams.values()){
+			for (Team team : CoKGame.teams.values()) {
 				outputStream.writeUTF(team.getName());
 				outputStream.writeChar(team.getColor());
 				int teamSize = team.getAllPlayers().size();
-				//write players of team
+				// write players of team
 				outputStream.writeInt(teamSize);
-				for(String playerName: team.getAllPlayers()){
+				for (String playerName : team.getAllPlayers()) {
 					outputStream.writeUTF(playerName);
 				}
 			}
 			outputStream.writeInt(CoKGame.spectators.size());
-			for(String spectator: CoKGame.spectators){
+			for (String spectator : CoKGame.spectators) {
 				outputStream.writeUTF(spectator);
 			}
-		} catch (IOException e){
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//build packet
+
+		// build packet
 		Packet250CustomPayload packet = new Packet250CustomPayload();
 		packet.channel = Reference.CHANNEL_NAME;
 		packet.data = bos.toByteArray();
 		packet.length = bos.size();
-		//send packet
+		// send packet
 		PacketDispatcher.sendPacketToPlayer(packet, player);
 	}
 }

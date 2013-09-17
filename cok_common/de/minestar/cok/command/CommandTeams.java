@@ -24,13 +24,12 @@ public class CommandTeams extends CoKCommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
 		String captain;
-		for(Team team : CoKGame.teams.values()){
-			ChatSendHelper.sendMessage(icommandsender, "Members of team " + Color.getColorCodeFromChar(team.getColor())
-					+ team.getName());
+		for (Team team : CoKGame.teams.values()) {
+			ChatSendHelper.sendMessage(icommandsender, "Members of team " + Color.getColorCodeFromChar(team.getColor()) + team.getName());
 			captain = team.getCaptain();
 			ChatSendHelper.sendMessage(icommandsender, "Captain: " + captain);
-			for(String name : team.getAllPlayers()){
-				if(!name.equalsIgnoreCase(captain)){
+			for (String name : team.getAllPlayers()) {
+				if (!name.equalsIgnoreCase(captain)) {
 					ChatSendHelper.sendMessage(icommandsender, "   -" + name);
 				}
 			}
@@ -38,11 +37,10 @@ public class CommandTeams extends CoKCommand {
 	}
 
 	@Override
-	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
+	public List<?> addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
 		return null;
 	}
-	
+
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
 		return true;

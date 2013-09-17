@@ -27,31 +27,29 @@ public class CommandTeamSpawn extends CoKCommand {
 	 */
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring) {
-		if(astring.length < 1){
+		if (astring.length < 1) {
 			ChatSendHelper.sendError(icommandsender, "Usage: " + getCommandUsage(icommandsender));
 			return;
 		}
 		String teamName = astring[0];
-		if(teamName != null){
+		if (teamName != null) {
 			Team team = CoKGame.getTeam(teamName);
-			if(team == null){
+			if (team == null) {
 				ChatSendHelper.sendError(icommandsender, "Could not find team " + teamName);
 				return;
 			}
 			ChunkCoordinates coords = icommandsender.getPlayerCoordinates();
 			team.setSpawnCoordinates(coords);
-			ChatSendHelper.sendMessage(icommandsender, "Spawn for team " + teamName + " set to "
-					+ coords.posX + ", " + coords.posY + ", " + coords.posZ);
+			ChatSendHelper.sendMessage(icommandsender, "Spawn for team " + teamName + " set to " + coords.posX + ", " + coords.posY + ", " + coords.posZ);
 		}
 
 	}
 
 	@Override
-	public List<?> addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
-		//return teamNames
+	public List<?> addTabCompletionOptions(ICommandSender icommandsender, String[] astring) {
+		// return teamNames
 		LinkedList<String> list = new LinkedList<String>();
-		for(String teamName : CoKGame.teams.keySet()){
+		for (String teamName : CoKGame.teams.keySet()) {
 			list.add(teamName);
 		}
 		return list;

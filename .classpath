@@ -3,7 +3,6 @@
 	<classpathentry kind="src" path="cok_common"/>
 	<classpathentry kind="src" path="ressources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/MCP"/>
 	<classpathentry kind="lib" path="lib/argo-3.2-src.jar"/>
 	<classpathentry kind="lib" path="lib/argo-small-3.2.jar"/>
 	<classpathentry kind="lib" path="lib/asm-all-4.1.jar"/>
@@ -30,6 +29,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="CoKTest/jars/bin/natives"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jars/bin/minecraft.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/MCP"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

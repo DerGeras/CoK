@@ -13,13 +13,13 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 /**
- * The Block Towers are made of. Not craftable,
- * but build towers with the specified blocks are
- * being replaced with this.
+ * The Block Towers are made of. Not craftable, but build towers with the
+ * specified blocks are being replaced with this.
+ * 
  * @author Geras
- *
+ * 
  */
-public class BlockTowerBrick extends Block{
+public class BlockTowerBrick extends Block {
 
 	public BlockTowerBrick(int id) {
 		super(id, Material.rock);
@@ -27,29 +27,28 @@ public class BlockTowerBrick extends Block{
 		this.setCreativeTab(ClashOfKingdoms.cokBlockTab);
 		this.setBlockUnbreakable();
 	}
-	
+
 	/**
-     * When this method is called, your block should register all the icons it needs with the given IconRegister. This
-     * is the only chance you get to register icons.
-     */
-    @SideOnly(Side.CLIENT)
-    @Override
-    public void registerIcons(IconRegister register)
-    {
-        this.blockIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
-    }
-	
-    @Override
-	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion){
-		//I shall not explode!
+	 * When this method is called, your block should register all the icons it
+	 * needs with the given IconRegister. This is the only chance you get to
+	 * register icons.
+	 */
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void registerIcons(IconRegister register) {
+		this.blockIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
 	}
-    
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
-    public int quantityDropped(Random par1Random)
-    {
-        return 0;
-    }
-    
+
+	@Override
+	public void onBlockExploded(World world, int x, int y, int z, Explosion explosion) {
+		// I shall not explode!
+	}
+
+	/**
+	 * Returns the quantity of items to drop on block destruction.
+	 */
+	public int quantityDropped(Random par1Random) {
+		return 0;
+	}
+
 }

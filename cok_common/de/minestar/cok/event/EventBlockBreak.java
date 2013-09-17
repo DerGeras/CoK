@@ -8,14 +8,13 @@ import net.minecraftforge.event.Event;
 @Cancelable
 public class EventBlockBreak extends Event {
 
-	public final World			world;
-	public final int			blockX;
-	public final int			blockY;
-	public final int			blockZ;
-	public final EntityPlayer	player;
+	public final World world;
+	public final int blockX;
+	public final int blockY;
+	public final int blockZ;
+	public final EntityPlayer player;
 
-	public EventBlockBreak(World world, int x, int y, int z, EntityPlayer player)
-	{
+	public EventBlockBreak(World world, int x, int y, int z, EntityPlayer player) {
 		super();
 		this.world = world;
 		this.blockX = x;
@@ -23,5 +22,5 @@ public class EventBlockBreak extends Event {
 		this.blockZ = z;
 		this.player = player;
 	}
-	
+
 }

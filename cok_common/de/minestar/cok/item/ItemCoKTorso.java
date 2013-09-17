@@ -13,54 +13,62 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 
-public class ItemCoKTorso extends ItemArmor{
+public class ItemCoKTorso extends ItemArmor {
 
 	private ModelArmorTorso modelArmorTorso = new ModelArmorTorso();
-	
+
 	public ItemCoKTorso(int id, EnumArmorMaterial material) {
 		super(id, material, 1, 1);
-        setUnlocalizedName("coktorso");
-        this.setCreativeTab(ClashOfKingdoms.cokItemTab);
+		setUnlocalizedName("coktorso");
+		this.setCreativeTab(ClashOfKingdoms.cokItemTab);
 	}
-	
+
 	/**
-	* Override this method to have an item handle its own armor rendering.
-	* 
-	* @param  entityLiving  The entity wearing the armor 
-	* @param  itemStack  The itemStack to render the model of 
-	* @param  armorSlot  0=head, 1=torso, 2=legs, 3=feet
-	* 
-	* @return  A ModelBiped to render instead of the default
-	*/
+	 * Override this method to have an item handle its own armor rendering.
+	 * 
+	 * @param entityLiving
+	 *            The entity wearing the armor
+	 * @param itemStack
+	 *            The itemStack to render the model of
+	 * @param armorSlot
+	 *            0=head, 1=torso, 2=legs, 3=feet
+	 * 
+	 * @return A ModelBiped to render instead of the default
+	 */
 	@SideOnly(Side.CLIENT)
 	@Override
-	public ModelBiped getArmorModel(EntityLiving entityLiving, ItemStack itemStack, int armorSlot){
+	public ModelBiped getArmorModel(EntityLiving entityLiving, ItemStack itemStack, int armorSlot) {
 		modelArmorTorso.setLivingAnimations(entityLiving, 0, 0, 0);
 		return modelArmorTorso;
 	}
-	
+
 	/**
-     * Called by RenderBiped and RenderPlayer to determine the armor texture that 
-     * should be use for the currently equiped item.
-     * This will only be called on instances of ItemArmor. 
-     * 
-     * Returning null from this function will use the default value.
-     * 
-     * @param stack ItemStack for the equpt armor
-     * @param entity The entity wearing the armor
-     * @param slot The slot the armor is in
-     * @param layer The render layer, either 1 or 2, 2 is only used for CLOTH armor by default
-     * @return Path of texture to bind, or null to use default
-     */
+	 * Called by RenderBiped and RenderPlayer to determine the armor texture
+	 * that should be use for the currently equiped item. This will only be
+	 * called on instances of ItemArmor.
+	 * 
+	 * Returning null from this function will use the default value.
+	 * 
+	 * @param stack
+	 *            ItemStack for the equpt armor
+	 * @param entity
+	 *            The entity wearing the armor
+	 * @param slot
+	 *            The slot the armor is in
+	 * @param layer
+	 *            The render layer, either 1 or 2, 2 is only used for CLOTH
+	 *            armor by default
+	 * @return Path of texture to bind, or null to use default
+	 */
 	@Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer){
+	public String getArmorTexture(ItemStack stack, Entity entity, int slot, int layer) {
 		return "/mods/ClashOfKingdoms/models/ModelArmorTorso.png";
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	@Override
-    public void registerIcons(IconRegister register){
-    	this.itemIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
-    }
+	public void registerIcons(IconRegister register) {
+		this.itemIcon = register.registerIcon(Reference.MOD_ID + ":" + this.getUnlocalizedName().substring(5));
+	}
 
 }

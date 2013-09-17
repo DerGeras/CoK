@@ -9,36 +9,33 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
-public class CommonProxy implements IGuiHandler{
+public class CommonProxy implements IGuiHandler {
 
-	public void registerRenderThings(){
-		
+	public void registerRenderThings() {
+
 		// Currently empty.
 	}
-	
-	public void registerTileEntites(){
+
+	public void registerTileEntites() {
 		GameRegistry.registerTileEntity(TileEntitySocket.class, "tileSocket");
 	}
-	
-	public void registerKeyHandlers(){
-		//Empty
+
+	public void registerKeyHandlers() {
+		// Empty
 	}
-	
-	public void registerRecipes(){
-		GameRegistry.addRecipe(new ItemStack(ClashOfKingdoms.boltItem, 8), "x", "x",
-				'x', new ItemStack(Item.ingotIron));
+
+	public void registerRecipes() {
+		GameRegistry.addRecipe(new ItemStack(ClashOfKingdoms.boltItem, 8), "x", "x", 'x', new ItemStack(Item.ingotIron));
 	}
 
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
 	}
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
-			int x, int y, int z) {
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		return null;
 	}
-	
+
 }

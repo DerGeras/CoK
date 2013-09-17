@@ -7,8 +7,8 @@ import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 
 public class CoKCoreMod implements IFMLLoadingPlugin, IFMLCallHook {
-	
-	public static File	location;
+
+	public static File location;
 
 	@Override
 	public String[] getLibraryRequestClass() {
@@ -17,7 +17,7 @@ public class CoKCoreMod implements IFMLLoadingPlugin, IFMLCallHook {
 
 	@Override
 	public String[] getASMTransformerClass() {
-		String[] res = { "de.minestar.cok.preloader.asm.CoKEventAdder" };
+		String[] res = {"de.minestar.cok.preloader.asm.CoKEventAdder"};
 		return res;
 	}
 
@@ -33,15 +33,13 @@ public class CoKCoreMod implements IFMLLoadingPlugin, IFMLCallHook {
 
 	@Override
 	public void injectData(Map<String, Object> data) {
-		if (data.containsKey("coremodLocation"))
-		{
+		if (data.containsKey("coremodLocation")) {
 			location = (File) data.get("coremodLocation");
 		}
-		
+
 	}
 
-	
-	//Needed by RelaunchLibraryManager.handleLaunch
+	// Needed by RelaunchLibraryManager.handleLaunch
 	@Override
 	public Void call() throws Exception {
 		return null;

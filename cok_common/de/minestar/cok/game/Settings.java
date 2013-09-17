@@ -2,13 +2,13 @@ package de.minestar.cok.game;
 
 public class Settings {
 
-	//Building Block
+	// Building Block
 	public static int defaultbuildingBlockID;
-	
-	//Building Height
+
+	// Building Height
 	public static int buildingHeight;
-	
-	//Protected Zone around a socket
+
+	// Protected Zone around a socket
 	public static int protectedRadius;
-	
+
 }
