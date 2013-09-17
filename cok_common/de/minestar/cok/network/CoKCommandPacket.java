@@ -36,7 +36,7 @@ public class CoKCommandPacket {
 		EntityPlayerMP playerMP = (EntityPlayerMP) player;
 		if (MinecraftServer.getServer().isDedicatedServer() && !MinecraftServer.getServer().getConfigurationManager().getOps().contains(playerMP.username.toLowerCase().trim())) {
 			return; // Only OPs are allowed to stop a game on a dedicated
-					// server.
+			        // server.
 		}
 		CoKGame.stopGame();
 		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, false);

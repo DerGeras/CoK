@@ -50,7 +50,7 @@ public class ItemRendererWarhammer implements IItemRenderer {
 						GL11.glTranslatef(-0.7f, -1.3f, -0.1f);
 					} else {
 						GL11.glTranslatef(-0.7f, -1.0f, -0.1f); // <--- First
-																// Person view
+						                                        // Person view
 					}
 				} else {
 					GL11.glTranslatef(0.0f, 0.0f, 0.0f);

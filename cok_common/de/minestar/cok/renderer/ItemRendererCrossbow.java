@@ -50,7 +50,7 @@ public class ItemRendererCrossbow implements IItemRenderer {
 						GL11.glTranslatef(0.05f, -0.05f, -0.8f);
 					} else {
 						GL11.glTranslatef(0.05f, -0.05f, -0.8f); // <--- First
-																 // Person view
+						                                         // Person view
 					}
 				} else {
 					GL11.glTranslatef(0.05f, -0.05f, -0.8f);

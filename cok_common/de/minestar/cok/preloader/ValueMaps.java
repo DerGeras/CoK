@@ -20,7 +20,7 @@ public class ValueMaps {
 		IIWMob.put("entityPlayerFieldName", "b");// searge name field_73090_b
 		IIWMob.put("worldJavaClassName", "aab");
 		IIWMob.put("getBlockMetadataMethodName", "h");// searge name
-													  // func_72805_g
+		                                              // func_72805_g
 		IIWMob.put("blockJavaClassName", "apa");
 		IIWMob.put("blocksListFieldName", "p");// searge name field_71973_m
 		IIWMob.put("entityPlayerJavaClassName", "sq");
@@ -48,7 +48,7 @@ public class ValueMaps {
 		ISdev.put("className", "net.minecraft.item.ItemStack");
 		ISdev.put("javaClassName", "net/minecraft/item/ItemStack");
 		ISdev.put("targetMethodName", "tryPlaceItemIntoWorld");// searge name
-															   // func_77943_a
+		                                                       // func_77943_a
 		ISdev.put("itemstackJavaClassName", "net/minecraft/item/ItemStack");
 		ISdev.put("entityPlayerJavaClassName", "net/minecraft/entity/player/EntityPlayer");
 		ISdev.put("worldJavaClassName", "net/minecraft/world/World");
