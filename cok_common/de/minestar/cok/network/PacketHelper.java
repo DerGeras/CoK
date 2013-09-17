@@ -5,14 +5,21 @@ import java.io.DataOutputStream;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.network.packets.CoKPacket;
 import de.minestar.cok.references.Reference;
 
 public class PacketHelper {
 
 	public static void sendPacketToServer(CoKPacket packet) {
+		// we can only send packets, if we are a client!
+		if (!(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT)) {
+			return;
+		}
+
 		// pack COK-Packet
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		DataOutputStream output = new DataOutputStream(bos);
@@ -31,7 +38,7 @@ public class PacketHelper {
 		rawPacket.length = bos.size();
 
 		// send RAW-Packet
-		PacketDispatcher.sendPacketToAllPlayers(rawPacket);
+		PacketDispatcher.sendPacketToServer(rawPacket);
 	}
 
 	public static void sendPacketToAllPlayers(CoKPacket packet) {
