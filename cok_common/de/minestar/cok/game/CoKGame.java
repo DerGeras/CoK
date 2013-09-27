@@ -383,7 +383,7 @@ public class CoKGame {
 		sortSockets();
 		HashSet<TileEntitySocket> sockets = CoKGame.sockets.get(team.getColorAsInt());
 		if(sockets != null){
-			int rest = (int) Math.ceil((float)sockets.size() * profession.getPunishment());
+			int rest = (int) Math.ceil(sockets.size() * profession.getPunishment());
 			boolean added = true;
 			while(added && rest > 0){
 				added = false;

@@ -24,10 +24,7 @@ public class PlayerListener {
 	 */
 	@ForgeSubscribe
 	public void onPlayerDeath(PlayerDropsEvent event){
-		if(!CoKGame.gameRunning){
-			event.setCanceled(true);
-			return;
-		}
+
 		String name = event.entityPlayer.username;
 		if(name == null){
 			return;
@@ -37,6 +34,14 @@ public class PlayerListener {
 			event.setCanceled(true);
 			return;
 		}
+
+		team.playerGone(event.entityPlayer.username);
+		
+		if(!CoKGame.gameRunning){
+			event.setCanceled(true);
+			return;
+		}
+		
 		//Remove given items from droplist
 		ArrayList<EntityItem> droppedItems = new ArrayList<EntityItem>();
 		for(EntityItem itemEntity : event.drops){
@@ -57,7 +62,6 @@ public class PlayerListener {
 		
 		//redistribute Professions if needed
 		String teamCaptain = team.getCaptain();
-		team.playerGone(event.entityPlayer.username);
 		if(teamCaptain.equals(name)){
 			//drop head :D
 			ItemStack headStack = new ItemStack(Item.skull);
