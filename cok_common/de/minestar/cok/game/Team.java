@@ -154,19 +154,25 @@ public class Team {
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.KING);
 			captain = playerName;
-			ServerTickHandler.changedProfessions.add(playerName);
+			if(!ServerTickHandler.changedProfessions.contains(playerName)){
+				ServerTickHandler.changedProfessions.add(playerName);
+			}
 		}
 		if(crossbowman.equals("") && onlinePlayers.size() > 0){
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.CROSSBOWMAN);
 			crossbowman = playerName;
-			ServerTickHandler.changedProfessions.add(playerName);
+			if(!ServerTickHandler.changedProfessions.contains(playerName)){
+				ServerTickHandler.changedProfessions.add(playerName);
+			}
 		}
 		if(barbarian.equals("") && onlinePlayers.size() > 0){
 			playerName = onlinePlayers.removeFirst();
 			CoKGame.playerProfessions.put(playerName, Profession.BARBARIAN);
 			barbarian = playerName;
-			ServerTickHandler.changedProfessions.add(playerName);
+			if(!ServerTickHandler.changedProfessions.contains(playerName)){
+				ServerTickHandler.changedProfessions.add(playerName);
+			}
 		}
 	}
 	

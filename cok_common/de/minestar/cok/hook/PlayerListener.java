@@ -34,6 +34,10 @@ public class PlayerListener {
 			event.setCanceled(true);
 			return;
 		}
+		
+
+		Profession profession = CoKGame.playerProfessions.get(name);
+		String teamCaptain = team.getCaptain();
 
 		team.playerGone(event.entityPlayer.username);
 		
@@ -45,8 +49,8 @@ public class PlayerListener {
 		//Remove given items from droplist
 		ArrayList<EntityItem> droppedItems = new ArrayList<EntityItem>();
 		for(EntityItem itemEntity : event.drops){
-			if(!(CoKGame.playerProfessions.get(name) != null
-					&& CoKGame.playerProfessions.get(name).givenItems.contains(itemEntity.getEntityItem().getItem()))){
+			if(!(profession != null
+					&& profession.givenItems.contains(itemEntity.getEntityItem().getItem()))){
 				droppedItems.add(itemEntity);
 			}
 		}
@@ -55,13 +59,11 @@ public class PlayerListener {
 		
 
 		//Punish team
-		Profession profession = CoKGame.playerProfessions.get(event.entityPlayer.username);
 		if(profession != null){
 			CoKGame.punishTeam(team, profession);
 		}
 		
 		//redistribute Professions if needed
-		String teamCaptain = team.getCaptain();
 		if(teamCaptain.equals(name)){
 			//drop head :D
 			ItemStack headStack = new ItemStack(Item.skull);

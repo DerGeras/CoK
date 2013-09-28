@@ -76,14 +76,15 @@ public class PlayerTracker implements IPlayerTracker {
 	public void onPlayerRespawn(EntityPlayer player) {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
         if (side == Side.SERVER) {
+        	Team team = CoKGame.getTeamOfPlayer(player.username);
+			if(team != null){
+				team.playerReturned(player.username);
+			}
+			
 			if(!CoKGame.gameRunning){
 				return;
 			}
 			
-			Team team = CoKGame.getTeamOfPlayer(player.username);
-			if(team != null){
-				team.playerReturned(player.username);
-			}
 			if(team == null){
         		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
         		String[] usernames = {player.username};
