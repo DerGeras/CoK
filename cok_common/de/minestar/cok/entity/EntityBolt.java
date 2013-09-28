@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 
 public class EntityBolt extends EntityArrow {
 	
-	private static final double baseDamage = 1;
+	private static final double baseDamage = 2.5d;
 	private static final int baseKnockBack = 1;
 
 	public EntityBolt(World par1World) {

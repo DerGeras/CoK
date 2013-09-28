@@ -181,6 +181,7 @@ public class CoKGame {
 	 * @param coords
 	 */
 	public static boolean registerSocket(TileEntitySocket socket){
+		unsortedSockets.remove(socket);
 		return unsortedSockets.add(socket);
 	}
 	
@@ -195,6 +196,7 @@ public class CoKGame {
 				teamSockets = new HashSet<TileEntitySocket>();
 				sockets.put(socket.getBlockMetadata(), teamSockets);
 			}
+			teamSockets.remove(socket);
 			teamSockets.add(socket);
 		}
 		unsortedSockets.clear();
