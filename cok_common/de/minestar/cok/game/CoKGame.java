@@ -32,7 +32,7 @@ public class CoKGame {
 	
 	public static void initGame(Configuration config){
 		Settings.defaultbuildingBlockID = config.get(Configuration.CATEGORY_GENERAL, "Default building Block ID", Block.stone.blockID).getInt();
-		Settings.buildingHeight = config.get(Configuration.CATEGORY_GENERAL, "Building Height", 25).getInt();
+		Settings.buildingHeight = config.get(Configuration.CATEGORY_GENERAL, "Building Height", 12).getInt();
 		Settings.protectedRadius = config.get(Configuration.CATEGORY_GENERAL, "Protected Radius", 3).getInt();
 		
 		if(config.hasChanged()){
