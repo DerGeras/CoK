@@ -84,6 +84,15 @@ public class CoKGame {
 				if(coords != null){
 					player.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0.0f, 0.0f);
 				}
+				//fill hunger and life
+				player.setEntityHealth(20);
+				player.getFoodStats().setFoodLevel(20);
+				player.getFoodStats().setFoodSaturationLevel(5.0F);
+				
+				//reset experience
+				player.experienceTotal = 0;
+				player.experienceLevel = 0;
+				player.experience = 0;
 			}
 		}
 		//set non-team players as spectators
