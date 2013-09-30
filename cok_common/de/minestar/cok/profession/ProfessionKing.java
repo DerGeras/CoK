@@ -19,12 +19,33 @@ public class ProfessionKing extends Profession {
 	public void giveKit(EntityPlayer player, Team team) {
 		//Armor
 		super.giveKit(player, team);
+		
+		ItemStack plate = player.inventory.armorItemInSlot(2);
+		if(plate != null){
+			if(!player.inventory.addItemStackToInventory(plate)){
+				player.dropPlayerItem(plate);
+			}
+		}
 		player.inventory.armorInventory[2] = new ItemStack(Item.plateDiamond);
+		
+		ItemStack legs = player.inventory.armorItemInSlot(1);
+		if(legs != null){
+			if(!player.inventory.addItemStackToInventory(legs)){
+				player.dropPlayerItem(legs);
+			}
+		}
 		player.inventory.armorInventory[1] = new ItemStack(Item.legsDiamond);
+		
+		ItemStack boots = player.inventory.armorItemInSlot(0);
+		if(boots != null){
+			if(!player.inventory.addItemStackToInventory(boots)){
+				player.dropPlayerItem(boots);
+			}
+		}
 		player.inventory.armorInventory[0] = new ItemStack(Item.bootsGold);
 		
 		//Weaponry
-		player.inventory.addItemStackToInventory(new ItemStack(Item.swordDiamond));
+		this.addItemStackToInventory(player, new ItemStack(Item.swordDiamond));
 	}
 
 	@Override

@@ -11,7 +11,9 @@ import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.profession.Profession;
+import de.minestar.cok.references.Color;
 
 public class ServerTickHandler implements ITickHandler {
 	
@@ -44,6 +46,9 @@ public class ServerTickHandler implements ITickHandler {
 				Profession profession = CoKGame.playerProfessions.get(playerName);
 				if(player != null && profession != null && team != null){
 					profession.giveKit(player, team);
+					ChatSendHelper.sendMessageToPlayer(player, "You are now a " + profession.getClassName() + "!");
+					ChatSendHelper.broadCastError(player.username + "is the new " + profession.getClassName() + " of team "
+							+ Color.getColorCodeFromChar(team.getColor()) + team.getName());
 				}
 			}
 			changedProfessions.clear();

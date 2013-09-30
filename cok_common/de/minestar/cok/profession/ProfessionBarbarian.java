@@ -18,10 +18,16 @@ public class ProfessionBarbarian extends Profession {
 	public void giveKit(EntityPlayer player, Team team) {
 		//Armor
 		super.giveKit(player, team);
+		ItemStack plate = player.inventory.armorItemInSlot(2);
+		if(plate != null){
+			if(!player.inventory.addItemStackToInventory(plate)){
+				player.dropPlayerItem(plate);
+			}
+		}
 		player.inventory.armorInventory[2] = new ItemStack(Item.plateChain);
 		
 		//Weaponry
-		player.inventory.addItemStackToInventory(new ItemStack(ClashOfKingdoms.warhammerItem));
+		this.addItemStackToInventory(player, new ItemStack(ClashOfKingdoms.warhammerItem));
 	}
 
 	@Override

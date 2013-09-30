@@ -30,6 +30,12 @@ public abstract class Profession {
 	 */
 	public void giveKit(EntityPlayer player, Team team){
 		//Armor
+		ItemStack helmet = player.inventory.armorItemInSlot(3);
+		if(helmet != null){
+			if(!player.inventory.addItemStackToInventory(helmet)){
+				player.dropPlayerItem(helmet);
+			}
+		}
 		ItemStack helmetItemStack = new ItemStack(Item.helmetLeather);
 		NBTTagCompound helmetCompund = new NBTTagCompound();
 		helmetItemStack.setTagCompound(helmetCompund);
@@ -58,5 +64,22 @@ public abstract class Profession {
 	public void setClassName(String name) 
 	{
 		this.name = name;
+	}
+	
+	/**
+	 * Tries to add a stack to the inventory, throws out non-given items (dropPlayerItem calls
+	 * ItemTossEvent)
+	 * @param player
+	 * @param inventory
+	 * @param stack
+	 */
+	protected void addItemStackToInventory(EntityPlayer player, ItemStack stack){
+		int i = 15;
+		while(!player.inventory.addItemStackToInventory(stack)){
+			ItemStack thrownStack = player.inventory.getStackInSlot(i);
+			player.inventory.setInventorySlotContents(i, null);
+			player.dropPlayerItem(thrownStack);
+			i++;
+		}
 	}
 }

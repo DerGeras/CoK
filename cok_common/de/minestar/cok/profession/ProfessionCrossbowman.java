@@ -19,11 +19,18 @@ public class ProfessionCrossbowman extends Profession {
 	public void giveKit(EntityPlayer player, Team team) {
 		//Armor
 		super.giveKit(player, team);
+		
+		ItemStack plate = player.inventory.armorItemInSlot(2);
+		if(plate != null){
+			if(!player.inventory.addItemStackToInventory(plate)){
+				player.dropPlayerItem(plate);
+			}
+		}
 		player.inventory.armorInventory[2] = new ItemStack(Item.plateChain);
 		
 		//Weaponry
-		player.inventory.addItemStackToInventory(new ItemStack(ClashOfKingdoms.crossBowItem));
-		player.inventory.addItemStackToInventory(new ItemStack(ClashOfKingdoms.boltItem, 64));
+		this.addItemStackToInventory(player, new ItemStack(ClashOfKingdoms.crossBowItem));
+		this.addItemStackToInventory(player, new ItemStack(ClashOfKingdoms.boltItem, 64));
 	}
 
 	@Override

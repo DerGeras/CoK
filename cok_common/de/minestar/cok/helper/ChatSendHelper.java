@@ -1,6 +1,7 @@
 package de.minestar.cok.helper;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import de.minestar.cok.references.Color;
 
@@ -8,6 +9,10 @@ public class ChatSendHelper {
 
 	public static void sendMessage(ICommandSender sender, String text){
 		sender.sendChatToPlayer(Color.getColorCodeFromString("gray") + "[CoK] " + text);
+	}
+	
+	public static void sendMessageToPlayer(EntityPlayerMP receiver, String text){
+		receiver.sendChatToPlayer(Color.getColorCodeFromString("gray") + "[CoK] " + text);
 	}
 	
 	public static void sendError(ICommandSender sender, String text){

@@ -75,11 +75,6 @@ public class PlayerListener {
 					event.entityPlayer.posY, event.entityPlayer.posZ, headStack));
 			//change captain
 			ChatSendHelper.broadCastError("THE RULER OF THE KINGDOM " + team.getName() + " " + name + " HAS DIED!");
-			if(team.getCaptain().equalsIgnoreCase("")){
-				ChatSendHelper.broadCastError("THERE IS NO NEW RULER TO ANOUNCE... THIS IS BAD!");
-			} else{
-				ChatSendHelper.broadCastError("LONG LIFE KING " + team.getCaptain() + "!");
-			}
 		}
 	}
 	

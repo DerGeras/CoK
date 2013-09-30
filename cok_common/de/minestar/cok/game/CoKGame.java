@@ -86,8 +86,7 @@ public class CoKGame {
 				}
 				//fill hunger and life
 				player.setEntityHealth(20);
-				player.getFoodStats().setFoodLevel(20);
-				player.getFoodStats().setFoodSaturationLevel(5.0F);
+				player.getFoodStats().addStats(20, 20);
 				
 				//reset experience
 				player.experienceTotal = 0;
