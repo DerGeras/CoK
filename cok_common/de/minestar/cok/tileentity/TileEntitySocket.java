@@ -138,5 +138,15 @@ public class TileEntitySocket extends TileEntity {
     	}
     	return added;
     }
+    
+    @Override
+    public boolean equals(Object o){
+    	if(o instanceof TileEntitySocket){
+    		TileEntitySocket socket = (TileEntitySocket) o;
+    		return socket.xCoord == this.xCoord && socket.yCoord == this.yCoord
+    				&& socket.zCoord == this.zCoord;
+    	}
+    	return false;
+    }
 
 }
