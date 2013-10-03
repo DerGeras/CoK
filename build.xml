@@ -66,4 +66,25 @@
 		<antcall target="clean" />
 	</target>
 	
+	<target name="release">
+		<!-- Prep for the build -->
+		<antcall target="clean" />
+		<antcall target="prep" />
+		<antcall target="replace_tokens" />
+		<antcall target="recompile" />
+		<antcall target="reobfuscate" />
+
+		<!-- Build the jar -->
+		<mkdir dir="${build.dir.release}/MC ${build.minecraft.version}/${build.mod.version}" />
+		<jar destfile="${build.dir.release}/MC ${build.minecraft.version}/${build.mod.version}/CoK-${build.mod.version}-MC${build.minecraft.version}.jar"
+		manifest="${build.dir.res}/META-INF/MANIFEST.MF">
+			<fileset dir="${build.dir.mcp}/src/minecraft/" includes="mcmod.info" />
+			<fileset dir="${build.dir.mcp}/reobf/minecraft" />
+			<fileset dir="${build.dir.res}" excludes="META-INF" />
+		</jar>
+
+		<!-- Clean up the MCP source now that we are done -->
+		<antcall target="clean" />
+	</target>
+	
 </project>
