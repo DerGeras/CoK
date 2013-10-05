@@ -30,7 +30,7 @@ public class CommandSpectatorSpawn extends CoKCommand {
 			ChunkCoordinates coords = new ChunkCoordinates();
 			coords.posX = (int)player.posX;
 			coords.posY = (int)player.posY;
-			coords.posZ = (int)player.posY;
+			coords.posZ = (int)player.posZ;
 			CoKGame.spectatorSpawn = coords;
 			for(String playername : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
 				if(CoKGame.getTeamOfPlayer(playername) == null){

@@ -327,7 +327,7 @@ public class CoKGame {
 	public static void setPlayerSpectator(EntityPlayerMP player){
 		if(spectatorSpawn != null){
 			player.setSpawnChunk(spectatorSpawn, true);
-			player.playerNetServerHandler.setPlayerLocation(spectatorSpawn.posX, spectatorSpawn.posY, spectatorSpawn.posX, 0.0f, 0.0f);
+			player.playerNetServerHandler.setPlayerLocation(spectatorSpawn.posX, spectatorSpawn.posY, spectatorSpawn.posZ, 0.0f, 0.0f);
 		}
 		player.inventory.clearInventory(-1, -1);
 	}

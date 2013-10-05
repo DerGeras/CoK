@@ -60,6 +60,11 @@ public class TileEntitySocket extends TileEntity {
     			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ClashOfKingdoms.towerBrickID);
     			//queue a score check
     			ServerTickHandler.isScoreCheckQueued = true;
+    			return;
+    		} else{
+    			if(blockID != ClashOfKingdoms.towerBrickBlock.blockID){
+    				this.worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
+    			}
     		}
     	}
     }
