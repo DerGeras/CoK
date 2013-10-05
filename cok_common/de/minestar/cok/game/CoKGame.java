@@ -25,8 +25,8 @@ public class CoKGame {
 	public static HashMap<Integer, HashSet<TileEntitySocket>> sockets;
 	public static HashSet<TileEntitySocket> unsortedSockets;
 	public static HashMap<String, Profession> playerProfessions;
-	public static HashSet<String> spectators;
 	public static Random rand = new Random();
+	public static ChunkCoordinates spectatorSpawn;
 	
 	public static boolean gameRunning = false;
 	
@@ -43,7 +43,6 @@ public class CoKGame {
 		sockets = new HashMap<Integer,HashSet<TileEntitySocket>>();
 		unsortedSockets = new HashSet<TileEntitySocket>();
 		playerProfessions = new HashMap<String, Profession>();
-		spectators = new HashSet<String>();
 
 		gameRunning = false;
 	}
@@ -56,7 +55,6 @@ public class CoKGame {
 		sockets.clear();
 		unsortedSockets.clear();
 		playerProfessions.clear();
-		spectators.clear();
 		gameRunning = false;
 	}
 	
@@ -122,7 +120,6 @@ public class CoKGame {
 				ChatSendHelper.broadCastMessage(Color.getColorCodeFromChar(team.getColor())
 						+ team.getName() + Color.getColorCodeFromString("white") + ": "
 						+ getScoreForTeam(team) + "/" + maxScore);
-				//TODO finish call
 			}
 		}
 		//send state to clients
@@ -327,13 +324,11 @@ public class CoKGame {
 	 * Sets capabilities
 	 * @param player EntityPlayer
 	 */
-	public static void setPlayerSpectator(EntityPlayer player){
-		spectators.add(player.username);
-		
-		player.capabilities.allowFlying = true;
-		player.capabilities.disableDamage = true;
-		player.capabilities.allowEdit = false;
-		player.setInvisible(true);
+	public static void setPlayerSpectator(EntityPlayerMP player){
+		if(spectatorSpawn != null){
+			player.setSpawnChunk(spectatorSpawn, true);
+			player.playerNetServerHandler.setPlayerLocation(spectatorSpawn.posX, spectatorSpawn.posY, spectatorSpawn.posX, 0.0f, 0.0f);
+		}
 		player.inventory.clearInventory(-1, -1);
 	}
 	
@@ -344,10 +339,8 @@ public class CoKGame {
 	 */
 	public static void setPlayerSpectator(String playername){
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+			EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
 			if(player != null){
-				String[] name = { player.username };
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, name);
 				setPlayerSpectator(player);
 			}
 		}
@@ -358,12 +351,8 @@ public class CoKGame {
 	 * @param player
 	 */
 	public static void removeSpectator(EntityPlayer player){
-		spectators.remove(player.username);
 
-		player.capabilities.allowFlying = false;
-		player.capabilities.disableDamage = false;
-		player.capabilities.allowEdit = true;
-		player.setInvisible(false);
+		//do nothing
 	}
 	
 	/**
@@ -372,14 +361,7 @@ public class CoKGame {
 	 * @param playername
 	 */
 	public static void removeSpectator(String playername){
-		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
-			if(player != null){
-				String[] name = { player.username };
-				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, name);
-				removeSpectator(player);
-			}
-		}
+		//do nothing
 	}
 	
 	

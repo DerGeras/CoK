@@ -3,8 +3,6 @@ package de.minestar.cok.network;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.references.Color;
 
@@ -30,11 +28,6 @@ public class CoKGamePacketClient {
 				for(int j = 0; j < numberOfPlayers; i++){
 					CoKGame.addPlayerToTeam(teamName, inputStream.readUTF());
 				}
-			}
-			int numberOfSpectators = inputStream.readInt();
-			CoKGame.spectators.clear();
-			for(int i = 0; i < numberOfSpectators; i++){
-				addSpectator(inputStream);
 			}
 		} catch (IOException e){
 			e.printStackTrace();
@@ -83,31 +76,6 @@ public class CoKGamePacketClient {
 			String teamName = inputStream.readUTF();
 			String playerName = inputStream.readUTF();
 			CoKGame.removePlayerFromTeam(teamName, playerName);
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void addSpectator(DataInputStream inputStream){
-		try{
-			String playerName = inputStream.readUTF();
-			CoKGame.setPlayerSpectator(playerName);
-			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playerName)){
-				thisPlayer.capabilities.allowFlying = true;
-			}
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	public static void removeSpectator(DataInputStream inputStream){
-		try{
-			String playerName = inputStream.readUTF();
-			EntityPlayer thisPlayer = Minecraft.getMinecraft().thePlayer;
-			if(thisPlayer != null && thisPlayer.username.equalsIgnoreCase(playerName)){
-				thisPlayer.capabilities.allowFlying = false;
-			}
 		} catch (IOException e){
 			e.printStackTrace();
 		}

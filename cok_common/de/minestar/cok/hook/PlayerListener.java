@@ -3,13 +3,11 @@ package de.minestar.cok.hook;
 import java.util.ArrayList;
 
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
@@ -91,16 +89,6 @@ public class PlayerListener {
 				
 				event.setCanceled(true);
 				event.player.inventory.addItemStackToInventory(stack);
-			}
-		}
-	}
-	
-	@ForgeSubscribe
-	public void onPlayerHit(LivingAttackEvent event){
-		if(event.entity instanceof EntityPlayer){
-			EntityPlayer attacker = (EntityPlayer) event.entity;
-			if(CoKGame.spectators.contains(attacker.username)){
-				event.setCanceled(true);
 			}
 		}
 	}

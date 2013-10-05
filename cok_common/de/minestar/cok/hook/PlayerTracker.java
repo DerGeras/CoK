@@ -12,7 +12,6 @@ import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.network.CoKGamePacketServer;
-import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
 
 public class PlayerTracker implements IPlayerTracker {
@@ -22,12 +21,10 @@ public class PlayerTracker implements IPlayerTracker {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
         if (side == Side.SERVER) {
         	CoKGamePacketServer.sendGameStateToPlayer((Player) player);
-        	if(CoKGame.gameRunning && CoKGame.getTeamOfPlayer(player.username) == null){
-        		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
-        		String[] usernames = {player.username};
-        		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
-        	}
         	Team team = CoKGame.getTeamOfPlayer(player.username);
+        	if(team == null){
+        		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
+        	}
         	if(team != null){
         		team.playerReturned(player.username);
         		ChunkCoordinates spawnCoordinates = team.getSpawnCoordinates();
@@ -59,8 +56,6 @@ public class PlayerTracker implements IPlayerTracker {
         		}
         	} else{
         		CoKGame.removeSpectator(player);
-        		String[] usernames = {player.username};
-        		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_REMOVE, usernames);
         	}
         }
 
@@ -79,16 +74,9 @@ public class PlayerTracker implements IPlayerTracker {
         	Team team = CoKGame.getTeamOfPlayer(player.username);
 			if(team != null){
 				team.playerReturned(player.username);
-			}
-			
-			if(!CoKGame.gameRunning){
-				return;
-			}
-			
+			}			
 			if(team == null){
         		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
-        		String[] usernames = {player.username};
-        		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SPECTATOR_ADD, usernames);
         	}
         }
 	}

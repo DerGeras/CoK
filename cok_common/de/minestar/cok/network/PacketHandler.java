@@ -20,8 +20,6 @@ public class PacketHandler implements IPacketHandler{
 	public static final byte GAME_RUNNING = 7;
 	public static final byte START_GAME_COMMAND = 8;
 	public static final byte STOP_GAME_COMMAND = 9;
-	public static final byte SPECTATOR_ADD = 10;
-	public static final byte SPECTATOR_REMOVE = 11;
 
 	@Override
 	public void onPacketData(INetworkManager manager,
@@ -51,8 +49,6 @@ public class PacketHandler implements IPacketHandler{
 		case PLAYER_REMOVE: CoKGamePacketClient.removePlayer(inputStream); break;
 		case GAME_STATE: CoKGamePacketClient.setGameState(inputStream); break;
 		case GAME_RUNNING: CoKGamePacketClient.updateGameRunning(inputStream); break;
-		case SPECTATOR_ADD: CoKGamePacketClient.addSpectator(inputStream); break;
-		case SPECTATOR_REMOVE: CoKGamePacketClient.removeSpectator(inputStream); break;
 		
 		//commands
 		case START_GAME_COMMAND: CoKCommandPacket.startGame(player);break;
