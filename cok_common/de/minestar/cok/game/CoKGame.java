@@ -247,11 +247,9 @@ public class CoKGame {
 		boolean res = teams.containsKey(name);
 		if(res){
 			Team team = teams.get(name);
+			team.resetProfessions();
 			for(String player: team.getAllPlayers()){
-				playerProfessions.remove(player);
-				if(gameRunning){
-					setPlayerSpectator(player);
-				}
+				setPlayerSpectator(player);
 			}
 			teams.remove(name);
 		}
@@ -316,9 +314,7 @@ public class CoKGame {
 		boolean res = teams.containsKey(teamname);
 		if(res){
 			res = teams.get(teamname).removePlayer(playername);
-			if(gameRunning){
-				setPlayerSpectator(playername);
-			}
+			setPlayerSpectator(playername);
 		}
 		return res;
 	}

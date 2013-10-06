@@ -129,16 +129,19 @@ public class Team {
 	public void resetProfessions(){
 		if(!captain.equals("")){
 			CoKGame.playerProfessions.remove(captain);
+			ServerTickHandler.changedProfessions.remove(captain);
 			onlinePlayers.add(captain);
 			captain = "";
 		}
 		if(!barbarian.equals("")){
 			CoKGame.playerProfessions.remove(barbarian);
+			ServerTickHandler.changedProfessions.remove(barbarian);
 			onlinePlayers.add(barbarian);
 			barbarian = "";
 		}
 		if(!crossbowman.equals("")){
 			CoKGame.playerProfessions.remove(crossbowman);
+			ServerTickHandler.changedProfessions.remove(crossbowman);
 			onlinePlayers.add(crossbowman);
 			crossbowman = "";
 		}
