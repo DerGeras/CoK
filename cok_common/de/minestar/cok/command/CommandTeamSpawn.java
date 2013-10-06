@@ -51,8 +51,12 @@ public class CommandTeamSpawn extends CoKCommand {
 			String[] astring) {
 		//return teamNames
 		LinkedList<String> list = new LinkedList<String>();
-		for(String teamName : CoKGame.teams.keySet()){
-			list.add(teamName);
+		if(astring.length > 0){
+			for(String teamName : CoKGame.teams.keySet()){
+				if(teamName.startsWith(astring[0])){
+					list.add(teamName);
+				}
+			}
 		}
 		return list;
 	}

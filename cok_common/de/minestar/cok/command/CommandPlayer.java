@@ -79,21 +79,27 @@ public class CommandPlayer extends CoKCommand {
 		break;
 		case 2: {
 			for(String teamName : CoKGame.teams.keySet()){
-				list.add(teamName);
+				if(teamName.startsWith(astring[1])){
+					list.add(teamName);
+				}
 			}
 		}
 		break;
 		case 3: {
 			if(astring[0].equalsIgnoreCase("add")){
 				for(String playerName : MinecraftServer.getServer().getConfigurationManager().getAllUsernames()){
-					list.add(playerName);
+					if(playerName.startsWith(astring[2])){
+						list.add(playerName);
+					}
 				}
 			}
 			if(astring[0].equalsIgnoreCase("remove")){
 				Team team = CoKGame.getTeam(astring[1]);
 				if(team != null){
 					for(String playerName : team.getAllPlayers()){
-						list.add(playerName);
+						if(playerName.startsWith(astring[2])){
+							list.add(playerName);
+						}
 					}
 				}
 			}
