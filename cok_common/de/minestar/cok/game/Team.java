@@ -182,6 +182,7 @@ public class Team {
 	 */
 	public void playerGone(String player){
 		onlinePlayers.remove(player);
+		ServerTickHandler.changedProfessions.remove(player);
 		
 		CoKGame.playerProfessions.remove(player);
 		if(captain.equalsIgnoreCase(player)){
