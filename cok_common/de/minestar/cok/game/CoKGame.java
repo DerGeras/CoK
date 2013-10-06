@@ -294,7 +294,11 @@ public class CoKGame {
 				res = teams.get(teamname).addPlayer(playername);
 				if(gameRunning){
 					if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-						EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+						EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+						ChunkCoordinates coords = teams.get(teamname).getSpawnCoordinates();
+						if(coords != null){
+							player.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0.0f, 0.0f);
+						}
 						player.inventory.clearInventory(-1, -1);
 					}
 				}
