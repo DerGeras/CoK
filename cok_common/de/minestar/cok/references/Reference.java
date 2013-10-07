@@ -19,6 +19,7 @@ public class Reference {
 	public static final String KitCommand = "kit";
 	public static final String TeamSpawnCommand = "tspawn";
 	public static final String SpectatorSpawnCommand = "setspawn";
+	public static final String TeamChatCommand = "t";
 	
 	//GUI
 	public static final int COK_GUI_ID = 0;

@@ -23,10 +23,17 @@ public class ChatSendHelper {
 		}
 	}
 	
+	public static void sendTeamMessageToPlayer(String name, String text){
+		EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
+		if(player != null){
+			player.sendChatToPlayer(Color.getColorCodeFromString("gray") + "[Team] " + text);
+		}
+	}
+	
 	public static void sendMessageToTeam(Team team, String text){
 		if(team != null){
 			for(String name : team.getAllPlayers()){
-				sendMessageToPlayer(name, text);
+				sendTeamMessageToPlayer(name, text);
 			}
 		}
 	}

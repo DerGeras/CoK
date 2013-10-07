@@ -36,6 +36,7 @@ import de.minestar.cok.command.CommandCreateTeam;
 import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandRemoveTeam;
 import de.minestar.cok.command.CommandSpectatorSpawn;
+import de.minestar.cok.command.CommandTeamChat;
 import de.minestar.cok.command.CommandTeamSpawn;
 import de.minestar.cok.command.CommandTeams;
 import de.minestar.cok.game.CoKGame;
@@ -135,6 +136,7 @@ public class ClashOfKingdoms {
     	event.registerServerCommand(new CommandCok());
     	event.registerServerCommand(new CommandTeamSpawn());
     	event.registerServerCommand(new CommandSpectatorSpawn());
+    	event.registerServerCommand(new CommandTeamChat());
     }
     
     @ServerStopping
