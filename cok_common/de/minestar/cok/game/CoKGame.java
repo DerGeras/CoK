@@ -280,6 +280,20 @@ public class CoKGame {
 	}
 	
 	/**
+	 * returns the team with the specified color or null if there is none
+	 * @param color
+	 * @return
+	 */
+	public static Team getTeamWithColor(int color){
+		for(Team team : teams.values()){
+			if(team.getColorAsInt() == color){
+				return team;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * Add player to the team if they aren't in another one already
 	 * @param teamname
 	 * @param playername

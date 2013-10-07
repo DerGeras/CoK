@@ -1,5 +1,7 @@
 package de.minestar.cok.tileentity;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import de.minestar.cok.ClashOfKingdoms;
@@ -8,6 +10,7 @@ import de.minestar.cok.event.EventBlockPlace;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Settings;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.hook.ServerTickHandler;
 
 /**
@@ -60,6 +63,10 @@ public class TileEntitySocket extends TileEntity {
     			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ClashOfKingdoms.towerBrickID);
     			//queue a score check
     			ServerTickHandler.isScoreCheckQueued = true;
+    			//send notification to team
+    			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+    				ChatSendHelper.sendMessageToTeam(CoKGame.getTeamWithColor(this.getBlockMetadata()), "Clonk!");
+    			}
     		} else{
     			if(blockID != ClashOfKingdoms.towerBrickBlock.blockID){
     				this.worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
