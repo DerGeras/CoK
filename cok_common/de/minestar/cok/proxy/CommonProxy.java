@@ -25,8 +25,13 @@ public class CommonProxy implements IGuiHandler{
 	}
 	
 	public void registerRecipes(){
+		//Crafting
 		GameRegistry.addRecipe(new ItemStack(ClashOfKingdoms.boltItem, 8), "x", "x",
 				'x', new ItemStack(Item.ingotIron));
+		GameRegistry.addShapelessRecipe(new ItemStack(ClashOfKingdoms.flourItem), new ItemStack(Item.wheat));
+		
+		//Smelting
+		GameRegistry.addSmelting(ClashOfKingdoms.flourItem.itemID, new ItemStack(Item.bread, 1), 0.15f);
 	}
 
 	@Override
