@@ -17,6 +17,7 @@ import de.minestar.cok.network.CoKGamePacketServer;
 import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
 import de.minestar.cok.references.Color;
+import de.minestar.cok.references.Reference;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class CoKGame {
@@ -31,9 +32,9 @@ public class CoKGame {
 	public static boolean gameRunning = false;
 	
 	public static void initGame(Configuration config){
-		Settings.defaultbuildingBlockID = config.get(Configuration.CATEGORY_GENERAL, "Default building Block ID", Block.stone.blockID).getInt();
-		Settings.buildingHeight = config.get(Configuration.CATEGORY_GENERAL, "Building Height", 12).getInt();
-		Settings.protectedRadius = config.get(Configuration.CATEGORY_GENERAL, "Protected Radius", 3).getInt();
+		Settings.defaultbuildingBlockID = config.get(Reference.CATEGORY_GAMEOPTIONS, "Default building Block ID", Block.stone.blockID).getInt();
+		Settings.buildingHeight = config.get(Reference.CATEGORY_GAMEOPTIONS, "Building Height", 12).getInt();
+		Settings.protectedRadius = config.get(Reference.CATEGORY_GAMEOPTIONS, "Protected Radius", 3).getInt();
 		
 		if(config.hasChanged()){
 			config.save();

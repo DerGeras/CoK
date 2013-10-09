@@ -21,6 +21,10 @@ public class Reference {
 	public static final String SpectatorSpawnCommand = "setspawn";
 	public static final String TeamChatCommand = "t";
 	
+	//Categories
+	public static final String CATEGORY_GAMEOPTIONS = "game options";
+	public static final String CATEGORY_RECIPE = "recipes";
+	
 	//GUI
 	public static final int COK_GUI_ID = 0;
 	

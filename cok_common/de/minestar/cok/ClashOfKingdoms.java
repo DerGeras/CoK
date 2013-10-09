@@ -188,7 +188,7 @@ public class ClashOfKingdoms {
 		
 		registerItems();
 		
-		proxy.registerRecipes();
+		proxy.registerRecipes(config);
 		
 		proxy.registerTileEntites();
 		proxy.registerRenderThings();
