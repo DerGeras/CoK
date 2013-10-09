@@ -92,7 +92,7 @@ public abstract class Profession {
 	}
 	
 	/**
-	 * Checks wether the item stack is given.
+	 * Checks whether the item stack is given.
 	 * @param stack
 	 * @return
 	 */

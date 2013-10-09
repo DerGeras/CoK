@@ -1,9 +1,13 @@
 package de.minestar.cok.tileentity;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.ChunkCoordIntPair;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
+import net.minecraftforge.common.ForgeChunkManager.Type;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.ClashOfKingdoms;
 import de.minestar.cok.event.EventBlockBreak;
 import de.minestar.cok.event.EventBlockPlace;
@@ -19,6 +23,8 @@ import de.minestar.cok.hook.ServerTickHandler;
  *	Tile Entity for the "socket" block
  */
 public class TileEntitySocket extends TileEntity {
+	
+	private Ticket chunkTicket;
 	
 	public TileEntitySocket(){
 		super();
@@ -41,10 +47,14 @@ public class TileEntitySocket extends TileEntity {
 	    {
 	    	CoKGame.registerSocket(this);
 	    }
+    	//chunk loading
+    	chunkTicket = ForgeChunkManager.requestTicket(ClashOfKingdoms.instance, this.worldObj, Type.NORMAL);
+    	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
     }
     
     @Override
     public void invalidate(){
+    	ForgeChunkManager.releaseTicket(chunkTicket);
     	super.invalidate();
     	if(!this.worldObj.isRemote){
     		CoKGame.removeSocket(this);
@@ -145,7 +155,7 @@ public class TileEntitySocket extends TileEntity {
     			ServerTickHandler.isScoreCheckQueued = true;
     			added = true;
     			break;
-			}    		
+			}
     	}
     	return added;
     }

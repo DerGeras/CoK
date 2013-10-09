@@ -8,6 +8,7 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Mod;
@@ -54,6 +55,7 @@ import de.minestar.cok.proxy.CommonProxy;
 import de.minestar.cok.references.Reference;
 import de.minestar.cok.weapon.ItemCrossBow;
 import de.minestar.cok.weapon.ItemWarhammer;
+import de.minestar.loader.SocketChunkLoadCallback;
 
 
 @Mod(
@@ -73,7 +75,7 @@ public class ClashOfKingdoms {
     @SidedProxy(clientSide="de.minestar.cok.proxy.ClientProxy", serverSide="de.minestar.cok.proxy.CommonProxy")
     public static CommonProxy proxy;
     
-    //Don't know why I would need this.
+    
     @Instance
     public static ClashOfKingdoms instance;
     
@@ -195,6 +197,9 @@ public class ClashOfKingdoms {
 		proxy.registerRenderThings();
 		//init KeyBindings
 		proxy.registerKeyHandlers();
+		
+		//Chunk loading
+		ForgeChunkManager.setForcedChunkLoadingCallback(instance, new SocketChunkLoadCallback());
 	}
 	
 	
