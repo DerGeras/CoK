@@ -2,7 +2,6 @@ package de.minestar.cok.hook;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.Item;
 import net.minecraft.util.ChunkCoordinates;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.IPlayerTracker;
@@ -43,17 +42,22 @@ public class PlayerTracker implements IPlayerTracker {
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team != null){
         		String captain = team.getCaptain();
-        		Profession profession = CoKGame.playerProfessions.get(player.username);
         		team.playerGone(player.username);
         		if(CoKGame.gameRunning && captain.equalsIgnoreCase(player.username)){
         			ChatSendHelper.broadCastError(captain + " ,the king of team " + team.getName() + " fled!");
         			ChatSendHelper.broadCastError("Long life king " + team.getCaptain() + "!");
         		}
-        		if(profession != null){
-        			for(Item item: profession.givenItems){
-        				player.inventory.clearInventory(item.itemID, -1);
-        			}
-        		}
+        		//remove given Items
+    			for(int i = 0; i < 36; i++){
+    				if(Profession.isGivenItem(player.inventory.getStackInSlot(i))){
+    					player.inventory.setInventorySlotContents(i, null);
+    				}
+    			}
+    			for(int i = 0; i < 4; i++){
+    				if(Profession.isGivenItem(player.inventory.armorItemInSlot(i))){
+    					player.inventory.armorInventory[i] = null;
+    				}
+    			}
         	} else{
         		CoKGame.removeSpectator(player);
         	}

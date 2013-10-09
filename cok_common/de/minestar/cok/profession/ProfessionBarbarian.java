@@ -10,8 +10,6 @@ public class ProfessionBarbarian extends Profession {
 
 	public ProfessionBarbarian() {
 		super("Barbarian");
-		givenItems.add(ClashOfKingdoms.warhammerItem);
-		givenItems.add(Item.plateChain);
 	}
 
 	@Override
@@ -24,10 +22,14 @@ public class ProfessionBarbarian extends Profession {
 				player.dropPlayerItem(plate);
 			}
 		}
-		player.inventory.armorInventory[2] = new ItemStack(Item.plateChain);
+		ItemStack plateStack = new ItemStack(Item.plateChain);
+		setGivenItem(plateStack);
+		player.inventory.armorInventory[2] = plateStack;
 		
 		//Weaponry
-		this.addItemStackToInventory(player, new ItemStack(ClashOfKingdoms.warhammerItem));
+		ItemStack warhammerStack = new ItemStack(ClashOfKingdoms.warhammerItem);
+		setGivenItem(warhammerStack);
+		this.addItemStackToInventory(player, warhammerStack);
 	}
 
 	@Override

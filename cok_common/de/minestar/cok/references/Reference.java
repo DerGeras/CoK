@@ -32,4 +32,7 @@ public class Reference {
 	public static final String CoKMenuKey = "CoK Menu";
 	public static final String CoKFlightKey = "CoK Flight";
 	
+	//given items
+	public static final String GIVE_ITEM = "given";
+	
 }

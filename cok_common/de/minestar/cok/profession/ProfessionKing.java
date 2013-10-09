@@ -9,10 +9,6 @@ public class ProfessionKing extends Profession {
 
 	public ProfessionKing() {
 		super("King");
-		givenItems.add(Item.plateDiamond);
-		givenItems.add(Item.legsDiamond);
-		givenItems.add(Item.bootsGold);
-		givenItems.add(Item.swordDiamond);
 	}
 	
 	@Override
@@ -26,7 +22,9 @@ public class ProfessionKing extends Profession {
 				player.dropPlayerItem(plate);
 			}
 		}
-		player.inventory.armorInventory[2] = new ItemStack(Item.plateDiamond);
+		ItemStack plateStack = new ItemStack(Item.plateDiamond);
+		setGivenItem(plateStack);
+		player.inventory.armorInventory[2] = plateStack;
 		
 		ItemStack legs = player.inventory.armorItemInSlot(1);
 		if(legs != null){
@@ -34,7 +32,9 @@ public class ProfessionKing extends Profession {
 				player.dropPlayerItem(legs);
 			}
 		}
-		player.inventory.armorInventory[1] = new ItemStack(Item.legsDiamond);
+		ItemStack legsStack = new ItemStack(Item.legsDiamond);
+		setGivenItem(legsStack);
+		player.inventory.armorInventory[1] = legsStack;
 		
 		ItemStack boots = player.inventory.armorItemInSlot(0);
 		if(boots != null){
@@ -42,10 +42,14 @@ public class ProfessionKing extends Profession {
 				player.dropPlayerItem(boots);
 			}
 		}
-		player.inventory.armorInventory[0] = new ItemStack(Item.bootsGold);
+		ItemStack bootsStack = new ItemStack(Item.bootsGold);
+		setGivenItem(bootsStack);
+		player.inventory.armorInventory[0] = bootsStack;
 		
 		//Weaponry
-		this.addItemStackToInventory(player, new ItemStack(Item.swordDiamond));
+		ItemStack swordStack = new ItemStack(Item.swordDiamond);
+		setGivenItem(swordStack);
+		this.addItemStackToInventory(player, swordStack);
 	}
 
 	@Override

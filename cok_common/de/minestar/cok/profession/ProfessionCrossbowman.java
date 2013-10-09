@@ -10,9 +10,6 @@ public class ProfessionCrossbowman extends Profession {
 
 	public ProfessionCrossbowman() {
 		super("Crossbowman");
-		givenItems.add(ClashOfKingdoms.crossBowItem);
-		givenItems.add(ClashOfKingdoms.boltItem);
-		givenItems.add(Item.plateChain);
 	}
 
 	@Override
@@ -26,11 +23,17 @@ public class ProfessionCrossbowman extends Profession {
 				player.dropPlayerItem(plate);
 			}
 		}
-		player.inventory.armorInventory[2] = new ItemStack(Item.plateChain);
+		ItemStack plateStack = new ItemStack(Item.plateChain);
+		setGivenItem(plateStack);
+		player.inventory.armorInventory[2] = plateStack;
 		
 		//Weaponry
-		this.addItemStackToInventory(player, new ItemStack(ClashOfKingdoms.crossBowItem));
-		this.addItemStackToInventory(player, new ItemStack(ClashOfKingdoms.boltItem, 64));
+		ItemStack crossbowStack = new ItemStack(ClashOfKingdoms.crossBowItem);
+		setGivenItem(crossbowStack);
+		this.addItemStackToInventory(player, crossbowStack);
+		ItemStack boltStack = new ItemStack(ClashOfKingdoms.boltItem, 64);
+		setGivenItem(boltStack);
+		this.addItemStackToInventory(player, boltStack);
 	}
 
 	@Override

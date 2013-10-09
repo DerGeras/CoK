@@ -9,7 +9,6 @@ public class ProfessionKnight extends Profession {
 
 	public ProfessionKnight() {
 		super("Knight");
-		givenItems.add(Item.swordDiamond);
 	}
 
 	@Override

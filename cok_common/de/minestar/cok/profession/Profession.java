@@ -1,13 +1,12 @@
 package de.minestar.cok.profession;
 
-import java.util.HashSet;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.references.Color;
+import de.minestar.cok.references.Reference;
 
 public abstract class Profession {
 	
@@ -17,11 +16,8 @@ public abstract class Profession {
 
 	private String name = "";
 	
-	public HashSet<Item> givenItems = new HashSet<Item>();
-	
 	public Profession(String name){
 		this.name = name;
-		givenItems.add(Item.helmetLeather);
 	}
 	
 	/**
@@ -41,6 +37,7 @@ public abstract class Profession {
 		helmetItemStack.setTagCompound(helmetCompund);
 		helmetCompund.setCompoundTag("display", new NBTTagCompound());
 		helmetCompund.getCompoundTag("display").setInteger("color", Color.getHexColorFromInt(team.getColorAsInt()));
+		setGivenItem(helmetItemStack);
 		player.inventory.armorInventory[3] = helmetItemStack;
 	}
 	
@@ -81,5 +78,25 @@ public abstract class Profession {
 			player.dropPlayerItem(thrownStack);
 			i++;
 		}
+	}
+	
+	/**
+	 * set the nbttag for an item to be given.
+	 * @param stack
+	 */
+	protected void setGivenItem(ItemStack stack){
+		if(stack.getTagCompound() == null){
+			stack.setTagCompound(new NBTTagCompound());
+		}
+		stack.getTagCompound().setBoolean(Reference.GIVE_ITEM, true);
+	}
+	
+	/**
+	 * Checks wether the item stack is given.
+	 * @param stack
+	 * @return
+	 */
+	public static boolean isGivenItem(ItemStack stack){
+		return stack.hasTagCompound() && stack.getTagCompound().getBoolean(Reference.GIVE_ITEM);
 	}
 }

@@ -47,8 +47,7 @@ public class PlayerListener {
 		//Remove given items from droplist
 		ArrayList<EntityItem> droppedItems = new ArrayList<EntityItem>();
 		for(EntityItem itemEntity : event.drops){
-			if(!(profession != null
-					&& profession.givenItems.contains(itemEntity.getEntityItem().getItem()))){
+			if(!Profession.isGivenItem(itemEntity.getEntityItem())){
 				droppedItems.add(itemEntity);
 			}
 		}
@@ -84,9 +83,7 @@ public class PlayerListener {
 	public void onPlayerTossItem(ItemTossEvent event){
 		if(!event.player.capabilities.isCreativeMode){
 			ItemStack stack = event.entityItem.getEntityItem();
-			if(CoKGame.playerProfessions.get(event.player.username) != null
-					&& CoKGame.playerProfessions.get(event.player.username).givenItems.contains(stack.getItem())){
-				
+			if(Profession.isGivenItem(stack)){
 				event.setCanceled(true);
 				event.player.inventory.addItemStackToInventory(stack);
 			}
