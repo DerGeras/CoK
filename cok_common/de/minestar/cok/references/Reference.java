@@ -20,6 +20,7 @@ public class Reference {
 	public static final String TeamSpawnCommand = "tspawn";
 	public static final String SpectatorSpawnCommand = "setspawn";
 	public static final String TeamChatCommand = "t";
+	public static final String ScoreCommand = "score";
 	
 	//Categories
 	public static final String CATEGORY_GAMEOPTIONS = "game options";
