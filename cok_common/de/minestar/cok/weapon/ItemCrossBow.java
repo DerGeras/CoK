@@ -14,7 +14,7 @@ import de.minestar.cok.item.CoKItem;
 
 public class ItemCrossBow extends CoKItem{
 
-	private static int ticksToCharge = 3 * 20 + 200;
+	private static int ticksToCharge = 2 * 20 + 200;
 	
 	public static final String CHARGED_STRING = "charged";
 	public static final String CLIENT_CHARGED = "clientcharged";
