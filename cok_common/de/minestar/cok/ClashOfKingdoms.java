@@ -9,6 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -254,6 +255,7 @@ public class ClashOfKingdoms {
 		//register flour
 		flourItem = new ItemFlour(flourID);
 		LanguageRegistry.addName(flourItem, "Flour");
+		OreDictionary.registerOre("itemFlour", new ItemStack(flourItem));
 		
 //		//register cokHelmet
 //		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);

@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.minestar.cok.ClashOfKingdoms;
@@ -32,10 +33,12 @@ public class CommonProxy implements IGuiHandler{
 				'x', new ItemStack(Item.ingotIron));
 		
 		
-		//configurable stuff
+		//easy bread recipe
 		if(config.get(Reference.CATEGORY_RECIPE, "flour recipe", true).getBoolean(false)){
 			GameRegistry.addShapelessRecipe(new ItemStack(ClashOfKingdoms.flourItem), new ItemStack(Item.wheat));
-			GameRegistry.addSmelting(ClashOfKingdoms.flourItem.itemID, new ItemStack(Item.bread, 1), 0.15f);
+			for(ItemStack stack : OreDictionary.getOres("itemFlour")){
+				GameRegistry.addSmelting(stack.itemID, new ItemStack(Item.bread, 1), 0.15f);
+			}
 		}
 	}
 
