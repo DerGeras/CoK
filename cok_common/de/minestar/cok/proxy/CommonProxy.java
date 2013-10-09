@@ -31,12 +31,12 @@ public class CommonProxy implements IGuiHandler{
 		GameRegistry.addRecipe(new ItemStack(ClashOfKingdoms.boltItem, 8), "x", "x",
 				'x', new ItemStack(Item.ingotIron));
 		
+		
+		//configurable stuff
 		if(config.get(Reference.CATEGORY_RECIPE, "flour recipe", true).getBoolean(false)){
 			GameRegistry.addShapelessRecipe(new ItemStack(ClashOfKingdoms.flourItem), new ItemStack(Item.wheat));
+			GameRegistry.addSmelting(ClashOfKingdoms.flourItem.itemID, new ItemStack(Item.bread, 1), 0.15f);
 		}
-		
-		//Smelting
-		GameRegistry.addSmelting(ClashOfKingdoms.flourItem.itemID, new ItemStack(Item.bread, 1), 0.15f);
 	}
 
 	@Override
