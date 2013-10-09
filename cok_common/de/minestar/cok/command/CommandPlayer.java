@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
@@ -12,6 +13,7 @@ import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.helper.PlayerHelper;
 import de.minestar.cok.network.CoKGamePacketServer;
 import de.minestar.cok.network.PacketHandler;
+import de.minestar.cok.references.Color;
 import de.minestar.cok.references.Reference;
 
 public class CommandPlayer extends CoKCommand {
@@ -47,6 +49,11 @@ public class CommandPlayer extends CoKCommand {
 				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.PLAYER_ADD, Arrays.copyOfRange(astring, 1, 3));
 				
 				ChatSendHelper.sendMessage(icommandsender, "User \"" + astring[2] + "\" successfully added to team \"" + astring[1] + "\"!");
+				EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(astring[2]);
+				Team team = CoKGame.getTeam(astring[1]);
+				if(player != null && team != null){
+					ChatSendHelper.sendMessageToPlayer(player, "You have been added to team " + Color.getColorCodeFromChar(team.getColor()) + team.getName());
+				}
 			}
 			return;
 		}
@@ -61,6 +68,11 @@ public class CommandPlayer extends CoKCommand {
 				CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.PLAYER_REMOVE, Arrays.copyOfRange(astring, 1, 3));
 				
 				ChatSendHelper.sendMessage(icommandsender, "User \"" + astring[2] + "\" successfully removed from team \"" + astring[1] + "\"!");
+				EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(astring[2]);
+				Team team = CoKGame.getTeam(astring[1]);
+				if(player != null && team != null){
+					ChatSendHelper.sendMessageToPlayer(player, "You have been removed from team " + Color.getColorCodeFromChar(team.getColor()) + team.getName());
+				}
 			}
 			return;
 		}

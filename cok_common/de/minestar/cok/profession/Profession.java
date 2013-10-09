@@ -97,6 +97,6 @@ public abstract class Profession {
 	 * @return
 	 */
 	public static boolean isGivenItem(ItemStack stack){
-		return stack.hasTagCompound() && stack.getTagCompound().getBoolean(Reference.GIVE_ITEM);
+		return stack != null && stack.hasTagCompound() && stack.getTagCompound().getBoolean(Reference.GIVE_ITEM);
 	}
 }
