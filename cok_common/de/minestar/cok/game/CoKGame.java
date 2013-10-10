@@ -361,6 +361,7 @@ public class CoKGame {
 			player.setSpawnChunk(spectatorSpawn, true);
 			player.playerNetServerHandler.setPlayerLocation(spectatorSpawn.posX, spectatorSpawn.posY, spectatorSpawn.posZ, 0.0f, 0.0f);
 		}
+		player.capabilities.disableDamage = true;
 		player.inventory.clearInventory(-1, -1);
 	}
 	
@@ -384,7 +385,7 @@ public class CoKGame {
 	 */
 	public static void removeSpectator(EntityPlayer player){
 
-		//do nothing
+		player.capabilities.disableDamage = false;
 	}
 	
 	/**
@@ -393,7 +394,12 @@ public class CoKGame {
 	 * @param playername
 	 */
 	public static void removeSpectator(String playername){
-		//do nothing
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			EntityPlayerMP player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(playername);
+			if(player != null){
+				removeSpectator(player);
+			}
+		}
 	}
 	
 	

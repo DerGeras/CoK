@@ -19,12 +19,15 @@ package de.minestar.cok.hook;
 
 import java.util.ArrayList;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
@@ -103,6 +106,21 @@ public class PlayerListener {
 			if(Profession.isGivenItem(stack)){
 				event.setCanceled(true);
 				event.player.inventory.addItemStackToInventory(stack);
+			}
+		}
+	}
+	
+	/**
+	 * Prevent spectators from attacking.
+	 * @param event
+	 */
+	@ForgeSubscribe
+	public void onPlayerHit(LivingAttackEvent event){
+		Entity source = event.source.getEntity();
+		if(source != null && (source instanceof EntityPlayer)){
+			EntityPlayer player = (EntityPlayer) source;
+			if(!CoKGame.gameRunning || CoKGame.getTeamOfPlayer(player.username) == null){
+				event.setCanceled(true);
 			}
 		}
 	}
