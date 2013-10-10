@@ -12,6 +12,8 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.game.Team;
+import de.minestar.cok.helper.ChatSendHelper;
 import de.minestar.cok.references.Reference;
 
 public class CoKCommandPacket {
@@ -24,9 +26,26 @@ public class CoKCommandPacket {
 		if(MinecraftServer.getServer().isDedicatedServer() && !MinecraftServer.getServer().getConfigurationManager().getOps().contains(playerMP.username.toLowerCase().trim())){
 			return; //Only OPs are allowed to start a game.
 		}
-		CoKGame.startGame();
-		//send state to clients
-		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
+		//Check for set spawn locations
+		boolean error = false;
+		if(CoKGame.spectatorSpawn == null){
+			error = true;
+			ChatSendHelper.sendError(playerMP, "Spectator Spawn has not been set!");
+		}
+		for(Team team : CoKGame.teams.values()){
+			if(team.getSpawnCoordinates() == null){
+				error = true;
+				ChatSendHelper.sendError(playerMP, "Spawn of team " + team.getName() + " has not been set!");
+			}
+		}
+		
+		if(error){
+			ChatSendHelper.sendError(playerMP, "Game could not be started!");
+		} else{
+			CoKGame.startGame();
+			//send state to clients
+			CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.GAME_RUNNING, true);
+		}
 	}
 	
 	public static void stopGame(Player player){
