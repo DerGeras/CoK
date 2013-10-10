@@ -15,30 +15,27 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package de.minestar.cok.event;
+package de.minestar.cok.loader;
 
-import net.minecraft.entity.player.EntityPlayer;
+import java.util.List;
+
 import net.minecraft.world.World;
-import net.minecraftforge.event.Cancelable;
-import net.minecraftforge.event.Event;
+import net.minecraftforge.common.ForgeChunkManager.OrderedLoadingCallback;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
-@Cancelable
-public class EventBlockBreak extends Event {
+public class SocketChunkLoadCallback implements OrderedLoadingCallback {
 
-	public final World			world;
-	public final int			blockX;
-	public final int			blockY;
-	public final int			blockZ;
-	public final EntityPlayer	player;
+	@Override
+	public void ticketsLoaded(List<Ticket> tickets, World world) {
+		//TODO
 
-	public EventBlockBreak(World world, int x, int y, int z, EntityPlayer player)
-	{
-		super();
-		this.world = world;
-		this.blockX = x;
-		this.blockY = y;
-		this.blockZ = z;
-		this.player = player;
 	}
-	
+
+	@Override
+	public List<Ticket> ticketsLoaded(List<Ticket> tickets, World world,
+			int maxTicketCount) {
+		//TODO
+		return tickets;
+	}
+
 }
