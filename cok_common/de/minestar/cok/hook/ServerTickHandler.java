@@ -64,7 +64,7 @@ public class ServerTickHandler implements ITickHandler {
 				if(player != null && profession != null && team != null){
 					profession.giveKit(player, team);
 					ChatSendHelper.sendMessageToPlayer(player, "You are now a " + profession.getClassName() + "!");
-					ChatSendHelper.broadCastError(player.username + "is the new " + profession.getClassName() + " of team "
+					ChatSendHelper.broadCastError(player.username + " is the new " + profession.getClassName() + " of team "
 							+ Color.getColorCodeFromChar(team.getColor()) + team.getName());
 				}
 			}
