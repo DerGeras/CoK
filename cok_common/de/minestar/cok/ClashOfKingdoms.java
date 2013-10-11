@@ -216,7 +216,6 @@ public class ClashOfKingdoms {
 		proxy.registerRecipes(config);
 		
 		proxy.registerTileEntites();
-		proxy.registerRenderThings();
 		//init KeyBindings
 		proxy.registerKeyHandlers();
 		
@@ -230,6 +229,9 @@ public class ClashOfKingdoms {
 	 */
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event){
+
+		proxy.registerRenderThings();
+		
 		//initialize the game
     	CoKGame.initGame(config);
 	}

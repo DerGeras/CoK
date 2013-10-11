@@ -21,11 +21,13 @@ import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import de.minestar.cok.ClashOfKingdoms;
+import de.minestar.cok.gui.CoKGUIOverlay;
 import de.minestar.cok.gui.CoKGui;
 import de.minestar.cok.keyhandler.CoKKeyHandler;
 import de.minestar.cok.references.Reference;
@@ -42,6 +44,8 @@ public class ClientProxy extends CommonProxy {
 		
 		MinecraftForgeClient.registerItemRenderer(ClashOfKingdoms.crossBowItem.itemID, new ItemRendererCrossbow());
 		MinecraftForgeClient.registerItemRenderer(ClashOfKingdoms.warhammerItem.itemID, new ItemRendererWarhammer());
+		
+		MinecraftForge.EVENT_BUS.register(new CoKGUIOverlay());
 	}
 	
 	@Override

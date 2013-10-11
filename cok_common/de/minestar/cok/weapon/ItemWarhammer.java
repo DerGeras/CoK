@@ -74,7 +74,7 @@ public class ItemWarhammer extends CoKWeapon {
     public void onPlayerStoppedUsing(ItemStack stack, World world, EntityPlayer player, int count){
     	player.clearItemInUse();
     	if(count < getMaxItemUseDuration(stack) - 20){
-        	player.worldObj.playSoundAtEntity(player, "random.explode", 0.3f, 1.0f);
+        	//player.worldObj.playSoundAtEntity(player, "random.explode", 0.3f, 1.0f);
 	    	double x1 = player.posX - knockBackRadius;
 	    	double y1 = player.posY - knockBackRadius;
 	    	double z1 = player.posZ - knockBackRadius;

@@ -30,6 +30,7 @@ import net.minecraftforge.common.Configuration;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.helper.ChatSendHelper;
+import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.network.CoKGamePacketServer;
 import de.minestar.cok.network.PacketHandler;
 import de.minestar.cok.profession.Profession;
@@ -172,16 +173,26 @@ public class CoKGame {
 		sortSockets();
 		HashSet<Team> teamCopies = new HashSet<Team>();
 		teamCopies.addAll(teams.values());
+		//Prepare score packet
+		int[] data = new int[1 + teamCopies.size() * 3];
+		data[0] = teamCopies.size();
+		int i = 1;
 		for(Team team: teamCopies){
+			data[i++] = team.getColorAsInt(); //packet
 			int maxScore = Settings.buildingHeight * (CoKGame.sockets.get(team.getColorAsInt()) == null ? 0 : CoKGame.sockets.get(team.getColorAsInt()).size());
 			if(maxScore > 0){
 				int score = getScoreForTeam(team);
+				data[i++] = score; //packet
 				if(score >= maxScore){
 					ChatSendHelper.broadCastError("The kingdom " + team.getName() + " has fallen!");
 					removeTeam(team.getName());
 				}
+			} else{
+				data[i++] = 0; //packet
 			}
+			data[i++] = maxScore; //packet
 		}
+		CoKGamePacketServer.sendPacketToAllPlayers(PacketHandler.SCORE_UPDATE, data); //packet
 		if(teams.size() == 1){
 			Team lastTeam = null;
 			for(Team team : teams.values()){
@@ -205,6 +216,7 @@ public class CoKGame {
 	 */
 	public static boolean registerSocket(TileEntitySocket socket){
 		unsortedSockets.remove(socket);
+		ServerTickHandler.isScoreCheckQueued = true;
 		return unsortedSockets.add(socket);
 	}
 	
@@ -231,6 +243,7 @@ public class CoKGame {
 	 * @return
 	 */
 	public static boolean removeSocket(TileEntitySocket socket){
+		ServerTickHandler.isScoreCheckQueued = true;
 		sortSockets();
 		if(sockets != null){
 			HashSet<TileEntitySocket> teamSockets = sockets.get(socket.getBlockMetadata());

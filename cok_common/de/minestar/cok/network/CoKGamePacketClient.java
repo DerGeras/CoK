@@ -21,6 +21,8 @@ import java.io.DataInputStream;
 import java.io.IOException;
 
 import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.gui.CoKGUIOverlay;
+import de.minestar.cok.gui.TeamScore;
 import de.minestar.cok.references.Color;
 
 public class CoKGamePacketClient {
@@ -93,6 +95,19 @@ public class CoKGamePacketClient {
 			String teamName = inputStream.readUTF();
 			String playerName = inputStream.readUTF();
 			CoKGame.removePlayerFromTeam(teamName, playerName);
+		} catch (IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public static void setScore(DataInputStream inputStream){
+		try{
+			CoKGUIOverlay.scoreList.clear();
+			int numteams = inputStream.readInt();
+			for(int i = 0; i < numteams; i++){
+				CoKGUIOverlay.scoreList.add(new TeamScore(inputStream.readInt(), inputStream.readInt(),
+						inputStream.readInt()));
+			}
 		} catch (IOException e){
 			e.printStackTrace();
 		}

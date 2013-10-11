@@ -31,6 +31,27 @@ import de.minestar.cok.references.Reference;
 public class CoKGamePacketServer {
 
 	
+	public static void sendPacketToAllPlayers(byte code, int[] data){
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		try {
+			outputStream.writeByte(code);
+			for(int i = 0; i < data.length; i++){
+				outputStream.writeInt(data[i]);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//build packet
+		Packet250CustomPayload packet = new Packet250CustomPayload();
+		packet.channel = Reference.CHANNEL_NAME;
+		packet.data = bos.toByteArray();
+		packet.length = bos.size();
+		//send packet
+		PacketDispatcher.sendPacketToAllPlayers(packet);
+	}
+	
 	public static void sendPacketToAllPlayers(byte code, String[] data){
 		ByteArrayOutputStream bos = new ByteArrayOutputStream(0);
 		DataOutputStream outputStream = new DataOutputStream(bos);

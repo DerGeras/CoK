@@ -37,6 +37,7 @@ public class PlayerTracker implements IPlayerTracker {
 		Side side = FMLCommonHandler.instance().getEffectiveSide();
         if (side == Side.SERVER) {
         	CoKGamePacketServer.sendGameStateToPlayer((Player) player);
+        	ServerTickHandler.isScoreCheckQueued = true;
         	Team team = CoKGame.getTeamOfPlayer(player.username);
         	if(team == null){
         		CoKGame.setPlayerSpectator((EntityPlayerMP) player);
