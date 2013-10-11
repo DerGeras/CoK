@@ -66,6 +66,7 @@ import de.minestar.cok.hook.PlayerListener;
 import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.hook.ServerTickHandler;
 import de.minestar.cok.item.ItemBolt;
+import de.minestar.cok.item.ItemDough;
 import de.minestar.cok.item.ItemFlour;
 import de.minestar.cok.itemblock.ItemBlockSocket;
 import de.minestar.cok.loader.SocketChunkLoadCallback;
@@ -118,6 +119,7 @@ public class ClashOfKingdoms {
     public static int warhammerID;
     public static int boltID;
     public static int flourID;
+    public static int doughID;
     
     public static int cokHelmetID;
     public static int cokTorsoID;
@@ -127,6 +129,7 @@ public class ClashOfKingdoms {
     public static Item warhammerItem;
     public static Item boltItem;
     public static Item flourItem;
+    public static Item doughItem;
     
     public static Item cokHelmetItem;
     public static Item cokTorsoItem;
@@ -243,6 +246,7 @@ public class ClashOfKingdoms {
 		warhammerID = config.getItem(Configuration.CATEGORY_ITEM, "Warhammer", 5001).getInt();
 		boltID = config.getItem(Configuration.CATEGORY_ITEM, "Bolt", 5010).getInt();
 		flourID = config.getItem(Configuration.CATEGORY_ITEM, "Flour", 5011).getInt();
+		doughID = config.getItem(Configuration.CATEGORY_ITEM, "Dough", 5012).getInt();
 		
 		cokHelmetID = config.getItem(Configuration.CATEGORY_ITEM, "CoKHelmet", 5020).getInt();
 		cokTorsoID = config.getItem(Configuration.CATEGORY_ITEM, "CoKTorso", 5021).getInt();
@@ -280,6 +284,10 @@ public class ClashOfKingdoms {
 		flourItem = new ItemFlour(flourID);
 		LanguageRegistry.addName(flourItem, "Flour");
 		OreDictionary.registerOre("itemFlour", new ItemStack(flourItem));
+		//register dough
+		doughItem = new ItemDough(doughID);
+		LanguageRegistry.addName(doughItem, "Dough");
+		OreDictionary.registerOre("itemDough", new ItemStack(doughItem));
 		
 //		//register cokHelmet
 //		cokHelmetItem = new ItemCoKHelmet(cokHelmetID, EnumArmorMaterial.IRON);

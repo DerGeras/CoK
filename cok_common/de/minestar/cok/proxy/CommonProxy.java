@@ -17,6 +17,7 @@
  ******************************************************************************/
 package de.minestar.cok.proxy;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -49,10 +50,16 @@ public class CommonProxy implements IGuiHandler{
 				'x', new ItemStack(Item.ingotIron));
 		
 		
-		//easy bread recipe
+		//more efficient bread recipe
 		if(config.get(Reference.CATEGORY_RECIPE, "flour recipe", true).getBoolean(false)){
 			GameRegistry.addShapelessRecipe(new ItemStack(ClashOfKingdoms.flourItem), new ItemStack(Item.wheat));
+			GameRegistry.addShapelessRecipe(new ItemStack(ClashOfKingdoms.doughItem, 7),
+					Item.bucketWater, Block.mushroomBrown,
+					ClashOfKingdoms.flourItem, ClashOfKingdoms.flourItem, ClashOfKingdoms.flourItem,
+					ClashOfKingdoms.flourItem, ClashOfKingdoms.flourItem, ClashOfKingdoms.flourItem,
+					ClashOfKingdoms.flourItem);//7 times flour
 			GameRegistry.addSmelting(ClashOfKingdoms.flourItem.itemID, new ItemStack(Item.bread, 1), 0.15f);
+			GameRegistry.addSmelting(ClashOfKingdoms.doughItem.itemID, new ItemStack(Item.bread, 2), 0.20f);
 		}
 	}
 
