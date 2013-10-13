@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.EnumStatus;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,6 +31,9 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.helper.ChatSendHelper;
@@ -122,6 +127,14 @@ public class PlayerListener {
 			if(!CoKGame.gameRunning || CoKGame.getTeamOfPlayer(player.username) == null){
 				event.setCanceled(true);
 			}
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onPlayerSleepInBed(PlayerSleepInBedEvent event){
+		event.result = EnumStatus.NOT_POSSIBLE_HERE;
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+			ChatSendHelper.sendMessageToPlayer((EntityPlayerMP)event.entityPlayer, "Want to sleep through a fight, coward?");
 		}
 	}
 	
