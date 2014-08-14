@@ -4,6 +4,8 @@ import java.io.File;
 
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.LogHelper;
@@ -18,11 +20,12 @@ public class ConfigurationHandler {
 	public static void init(File file){
 		if(config == null){
 			config = new Configuration(file);
+			loadConfiguration();
 		}
 		
 	}
 	
-	public void loadConfiguration(){
+	private static void loadConfiguration(){
 		try{
 			config.load();
 			//read properties
