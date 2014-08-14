@@ -4,8 +4,8 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import de.minestar.cok.block.CoKBlock;
-import de.minestar.cok.item.CoKItem;
+import de.minestar.cok.init.ModBlocks;
+import de.minestar.cok.init.ModItems;
 import de.minestar.cok.reference.Reference;
 
 public class CreativeTabCoK {
@@ -14,7 +14,7 @@ public class CreativeTabCoK {
 													@Override
 													@SideOnly(Side.CLIENT)
 													public Item getTabIconItem(){
-														return CoKItem.bolt;
+														return ModItems.bolt;
 													}
 												};
 												
@@ -22,7 +22,7 @@ public class CreativeTabCoK {
 													@Override
 													@SideOnly(Side.CLIENT)
 													public Item getTabIconItem(){
-														return Item.getItemFromBlock(CoKBlock.towerBrick);
+														return Item.getItemFromBlock(ModBlocks.towerBrick);
 													}
 												};
 

@@ -9,7 +9,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.minestar.cok.block.CoKBlock;
 import de.minestar.cok.handler.ConfigurationHandler;
-import de.minestar.cok.item.CoKItem;
+import de.minestar.cok.init.ModBlocks;
+import de.minestar.cok.init.ModItems;
 import de.minestar.cok.proxy.IProxy;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.LogHelper;
@@ -37,10 +38,10 @@ public class CoK {
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		
 		//register items
-		registerItems();
+		ModItems.init();
 		
 		//register blocks
-		registerBlocks();
+		ModBlocks.init();
 		
 		LogHelper.info("Pre Initialization complete");
 	}
@@ -57,16 +58,6 @@ public class CoK {
 	public void postInit(FMLPostInitializationEvent event){
 		
 		LogHelper.info("Post Initialization complete");
-	}
-	
-	private void registerItems(){
-		GameRegistry.registerItem(CoKItem.dough, "dough");
-		GameRegistry.registerItem(CoKItem.flour, "flour");
-		GameRegistry.registerItem(CoKItem.bolt, "bolt");
-	}
-	
-	private void registerBlocks(){
-		GameRegistry.registerBlock(CoKBlock.towerBrick, "towerbrick");
 	}
 
 }

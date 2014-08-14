@@ -8,12 +8,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.creativetab.CreativeTabCoK;
 import de.minestar.cok.reference.Reference;
 
-public class CoKBlock extends Block {
-	
-	public static final CoKBlock towerBrick = new BlockTowerBrick();
-	
+public class CoKBlock extends Block {	
 
-	protected CoKBlock(Material material) {
+	public CoKBlock(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabCoK.COK_BLOCK_TAB);
 	}

@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 
 public class BlockTowerBrick extends CoKBlock {
 
-	protected BlockTowerBrick() {
+	public BlockTowerBrick() {
 		super(Material.rock);
 		setBlockName("towerbrick");
 		this.setBlockUnbreakable();

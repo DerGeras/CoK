@@ -6,6 +6,7 @@ public abstract class CoKWeapon extends CoKItem {
 	
 	public CoKWeapon(){
 		super();
+		setMaxStackSize(1);
 	}
 
 }
