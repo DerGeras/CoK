@@ -5,13 +5,14 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import de.minestar.cok.config.ConfigurationHandler;
+import de.minestar.cok.handler.ConfigurationHandler;
 import de.minestar.cok.proxy.IProxy;
 import de.minestar.cok.reference.Reference;
 
 @Mod( modid = Reference.MOD_ID,
 		name = Reference.MOD_NAME,
-		version = Reference.VERSION)
+		version = Reference.VERSION,
+		guiFactory = Reference.GUI_FACTORY_CLASS)
 public class CoK {
 	
 	@Mod.Instance(Reference.MOD_ID)
