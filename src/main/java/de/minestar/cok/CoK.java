@@ -7,6 +7,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import de.minestar.cok.block.CoKBlock;
 import de.minestar.cok.handler.ConfigurationHandler;
 import de.minestar.cok.item.CoKItem;
 import de.minestar.cok.proxy.IProxy;
@@ -59,13 +60,13 @@ public class CoK {
 	}
 	
 	private void registerItems(){
-		GameRegistry.registerItem(CoKItem.itemDough, "dough");
-		GameRegistry.registerItem(CoKItem.itemFlour, "flour");
-		GameRegistry.registerItem(CoKItem.itemBolt, "bolt");
+		GameRegistry.registerItem(CoKItem.dough, "dough");
+		GameRegistry.registerItem(CoKItem.flour, "flour");
+		GameRegistry.registerItem(CoKItem.bolt, "bolt");
 	}
 	
 	private void registerBlocks(){
-		//TODO
+		GameRegistry.registerBlock(CoKBlock.towerBrick, "towerbrick");
 	}
 
 }

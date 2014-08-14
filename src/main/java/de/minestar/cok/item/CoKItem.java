@@ -10,15 +10,15 @@ import de.minestar.cok.reference.Reference;
 
 public abstract class CoKItem extends Item{
 	
-	public static final CoKItem itemDough = new ItemDough();
-	public static final CoKItem itemFlour = new ItemFlour();
-	public static final CoKItem itemBolt = new ItemBolt();
+	public static final CoKItem dough = new ItemDough();
+	public static final CoKItem flour = new ItemFlour();
+	public static final CoKItem bolt = new ItemBolt();
 	
 	
 	
 	public CoKItem(){
 		super();
-		setCreativeTab(CreativeTabCoK.COK_TAB);
+		setCreativeTab(CreativeTabCoK.COK_ITEM_TAB);
 	}
 	
 	@Override
