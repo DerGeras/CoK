@@ -10,6 +10,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 		version="0.7.0-MC.1.7.10")
 public class CoK {
 	
+	@Mod.Instance("CoK")
+	public CoK instance;
+	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
 		
