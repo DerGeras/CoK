@@ -1,5 +1,6 @@
 package de.minestar.cok.init;
 
+import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.registry.GameRegistry;
 import de.minestar.cok.item.CoKItem;
 import de.minestar.cok.item.ItemBolt;
@@ -18,7 +19,9 @@ public class ModItems {
 	
 	public static void init(){
 		GameRegistry.registerItem(dough, "dough");
+		OreDictionary.registerOre("itemDough", dough);
 		GameRegistry.registerItem(flour, "flour");
+		OreDictionary.registerOre("itemFlour", flour);
 		GameRegistry.registerItem(bolt, "bolt");
 	}
 	

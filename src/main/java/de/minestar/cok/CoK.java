@@ -11,6 +11,7 @@ import de.minestar.cok.block.CoKBlock;
 import de.minestar.cok.handler.ConfigurationHandler;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
+import de.minestar.cok.init.Recipes;
 import de.minestar.cok.proxy.IProxy;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.LogHelper;
@@ -42,6 +43,9 @@ public class CoK {
 		
 		//register blocks
 		ModBlocks.init();
+		
+		//initialize recipes
+		Recipes.init();
 		
 		LogHelper.info("Pre Initialization complete");
 	}
