@@ -81,7 +81,7 @@ public ModelWarhammer warhammerModel = new ModelWarhammer();
 			break;
 		}
 		case ENTITY: {
-GL11.glPushMatrix();
+			GL11.glPushMatrix();
 			
 			Minecraft.getMinecraft().renderEngine.bindTexture(texture);
 			

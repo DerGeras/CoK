@@ -11,6 +11,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class Recipes {
 	
 	public static void init(){
+		//recipe for bolts
+		GameRegistry.addShapedRecipe(new ItemStack(ModItems.bolt, 8), "x","x", 'x', ModItems.bolt);
+		
 		//recipe for flour
 		GameRegistry.addShapelessRecipe(new ItemStack(ModItems.flour), new ItemStack(Items.wheat));
 		//recipe for dough
