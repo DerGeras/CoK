@@ -53,6 +53,8 @@ public class CoK {
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
+		//register item renderers
+		proxy.registerItemRenderers();
 		
 		LogHelper.info("Initialization complete");
 	}
