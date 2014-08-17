@@ -1,14 +1,14 @@
 package de.minestar.cok;
 
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.registry.GameRegistry;
-import de.minestar.cok.block.CoKBlock;
 import de.minestar.cok.handler.ConfigurationHandler;
+import de.minestar.cok.hook.BlockHandler;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
 import de.minestar.cok.init.Recipes;
@@ -36,7 +36,12 @@ public class CoK {
 	public void preInit(FMLPreInitializationEvent event){
 		//config stuff
 		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+		
+		//register EventHandlers
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+		BlockHandler blockHandler = new BlockHandler();
+		//FMLCommonHandler.instance().bus().register(blockHandler);
+		MinecraftForge.EVENT_BUS.register(blockHandler);
 		
 		//register items
 		ModItems.init();
@@ -46,7 +51,6 @@ public class CoK {
 		
 		//initialize recipes
 		Recipes.init();
-		
 		LogHelper.info("Pre Initialization complete");
 	}
 	

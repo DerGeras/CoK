@@ -7,7 +7,7 @@ public class PreloaderReference {
 	public static final String MOD_CONTAINER_CLASS = "de.minestar.cok.preloader.CoKCoreModContainer";
 	public static final String PRELOADER_CLASS = "de.minestar.cok.preloader.CoKPreloader";
 	public static final String TRANSFORMER_CLASS = "de.minestar.cok.preloader.asm.CoKAccessTransformer";
-	public static final String EVENT_FACTORY_JAVA_CLASS = "net/minestar/cok/event/EventFactory";
+	public static final String EVENT_FACTORY_JAVA_CLASS = "de/minestar/cok/event/EventFactory";
 
 	public static final String[] transformers = { "de.minestar.cok.preloader.asm.EventAdder" };
 	

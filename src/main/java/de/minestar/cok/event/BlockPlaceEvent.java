@@ -8,9 +8,9 @@ import cpw.mods.fml.common.eventhandler.Event;
 public class BlockPlaceEvent extends Event {
 
 	public final World world;
-    public final int blockX;
-    public final int blockY;
-    public final int blockZ;
+    public final int x;
+    public final int y;
+    public final int z;
     public final EntityPlayer player;
     public final int side;
     public final float hitx;
@@ -21,9 +21,9 @@ public class BlockPlaceEvent extends Event {
     {
         super();
         this.world = world;
-        blockX = x;
-        blockY = y;
-        blockZ = z;
+        this.x = x;
+        this.y = y;
+        this.z = z;
         this.player = player;
         this.side = side;
         this.hitx = hitx;
