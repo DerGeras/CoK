@@ -11,7 +11,6 @@ public class BlockHandler {
 
 	@SubscribeEvent
 	public void onBlockPlace(BlockPlaceEvent event){
-		LogHelper.info(event.world.isRemote);
 		LogHelper.info(String.format("Block placed at %d, %d, %d", event.x, event.x, event.z));
 	}
 	

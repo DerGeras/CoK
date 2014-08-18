@@ -26,7 +26,8 @@ public class SocketRegistry {
 	
 	/**
 	 * sort unsorted sockets.
-	 * Needed this due to divergation in the call "socket.getBlockMetadata()"
+	 * Needed this due to the call of "socket.getBlockMetadata()" needing the world to
+	 * be loaded first
 	 */
 	public static void sortSockets(){
 		for(TileEntitySocket socket : unsortedSockets){
@@ -55,6 +56,16 @@ public class SocketRegistry {
 			res = res | teamSockets.remove(socket);
 		}
 		return res;
+	}
+	
+	/**
+	 * get all sockets of a specified color
+	 * @param color
+	 * @return
+	 */
+	public static HashSet<TileEntitySocket> getSockets(int color){
+		sortSockets();
+		return sockets.get(color);
 	}
 	
 }
