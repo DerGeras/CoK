@@ -33,6 +33,10 @@ public class CoKPlayerRegistry {
 		removePlayer(getPlayerForUUID(uuid));
 	}
 	
+	public static HashSet<CoKPlayer> getAllPlayers(){
+		return allPlayers;
+	}
+	
 	public static CoKPlayer getPlayerForName(String username){
 		for(CoKPlayer player : allPlayers){
 			if(player.getUserName().equals(username)){

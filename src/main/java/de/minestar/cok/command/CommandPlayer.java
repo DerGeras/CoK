@@ -86,12 +86,17 @@ public class CommandPlayer extends CoKCommand {
 				}
 			}
 		}
+		if(args.length == 4){
+			for(CoKPlayer player : CoKPlayerRegistry.getAllPlayers()){
+				addIfPrefixMatches(list, args[3], player.getUserName());
+			}
+		}
 		return list;
 	}
 	
 	@Override
 	public boolean isUsernameIndex(String[] astring, int i) {
-		return astring.length >= 1 && astring[0].equals("add") && i == 4;
+		return i == 4;
 	}
 
 }

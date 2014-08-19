@@ -19,6 +19,24 @@ public class Color {
 	public static final char YELLOW = 'e';
 	public static final char WHITE = 'f';
 	
+	public static String[] allColors = {
+		"black",
+		"darkblue",
+		"darkgreen",
+		"darkaqua",
+		"darkred",
+		"purple",
+		"gold",
+		"gray",
+		"darkgray",
+		"blue",
+		"green",
+		"aqua",
+		"red",
+		"lightpurple",
+		"yellow",
+		"white"};
+	
 	public static char getColorFromString(String color){
 		//SCREW YOU JAVA 1.5!!!!!!
 		if(color.equalsIgnoreCase("black")){
@@ -74,7 +92,7 @@ public class Color {
 	
 	public static String getColorCodeFromChar(char color){
 		if(color == 'g'){
-			color = 'f';
+			return "\u00A7f";
 		}
 		return "\u00A7" + color;
 	}

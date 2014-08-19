@@ -54,7 +54,7 @@ public class Team {
 				player.getTeam().removePlayer(player);
 			}
 			player.setTeam(this);
-			return addPlayer(player);
+			return players.add(player);
 		}
 		return false;
 	}

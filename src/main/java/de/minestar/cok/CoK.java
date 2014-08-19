@@ -9,9 +9,11 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import de.minestar.cok.command.CommandCoK;
+import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandTeam;
 import de.minestar.cok.handler.ConfigurationHandler;
 import de.minestar.cok.hook.BlockHandler;
+import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
 import de.minestar.cok.init.Recipes;
@@ -43,9 +45,8 @@ public class CoK {
 		
 		//register EventHandlers
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
-		BlockHandler blockHandler = new BlockHandler();
-		//FMLCommonHandler.instance().bus().register(blockHandler);
-		MinecraftForge.EVENT_BUS.register(blockHandler);
+		MinecraftForge.EVENT_BUS.register(new BlockHandler());
+		FMLCommonHandler.instance().bus().register(new PlayerTracker());
 		
 		//register items
 		ModItems.init();
@@ -82,6 +83,7 @@ public class CoK {
     public void serverStarting(FMLServerStartingEvent e){
 		e.registerServerCommand(new CommandCoK());
 		e.registerServerCommand(new CommandTeam());
+		e.registerServerCommand(new CommandPlayer());
 	}
 
 }

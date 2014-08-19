@@ -84,23 +84,7 @@ public class CommandTeam extends CoKCommand {
 			}			
 		}
 		if(args.length == 4 && args[0].equals("add")){
-			addIfPrefixMatches(list, args[3],
-			"black",
-			"darkblue",
-			"darkgreen",
-			"darkaqua",
-			"darkred",
-			"purple",
-			"gold",
-			"gray",
-			"darkgray",
-			"blue",
-			"green",
-			"aqua",
-			"red",
-			"lightpurple",
-			"yellow",
-			"white");
+			addIfPrefixMatches(list, args[3], Color.allColors);
 		}
 		return list;
 	}
