@@ -31,5 +31,13 @@ public abstract class CoKCommand extends CommandBase {
 	public boolean isUsernameIndex(String[] astring, int i) {
 		return false;
 	}
+	
+	public static void addIfPrefixMatches(List<String> list, String prefix, String... strings){
+		for(String s : strings){
+			if(s.startsWith(prefix)){
+				list.add(s);
+			}
+		}
+	}
 
 }

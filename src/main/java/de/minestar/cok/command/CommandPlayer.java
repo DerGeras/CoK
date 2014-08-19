@@ -68,23 +68,21 @@ public class CommandPlayer extends CoKCommand {
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
+	public List addTabCompletionOptions(ICommandSender icommandsender, String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
-		if(astring.length <= 1){
-			list.add("add");
-			list.add("remove");
+		if(args.length <= 1){
+			addIfPrefixMatches(list, args[0], "add", "remove");
 		}
-		if(astring.length == 2){
+		if(args.length == 2){
 			for(String name : CoKGameRegistry.registeredGames.keySet()){
-				list.add(name);
+				addIfPrefixMatches(list, args[1], name);
 			}
 		}
-		if(astring.length == 3){
-			CoKGame game = CoKGameRegistry.registeredGames.get(astring[1]);
+		if(args.length == 3){
+			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
 			if(game != null){
 				for(String team : game.getAllTeamNames()){
-					list.add(team);
+					addIfPrefixMatches(list, args[2], team);
 				}
 			}
 		}

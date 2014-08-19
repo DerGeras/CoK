@@ -66,13 +66,12 @@ public class CommandTeam extends CoKCommand {
 	@Override
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
-		if(args.length <= 1){
-			list.add("add");
-			list.add("remove");
+		if(args.length == 1){
+			addIfPrefixMatches(list, args[0], "add", "remove");
 		}
 		if(args.length == 2 && (args[0].equals("add") || args[0].equals("remove"))){
 			for(String name : CoKGameRegistry.registeredGames.keySet()){
-				list.add(name);
+				addIfPrefixMatches(list, args[1], name);
 			}
 		}
 		
@@ -80,27 +79,28 @@ public class CommandTeam extends CoKCommand {
 			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
 			if(game != null){
 				for(Team team : game.getAllTeams()){
-					list.add(team.getName());
+					addIfPrefixMatches(list, args[2], team.getName());
 				}
 			}			
 		}
 		if(args.length == 4 && args[0].equals("add")){
-			list.add("black");
-			list.add("darkblue");
-			list.add("darkgreen");
-			list.add("darkaqua");
-			list.add("darkred");
-			list.add("purple");
-			list.add("gold");
-			list.add("gray");
-			list.add("darkgray");
-			list.add("blue");
-			list.add("green");
-			list.add("aqua");
-			list.add("red");
-			list.add("lightpurple");
-			list.add("yellow");
-			list.add("white");
+			addIfPrefixMatches(list, args[3],
+			"black",
+			"darkblue",
+			"darkgreen",
+			"darkaqua",
+			"darkred",
+			"purple",
+			"gold",
+			"gray",
+			"darkgray",
+			"blue",
+			"green",
+			"aqua",
+			"red",
+			"lightpurple",
+			"yellow",
+			"white");
 		}
 		return list;
 	}

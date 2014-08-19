@@ -70,17 +70,14 @@ public class CommandCoK extends CoKCommand {
 	}
 
 	@Override
-	public List addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring) {
+	public List addTabCompletionOptions(ICommandSender icommandsender, String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
-		if(astring.length <= 1){
-			list.add("create");
-			list.add("start");
-			list.add("stop");
+		if(args.length == 1){
+			addIfPrefixMatches(list, args[0], "create", "start", "stop");
 		}
-		if(astring.length == 2 && (astring[1].equals("start") || astring[1].equals("stop"))){
+		if(args.length == 2 && (args[1].equals("start") || args[1].equals("stop"))){
 			for(String name : CoKGameRegistry.registeredGames.keySet()){
-				list.add(name);
+				addIfPrefixMatches(list, args[1], name);
 			}
 		}
 		return list;
