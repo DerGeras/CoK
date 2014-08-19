@@ -44,6 +44,10 @@ public class Team {
 		return color >= 97 ? color - 87 : color - 48;
 	}
 	
+	public boolean hasPlayer(CoKPlayer player){
+		return players.contains(player);
+	}
+	
 	public boolean addPlayer(CoKPlayer player){
 		if(player != null){
 			if(player.getTeam() != null){

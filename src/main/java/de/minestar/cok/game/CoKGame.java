@@ -59,6 +59,10 @@ public class CoKGame {
 		return isRunning;
 	}
 	
+	public String getName(){
+		return name;
+	}
+	
 	@SideOnly(Side.SERVER)
 	public void startGame(){
 		ChatSendHelper.broadCastError("Winter is comming!");

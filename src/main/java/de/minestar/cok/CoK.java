@@ -15,6 +15,7 @@ import de.minestar.cok.hook.BlockHandler;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
 import de.minestar.cok.init.Recipes;
+import de.minestar.cok.network.NetworkHandler;
 import de.minestar.cok.proxy.IProxy;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.LogHelper;
@@ -54,6 +55,10 @@ public class CoK {
 		
 		//initialize recipes
 		Recipes.init();
+		
+		//initialize network
+		NetworkHandler.preInit();
+
 		LogHelper.info("Pre Initialization complete");
 	}
 	
