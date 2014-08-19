@@ -7,6 +7,9 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import de.minestar.cok.command.CommandCoK;
+import de.minestar.cok.command.CommandTeam;
 import de.minestar.cok.handler.ConfigurationHandler;
 import de.minestar.cok.hook.BlockHandler;
 import de.minestar.cok.init.ModBlocks;
@@ -68,6 +71,12 @@ public class CoK {
 	public void postInit(FMLPostInitializationEvent event){
 		
 		LogHelper.info("Post Initialization complete");
+	}
+	
+	@Mod.EventHandler
+    public void serverStarting(FMLServerStartingEvent e){
+		e.registerServerCommand(new CommandCoK());
+		e.registerServerCommand(new CommandTeam());
 	}
 
 }

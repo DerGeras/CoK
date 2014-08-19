@@ -2,6 +2,12 @@ package de.minestar.cok.game;
 
 import java.util.UUID;
 
+import cpw.mods.fml.client.config.GuiCheckBox;
+import cpw.mods.fml.client.config.GuiConfig;
+
+import net.minecraft.client.gui.GuiChat;
+import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayerMP;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.util.PlayerHelper;

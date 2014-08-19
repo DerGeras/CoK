@@ -1,13 +1,19 @@
 package de.minestar.cok.game;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Set;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import de.minestar.cok.util.ChatSendHelper;
 
 public class CoKGame {
 
 	private HashMap<String, Team> teams = new HashMap<String, Team>();
 	
 	private String name;
+	private boolean isRunning = false;
 	
 	public CoKGame(String name){
 		this.name = name;
@@ -41,8 +47,29 @@ public class CoKGame {
 		return teams.get(name);
 	}
 	
-	public HashSet<Team> getAllTeams(){
-		return new HashSet<Team>(teams.values());
+	public Collection<Team> getAllTeams(){
+		return teams.values();
+	}
+	
+	public Collection<String> getAllTeamNames(){
+		return teams.keySet();
+	}
+	
+	public boolean isRunning(){
+		return isRunning;
+	}
+	
+	@SideOnly(Side.SERVER)
+	public void startGame(){
+		ChatSendHelper.broadCastError("Winter is comming!");
+		ChatSendHelper.broadCastMessage("Started the game " + name +  "!");
+		isRunning = true;
+	}
+	
+	@SideOnly(Side.SERVER)
+	public void stopGame(){
+		ChatSendHelper.broadCastError("The game " + name + " has ended!");
+		isRunning = false;
 	}
 	
 }
