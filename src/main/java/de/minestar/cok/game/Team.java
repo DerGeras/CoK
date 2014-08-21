@@ -3,6 +3,8 @@ package de.minestar.cok.game;
 import java.util.HashSet;
 import java.util.UUID;
 
+import com.sun.xml.internal.bind.v2.runtime.Coordinator;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -131,6 +133,14 @@ public class Team {
 	public void readFromNBT(NBTTagCompound compound){
 		this.name = compound.getString("name");
 		this.color = Character.forDigit(compound.getInteger("color"), 16);
+		//read coordinates
+		if(compound.hasKey("spawnX")){
+			int posX = compound.getInteger("spawnX");
+			int posY = compound.getInteger("spawnY");
+			int posZ = compound.getInteger("spawnZ");
+			spawnCoordinates = new ChunkCoordinates(posX, posY, posZ);
+		}
+		//read players
 		NBTTagList playerList = compound.getTagList("players", NBT.TAG_STRING);
 		for(int i = 0; i < playerList.tagCount(); i++){
 			String uuidString = playerList.getStringTagAt(i);
@@ -141,6 +151,13 @@ public class Team {
 	public void writeToNBT(NBTTagCompound compound){
 		compound.setString("name", this.name);
 		compound.setInteger("color", getColorAsInt());
+		//write spawncoords 
+		if(spawnCoordinates != null){
+			compound.setInteger("spawnX", spawnCoordinates.posX);
+			compound.setInteger("spawnY", spawnCoordinates.posY);
+			compound.setInteger("spawnZ", spawnCoordinates.posZ);
+		}
+		//write spawncoords
 		NBTTagList playerList = new NBTTagList();
 		for(CoKPlayer player : players){
 			playerList.appendTag(new NBTTagString(player.getUUID().toString()));

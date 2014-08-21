@@ -2,11 +2,15 @@ package de.minestar.cok.handler;
 
 import java.io.File;
 
+import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import de.minestar.cok.game.GameSettings;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.LogHelper;
 
@@ -17,7 +21,7 @@ public class ConfigurationHandler {
 	
 	public static Configuration config;
 	
-	public static void init(File file){
+	public static void preInit(File file){
 		if(config == null){
 			config = new Configuration(file);
 			loadConfiguration();
@@ -28,8 +32,19 @@ public class ConfigurationHandler {
 	private static void loadConfiguration(){
 		try{
 			config.load();
-			//read properties
+			//load game settings
+			String buildingBlockName =
+				config.getString("BuildingBlock", CATEGORY_GAME_SETTINGS, 
+					Item.itemRegistry.getNameForObject(Item.getItemFromBlock(Blocks.stone)),
+					"The towers will be made of these");
+			GameSettings.defaultBuildingBlock = Block.getBlockFromName(buildingBlockName);
 			
+			GameSettings.buildingHeight =
+				config.getInt("BuildingHeight", CATEGORY_GAME_SETTINGS, 16, 0, 128, "Building height for towers");
+			
+			GameSettings.protectedRadius =
+				config.getInt("ProtectionRadius", CATEGORY_GAME_SETTINGS, 3, 0, 64, 
+						"Square radius of protection around bases");
 		} catch(Exception e){
 			LogHelper.error("Could not load configuration file");
 		} finally {

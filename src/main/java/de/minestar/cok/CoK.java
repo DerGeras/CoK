@@ -1,5 +1,9 @@
 package de.minestar.cok;
 
+import net.minecraft.command.CommandGive;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -33,7 +37,7 @@ public class CoK {
 	
 	
 	@Mod.Instance(Reference.MOD_ID)
-	public CoK instance;
+	public static CoK instance;
 	
 	
 	@SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS,
@@ -44,7 +48,7 @@ public class CoK {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
 		//config stuff
-		ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+		ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
 		
 		//register EventHandlers
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());

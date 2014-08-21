@@ -8,6 +8,7 @@ import cpw.mods.fml.common.eventhandler.Event;
 public class BlockPlaceEvent extends Event {
 
 	public final World world;
+	public final ItemStack stack;
     public final int x;
     public final int y;
     public final int z;
@@ -20,6 +21,7 @@ public class BlockPlaceEvent extends Event {
     public BlockPlaceEvent(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side, float hitx, float hity, float hitz)
     {
         super();
+        this.stack = itemStack;
         this.world = world;
         this.x = x;
         this.y = y;
