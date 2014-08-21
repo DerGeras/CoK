@@ -9,6 +9,7 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiListExtended;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.util.PlayerHelper;
 

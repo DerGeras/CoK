@@ -4,8 +4,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants.NBT;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.util.ChatSendHelper;
 
 public class CoKGame {
@@ -19,7 +24,12 @@ public class CoKGame {
 		this.name = name;
 	}
 	
+	public CoKGame(NBTTagCompound compound){
+		readFromNBT(compound);
+	}
+	
 	public void addTeam(Team team){
+		CoKGameWorldData.data.markDirty();
 		if(team != null){
 			team.setGame(this);
 			teams.put(team.getName(), team);
@@ -74,6 +84,27 @@ public class CoKGame {
 	public void stopGame(){
 		ChatSendHelper.broadCastError("The game " + name + " has ended!");
 		isRunning = false;
+	}
+	
+	public void readFromNBT(NBTTagCompound compound){
+		this.name = compound.getString("name");
+		NBTTagList teamList = compound.getTagList("teams", NBT.TAG_COMPOUND);
+		for(int i = 0; i < teamList.tagCount(); i++){
+			NBTTagCompound teamCompound = teamList.getCompoundTagAt(i);
+			Team team = new Team(teamCompound);
+			addTeam(team);
+		}
+	}
+	
+	public void writeToNBT(NBTTagCompound compound){
+		compound.setString("name", name);
+		NBTTagList teamList = new NBTTagList();
+		for(Team team : teams.values()){
+			NBTTagCompound teamCompound = new NBTTagCompound();
+			team.writeToNBT(teamCompound);
+			teamList.appendTag(teamCompound);
+		}
+		compound.setTag("teams", teamList);
 	}
 	
 }

@@ -3,7 +3,12 @@ package de.minestar.cok.game;
 import java.util.HashSet;
 import java.util.UUID;
 
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
+import net.minecraftforge.common.util.Constants.NBT;
+import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class Team {
@@ -18,6 +23,11 @@ public class Team {
 	public Team (String name, char color){
 		this.name = name;
 		this.color = color;
+	}
+	
+	
+	public Team (NBTTagCompound compound){
+		readFromNBT(compound);
 	}
 	
 	public HashSet<CoKPlayer> getAllPlayers(){
@@ -49,6 +59,7 @@ public class Team {
 	}
 	
 	public boolean addPlayer(CoKPlayer player){
+		CoKGameWorldData.data.markDirty();
 		if(player != null){
 			if(player.getTeam() != null){
 				player.getTeam().removePlayer(player);
@@ -70,6 +81,7 @@ public class Team {
 	}
 	
 	public boolean removePlayer(CoKPlayer player){
+		CoKGameWorldData.data.markDirty();
 		if(player != null){
 			player.setTeam(null);
 		}
@@ -110,5 +122,25 @@ public class Team {
 			player.setTeam(null);
 		}
 		players.clear();
+	}
+	
+	public void readFromNBT(NBTTagCompound compound){
+		this.name = compound.getString("name");
+		this.color = Character.forDigit(compound.getInteger("color"), 16);
+		NBTTagList playerList = compound.getTagList("players", NBT.TAG_STRING);
+		for(int i = 0; i < playerList.tagCount(); i++){
+			String uuidString = playerList.getStringTagAt(i);
+			addPlayer(CoKPlayerRegistry.getOrCreatPlayerForUUID(UUID.fromString(uuidString)));
+		}
+	}
+	
+	public void writeToNBT(NBTTagCompound compound){
+		compound.setString("name", this.name);
+		compound.setInteger("color", getColorAsInt());
+		NBTTagList playerList = new NBTTagList();
+		for(CoKPlayer player : players){
+			playerList.appendTag(new NBTTagString(player.getUUID().toString()));
+		}
+		compound.setTag("players", playerList);
 	}
 }
