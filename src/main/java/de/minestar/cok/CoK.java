@@ -1,10 +1,6 @@
 package de.minestar.cok;
 
-import net.minecraft.command.CommandGive;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -13,7 +9,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
+import de.minestar.cok.chunkloadcallback.SocketChunkLoadCallBack;
 import de.minestar.cok.command.CommandCoK;
 import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandTeam;
@@ -23,6 +19,7 @@ import de.minestar.cok.hook.PlayerTracker;
 import de.minestar.cok.hook.WorldLoadHandler;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
+import de.minestar.cok.init.ModTileEntities;
 import de.minestar.cok.init.Recipes;
 import de.minestar.cok.network.NetworkHandler;
 import de.minestar.cok.proxy.IProxy;
@@ -76,6 +73,12 @@ public class CoK {
 	public void init(FMLInitializationEvent event){
 		//register item renderers
 		proxy.registerItemRenderers();
+		
+		//register tile entities
+		ModTileEntities.init();
+		
+		//Chunk loading
+		ForgeChunkManager.setForcedChunkLoadingCallback(instance, new SocketChunkLoadCallBack());
 		
 		LogHelper.info("Initialization complete");
 	}
