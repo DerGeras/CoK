@@ -19,7 +19,9 @@ public class CoKGameRegistry {
 	
 	
 	public static void registerGame(CoKGame game){
-		CoKGameWorldData.data.markDirty();
+		if(CoKGameWorldData.data != null){
+			CoKGameWorldData.data.markDirty();
+		}
 		registeredGames.put(game.getName(), game);
 	}
 	

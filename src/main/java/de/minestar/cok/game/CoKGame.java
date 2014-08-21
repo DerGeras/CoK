@@ -29,7 +29,9 @@ public class CoKGame {
 	}
 	
 	public void addTeam(Team team){
-		CoKGameWorldData.data.markDirty();
+		if(CoKGameWorldData.data != null){
+			CoKGameWorldData.data.markDirty();
+		}
 		if(team != null){
 			team.setGame(this);
 			teams.put(team.getName(), team);
@@ -41,6 +43,9 @@ public class CoKGame {
 	}
 	
 	public void removeTeam(String name){
+		if(CoKGameWorldData.data != null){
+			CoKGameWorldData.data.markDirty();
+		}
 		teams.remove(name);
 	}
 	

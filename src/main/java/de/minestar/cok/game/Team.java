@@ -59,7 +59,9 @@ public class Team {
 	}
 	
 	public boolean addPlayer(CoKPlayer player){
-		CoKGameWorldData.data.markDirty();
+		if(CoKGameWorldData.data != null){
+			CoKGameWorldData.data.markDirty();
+		}
 		if(player != null){
 			if(player.getTeam() != null){
 				player.getTeam().removePlayer(player);
@@ -81,7 +83,9 @@ public class Team {
 	}
 	
 	public boolean removePlayer(CoKPlayer player){
-		CoKGameWorldData.data.markDirty();
+		if(CoKGameWorldData.data != null){
+			CoKGameWorldData.data.markDirty();
+		}
 		if(player != null){
 			player.setTeam(null);
 		}

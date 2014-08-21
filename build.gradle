@@ -26,6 +26,13 @@ minecraft {
     assetDir = "eclipse/assets"
 }
 
+jar {
+        manifest {
+        attributes 'FMLCorePlugin': 'de.minestar.cok.preloader.CoKPreloader',
+                        'FMLCorePluginContainsFMLMod': 'true'
+    }
+}
+
 dependencies {
     // you may put jars on which you depend on in ./libs
     // or you may define them like so..
