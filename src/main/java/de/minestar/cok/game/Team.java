@@ -5,8 +5,6 @@ import io.netty.buffer.ByteBuf;
 import java.util.HashSet;
 import java.util.UUID;
 
-import com.sun.xml.internal.bind.v2.runtime.Coordinator;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -17,7 +15,7 @@ import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class Team {
 
-	private HashSet<CoKPlayer> players = new HashSet<CoKPlayer>();
+	private HashSet<UUID> playerUUIDs = new HashSet<UUID>();
 	
 	private String name;
 	private char color;
@@ -39,7 +37,7 @@ public class Team {
 	}
 	
 	public HashSet<CoKPlayer> getAllPlayers(){
-		return players;
+		return CoKPlayerRegistry.getPlayersForUUIDs(playerUUIDs);
 	}
 	
 	public char getColor(){
@@ -63,7 +61,7 @@ public class Team {
 	}
 	
 	public boolean hasPlayer(CoKPlayer player){
-		return players.contains(player);
+		return playerUUIDs.contains(player);
 	}
 	
 	public boolean addPlayer(CoKPlayer player){
@@ -75,7 +73,7 @@ public class Team {
 				player.getTeam().removePlayer(player);
 			}
 			player.setTeam(this);
-			return players.add(player);
+			return playerUUIDs.add(player.getUUID());
 		}
 		return false;
 	}
@@ -97,7 +95,7 @@ public class Team {
 		if(player != null){
 			player.setTeam(null);
 		}
-		return players.remove(player);
+		return playerUUIDs.remove(player);
 	}
 	
 	public boolean removePlayer(String name){
@@ -130,10 +128,10 @@ public class Team {
 	 * remove all players from team
 	 */
 	public void clearPlayers(){
-		for(CoKPlayer player : players){
-			player.setTeam(null);
+		for(UUID uuid : playerUUIDs){
+			CoKPlayerRegistry.getPlayerForUUID(uuid).setTeam(null);
 		}
-		players.clear();
+		playerUUIDs.clear();
 	}
 	
 	public void readFromNBT(NBTTagCompound compound){
@@ -165,8 +163,8 @@ public class Team {
 		}
 		//write spawncoords
 		NBTTagList playerList = new NBTTagList();
-		for(CoKPlayer player : players){
-			playerList.appendTag(new NBTTagString(player.getUUID().toString()));
+		for(UUID uuid : playerUUIDs){
+			playerList.appendTag(new NBTTagString(uuid.toString()));
 		}
 		compound.setTag("players", playerList);
 	}
@@ -184,11 +182,11 @@ public class Team {
 			buf.writeInt(spawnLocation.posZ);
 		}
 		//write players
-		buf.writeInt(players.size());
-		for(CoKPlayer player : players){
+		buf.writeInt(playerUUIDs.size());
+		for(UUID uuid : playerUUIDs){
 			//write UUID
-			buf.writeInt(player.getUUID().toString().length());
-			buf.writeBytes(player.getUUID().toString().getBytes());
+			buf.writeInt(uuid.toString().length());
+			buf.writeBytes(uuid.toString().getBytes());
 		}
 	}
 	

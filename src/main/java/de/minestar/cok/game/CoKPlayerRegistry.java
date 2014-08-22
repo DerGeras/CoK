@@ -1,8 +1,15 @@
 package de.minestar.cok.game;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
+
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraftforge.common.util.Constants.NBT;
 
 public class CoKPlayerRegistry {
 
@@ -46,5 +53,53 @@ public class CoKPlayerRegistry {
 	
 	public static void clearPlayers(){
 		allPlayers.clear();
+	}
+	
+	public static HashSet<CoKPlayer> getPlayersForUUIDs(Collection <UUID> uuids){
+		HashSet<CoKPlayer> result = new HashSet<CoKPlayer>();
+		for(UUID uuid : uuids){
+			result.add(getPlayerForUUID(uuid));
+		}
+		return result;
+	}
+
+	public static void readFromNBT(NBTTagCompound compound) {
+		//clear old data
+		clearPlayers();
+		//read players
+		NBTTagList playerList = compound.getTagList("players", NBT.TAG_COMPOUND);
+		for(int i = 0; i < playerList.tagCount(); i++){
+			addPlayer(new CoKPlayer(playerList.getCompoundTagAt(i)));
+		}
+	}
+
+	public static void writeToNBT(NBTTagCompound compound) {
+		//write players
+		NBTTagList playerList = new NBTTagList();
+		for(CoKPlayer player : allPlayers.values()){
+			NBTTagCompound playerCompound = new NBTTagCompound();
+			player.writeToNBT(playerCompound);
+			playerList.appendTag(playerCompound);
+		}
+		compound.setTag("players", playerList);
+	}
+
+	public static void readFromBuffer(ByteBuf buf) {
+		//clear old data
+		clearPlayers();
+		//read players
+		int playerCount = buf.readInt();
+		for(int i = 0; i < playerCount; i++){
+			addPlayer(new CoKPlayer(buf));
+		}
+		
+	}
+	
+	public static void writeToBuffer(ByteBuf buf){
+		//write players
+		buf.writeInt(allPlayers.size());
+		for(CoKPlayer player : allPlayers.values()){
+			player.writeToBuffer(buf);
+		}
 	}
 }

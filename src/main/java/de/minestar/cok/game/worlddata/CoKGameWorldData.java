@@ -14,8 +14,6 @@ public class CoKGameWorldData extends WorldSavedData {
 	
 	public static CoKGameWorldData data;
 	
-	public static int counter = 0;
-	
 	/**
 	 * Initializing data
 	 */
@@ -36,13 +34,13 @@ public class CoKGameWorldData extends WorldSavedData {
 		super(DATA_KEY);
 	}
 	
+	//must be present
 	public CoKGameWorldData(String key){
-		super(key);
+		super(key); 
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
-		counter++;
 		LogHelper.info("Loading CoK game data from world...");
 		CoKGameRegistry.readFromNBT(compound);
 
