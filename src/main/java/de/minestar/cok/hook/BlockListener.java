@@ -7,7 +7,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import de.minestar.cok.event.BlockPlaceEvent;
 import de.minestar.cok.util.LogHelper;
 
-public class BlockHandler {
+public class BlockListener {
 
 	@SubscribeEvent
 	public void onBlockPlace(BlockPlaceEvent event){

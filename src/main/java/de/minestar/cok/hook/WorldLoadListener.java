@@ -8,7 +8,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.Type;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 
-public class WorldLoadHandler {
+public class WorldLoadListener {
 
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)

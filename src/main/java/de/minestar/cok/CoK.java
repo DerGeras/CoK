@@ -14,9 +14,9 @@ import de.minestar.cok.command.CommandCoK;
 import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandTeam;
 import de.minestar.cok.handler.ConfigurationHandler;
-import de.minestar.cok.hook.BlockHandler;
+import de.minestar.cok.hook.BlockListener;
 import de.minestar.cok.hook.PlayerTracker;
-import de.minestar.cok.hook.WorldLoadHandler;
+import de.minestar.cok.hook.WorldLoadListener;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
 import de.minestar.cok.init.ModTileEntities;
@@ -49,9 +49,9 @@ public class CoK {
 		
 		//register EventHandlers
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
-		MinecraftForge.EVENT_BUS.register(new BlockHandler());
+		MinecraftForge.EVENT_BUS.register(new BlockListener());
 		FMLCommonHandler.instance().bus().register(new PlayerTracker());
-		MinecraftForge.EVENT_BUS.register(new WorldLoadHandler());
+		MinecraftForge.EVENT_BUS.register(new WorldLoadListener());
 		
 		//register items
 		ModItems.init();

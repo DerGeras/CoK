@@ -8,25 +8,28 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import de.minestar.cok.game.CoKGameRegistry;
+import de.minestar.cok.util.LogHelper;
 
 public class MessageCompleteGameState implements IMessage, IMessageHandler<MessageCompleteGameState, IMessage> {
+	
+	public MessageCompleteGameState(){
+		//default constructor must be present
+	}
 
 	@Override
 	public void fromBytes(ByteBuf buf) {
-		//NBTTagCompound compound = new NBTTagCompound();
-		//CoKGameRegistry.writeToNBT(compound);		
-		//TODO yay for redundant stuff...
+		CoKGameRegistry.readFromBuffer(buf);
 	}
 
 	@Override
 	public void toBytes(ByteBuf buf) {
-		// TODO Auto-generated method stub
-
+		CoKGameRegistry.writeToBuffer(buf);
 	}
 
 	@Override
 	public IMessage onMessage(MessageCompleteGameState message, MessageContext ctx) {
-		// TODO Auto-generated method stub
+		//Changes occour in "fromBytes".
+		LogHelper.info("Received game package data from server.");
 		return null;
 	}
 

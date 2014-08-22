@@ -1,5 +1,7 @@
 package de.minestar.cok.game;
 
+import io.netty.buffer.ByteBuf;
+
 import java.util.HashSet;
 import java.util.UUID;
 
@@ -19,7 +21,7 @@ public class Team {
 	
 	private String name;
 	private char color;
-	private ChunkCoordinates spawnCoordinates;
+	private ChunkCoordinates spawnLocation;
 	private CoKGame currentGame;
 	
 	public Team (String name, char color){
@@ -30,6 +32,10 @@ public class Team {
 	
 	public Team (NBTTagCompound compound){
 		readFromNBT(compound);
+	}
+	
+	public Team(ByteBuf buf){
+		readFromBuffer(buf);
 	}
 	
 	public HashSet<CoKPlayer> getAllPlayers(){
@@ -138,7 +144,7 @@ public class Team {
 			int posX = compound.getInteger("spawnX");
 			int posY = compound.getInteger("spawnY");
 			int posZ = compound.getInteger("spawnZ");
-			spawnCoordinates = new ChunkCoordinates(posX, posY, posZ);
+			spawnLocation = new ChunkCoordinates(posX, posY, posZ);
 		}
 		//read players
 		NBTTagList playerList = compound.getTagList("players", NBT.TAG_STRING);
@@ -152,10 +158,10 @@ public class Team {
 		compound.setString("name", this.name);
 		compound.setInteger("color", getColorAsInt());
 		//write spawncoords 
-		if(spawnCoordinates != null){
-			compound.setInteger("spawnX", spawnCoordinates.posX);
-			compound.setInteger("spawnY", spawnCoordinates.posY);
-			compound.setInteger("spawnZ", spawnCoordinates.posZ);
+		if(spawnLocation != null){
+			compound.setInteger("spawnX", spawnLocation.posX);
+			compound.setInteger("spawnY", spawnLocation.posY);
+			compound.setInteger("spawnZ", spawnLocation.posZ);
 		}
 		//write spawncoords
 		NBTTagList playerList = new NBTTagList();
@@ -163,5 +169,48 @@ public class Team {
 			playerList.appendTag(new NBTTagString(player.getUUID().toString()));
 		}
 		compound.setTag("players", playerList);
+	}
+	
+	
+	public void writeToBuffer(ByteBuf buf){
+		//write name
+		buf.writeInt(name.length());
+		buf.writeBytes(name.getBytes());
+		//write spawnlocation
+		buf.writeBoolean(spawnLocation != null);
+		if(spawnLocation != null){
+			buf.writeInt(spawnLocation.posX);
+			buf.writeInt(spawnLocation.posY);
+			buf.writeInt(spawnLocation.posZ);
+		}
+		//write players
+		buf.writeInt(players.size());
+		for(CoKPlayer player : players){
+			//write UUID
+			buf.writeInt(player.getUUID().toString().length());
+			buf.writeBytes(player.getUUID().toString().getBytes());
+		}
+	}
+	
+	public void readFromBuffer(ByteBuf buf){
+		//read name
+		int nameLength = buf.readInt();
+		this.name = new String(buf.readBytes(nameLength).array());
+		//read spawnLocation
+		boolean hasSpawnLocation = buf.readBoolean();
+		if(hasSpawnLocation){
+			int x = buf.readInt();
+			int y = buf.readInt();
+			int z = buf.readInt();
+			this.spawnLocation = new ChunkCoordinates(x,y,z);
+		}
+		//read players
+		int playerCount = buf.readInt();
+		for(int i = 0; i < playerCount; i++){
+			//read UUID
+			int uuidLength = buf.readInt();
+			UUID uuid = UUID.fromString(new String(buf.readBytes(uuidLength).array()));
+			addPlayer(CoKPlayerRegistry.getOrCreatPlayerForUUID(uuid));
+		}
 	}
 }

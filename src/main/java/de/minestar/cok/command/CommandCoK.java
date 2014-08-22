@@ -75,7 +75,7 @@ public class CommandCoK extends CoKCommand {
 		if(args.length == 1){
 			addIfPrefixMatches(list, args[0], "create", "start", "stop");
 		}
-		if(args.length == 2 && (args[1].equals("start") || args[1].equals("stop"))){
+		if(args.length == 2 && (args[0].equals("start") || args[0].equals("stop"))){
 			for(String name : CoKGameRegistry.registeredGames.keySet()){
 				addIfPrefixMatches(list, args[1], name);
 			}
