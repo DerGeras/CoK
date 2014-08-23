@@ -68,4 +68,13 @@ public class SocketRegistry {
 		return sockets.get(color);
 	}
 	
+	public static HashSet<TileEntitySocket> getAllSockets(){
+		sortSockets();
+		HashSet<TileEntitySocket> allSockets = new HashSet<TileEntitySocket>();
+		for(HashSet<TileEntitySocket> set : sockets.values()){
+			allSockets.addAll(set);
+		}
+		return allSockets;
+	}
+	
 }
