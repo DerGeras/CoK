@@ -68,6 +68,10 @@ public class Team {
 		return spawnLocation;
 	}
 	
+	public void setSpawnCoordinates(ChunkCoordinates coords){
+		this.spawnLocation = coords;
+	}
+	
 	public boolean addPlayer(CoKPlayer player){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();

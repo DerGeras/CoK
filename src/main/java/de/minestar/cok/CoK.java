@@ -12,6 +12,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import de.minestar.cok.chunkloadcallback.SocketChunkLoadCallBack;
 import de.minestar.cok.command.CommandCoK;
 import de.minestar.cok.command.CommandPlayer;
+import de.minestar.cok.command.CommandSetSpawn;
 import de.minestar.cok.command.CommandTeam;
 import de.minestar.cok.handler.ConfigurationHandler;
 import de.minestar.cok.hook.BlockListener;
@@ -95,6 +96,7 @@ public class CoK {
 		e.registerServerCommand(new CommandCoK());
 		e.registerServerCommand(new CommandTeam());
 		e.registerServerCommand(new CommandPlayer());
+		e.registerServerCommand(new CommandSetSpawn());
 	}
 
 }

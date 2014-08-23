@@ -23,4 +23,5 @@ public class Reference {
 	public static final String COMMAND_COK = "cok";
 	public static final String COMMAND_TEAM = "team";
 	public static final String COMMAND_PLAYER = "player";
+	public static final String COMMAND_SET_SPAWN = "setspawn";
 }
