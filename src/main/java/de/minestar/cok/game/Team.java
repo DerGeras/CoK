@@ -64,6 +64,10 @@ public class Team {
 		return playerUUIDs.contains(player);
 	}
 	
+	public ChunkCoordinates getSpawnlocation(){
+		return spawnLocation;
+	}
+	
 	public boolean addPlayer(CoKPlayer player){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();

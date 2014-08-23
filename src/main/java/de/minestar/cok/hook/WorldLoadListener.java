@@ -9,7 +9,7 @@ public class WorldLoadListener {
 
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public void worldLoad(WorldEvent.Load event){
+	public void onWorldLoad(WorldEvent.Load event){
 		CoKGameWorldData.onWorldLoad(event.world);
 	}
 	

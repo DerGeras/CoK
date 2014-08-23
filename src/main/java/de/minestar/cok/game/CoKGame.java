@@ -6,8 +6,10 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
 import cpw.mods.fml.relauncher.Side;
@@ -100,6 +102,18 @@ public class CoKGame {
 		ChatSendHelper.broadCastError("Winter is comming!");
 		ChatSendHelper.broadCastMessage("Started the game " + name +  "!");
 		isRunning = true;
+		for(Team team : teams.values()){
+			ChunkCoordinates coords = team.getSpawnlocation();
+			if(coords != null){
+				for(CoKPlayer player : team.getAllPlayers()){
+					EntityPlayerMP playerEntity = player.getPlayerEntity();
+					if(playerEntity != null){
+						playerEntity.setSpawnChunk(coords, true, 0);
+						playerEntity.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0, 0);
+					}
+				}
+			}
+		}
 	}
 	
 	@SideOnly(Side.SERVER)
