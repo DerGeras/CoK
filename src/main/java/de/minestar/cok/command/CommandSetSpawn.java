@@ -26,7 +26,7 @@ public class CommandSetSpawn extends CoKCommand{
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 		if(args.length < 1 || args.length > 2){
-			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender);
+			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
 			return;
 		}
 		CoKGame game = CoKGameRegistry.registeredGames.get(args[0]);
