@@ -20,7 +20,7 @@ public class CommandCoK extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: %s [create|remove|start|stop] {gameName}", getCommandName());
+		return String.format("Usage: /%s [create|remove|start|stop] {gameName}", getCommandName());
 	}
 
 	@Override

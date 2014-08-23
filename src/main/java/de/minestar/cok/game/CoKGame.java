@@ -4,17 +4,18 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
+import java.util.HashSet;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
+import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
+import de.minestar.cok.util.Color;
 
 public class CoKGame {
 
@@ -104,7 +105,30 @@ public class CoKGame {
 	@SideOnly(Side.SERVER)
 	public void stopGame(){
 		ChatSendHelper.broadCastError("The game " + name + " has ended!");
+		ChatSendHelper.broadCastMessage("Scores:");
+		for(Team team : teams.values()){
+			HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
+			ChatSendHelper.broadCastMessage(String.format("%s%s%s:%d/%d",
+					Color.getColorCodeFromChar(team.getColor()),
+					team.getName(),
+					Color.getColorCodeFromString("blue"),
+					getScoreForTeam(team),
+					teamSockets == null ? 0 : teamSockets.size() * GameSettings.buildingHeight));
+		}
 		isRunning = false;
+	}
+	
+	@SideOnly(Side.SERVER)
+	public int getScoreForTeam(Team team){
+		HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
+		if(teamSockets == null){
+			return 0;
+		}
+		int sum = 0;
+		for(TileEntitySocket s : teamSockets){
+			sum += s.countBlocks();
+		}
+		return sum;
 	}
 	
 	public void readFromNBT(NBTTagCompound compound){

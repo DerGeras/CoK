@@ -21,7 +21,7 @@ public class CommandPlayer extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: %s [add|remove] {gameName} {teamName} {playerName}", getCommandName());
+		return String.format("Usage: /%s [add|remove] {gameName} {teamName} {playerName}", getCommandName());
 	}
 
 	@Override

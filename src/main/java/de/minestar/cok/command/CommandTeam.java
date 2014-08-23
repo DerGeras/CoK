@@ -20,7 +20,7 @@ public class CommandTeam extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: %s [add|remove] {gameName} {teamName} {{teamColor on add}}", getCommandName());
+		return String.format("Usage: /%s [add|remove] {gameName} {teamName} {{teamColor on add}}", getCommandName());
 	}
 
 	@Override
