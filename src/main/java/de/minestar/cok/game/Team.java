@@ -138,6 +138,7 @@ public class Team {
 	public void clearPlayers(){
 		for(UUID uuid : playerUUIDs){
 			CoKPlayerRegistry.getPlayerForUUID(uuid).setTeam(null);
+			CoKPlayerRegistry.getPlayerForUUID(uuid).setProfession(null);
 		}
 		playerUUIDs.clear();
 	}
