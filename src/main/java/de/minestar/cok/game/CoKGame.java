@@ -130,6 +130,17 @@ public class CoKGame {
 					teamSockets == null ? 0 : teamSockets.size() * GameSettings.buildingHeight));
 		}
 		isRunning = false;
+		if(spawnLocation != null){
+			for(Team team : teams.values()){
+				for(CoKPlayer player : team.getAllPlayers()){
+					EntityPlayerMP playerEntity = player.getPlayerEntity();
+					if(playerEntity != null){
+						playerEntity.setSpawnChunk(spawnLocation, true, 0);
+						playerEntity.playerNetServerHandler.setPlayerLocation(spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);
+					}
+				}
+			}
+		}
 	}
 	
 	@SideOnly(Side.SERVER)
