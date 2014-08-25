@@ -1,10 +1,14 @@
 package de.minestar.cok.hook;
 
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -16,6 +20,7 @@ import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.network.NetworkHandler;
 import de.minestar.cok.network.message.MessageCompleteGameState;
 import de.minestar.cok.util.ItemStackHelper;
+import de.minestar.cok.util.PlayerHelper;
 
 public class PlayerTracker {
 	
@@ -40,11 +45,8 @@ public class PlayerTracker {
 	
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event){
-		if(event.entityLiving instanceof EntityPlayer){
-			CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.entityLiving.getUniqueID());
-			if(player.getTeam() != null){
-				player.getTeam().playerLeft(player);
-			}
+		if(event.entityLiving instanceof EntityPlayerMP){
+			PlayerHelper.clearGivenItemsFromInventory((EntityPlayerMP) event.entityLiving);
 		}
 	}
 	
@@ -62,6 +64,27 @@ public class PlayerTracker {
 		if(ItemStackHelper.isGiven(stack)){
 			event.setCanceled(true);
 			event.player.inventory.addItemStackToInventory(stack);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerDrop(PlayerDropsEvent event){
+		//drop head
+		CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.entityPlayer.getUniqueID());
+		if(player.getProfession() != null && player.getProfession().getClassName().equals("King")){
+			ItemStack headStack = new ItemStack(Items.skull);
+			headStack.setItemDamage(3); //Skulltype head
+			NBTTagCompound headTag = headStack.getTagCompound();
+			if(headTag == null){
+				headStack.setTagCompound(new NBTTagCompound());
+				headTag = headStack.getTagCompound();
+			}
+			headTag.setString("SkullOwner", event.entityPlayer.getCommandSenderName());
+			event.drops.add(new EntityItem(event.entityPlayer.worldObj, event.entityPlayer.posX,
+					event.entityPlayer.posY, event.entityPlayer.posZ, headStack));
+		}
+		if(player.getTeam() != null){
+			player.getTeam().playerLeft(player);
 		}
 	}
 

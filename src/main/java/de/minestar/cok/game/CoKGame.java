@@ -100,10 +100,11 @@ public class CoKGame {
 	
 	@SideOnly(Side.SERVER)
 	public void startGame(){
-		ChatSendHelper.broadCastError("Winter is comming!");
-		ChatSendHelper.broadCastMessage("Started the game " + name +  "!");
+		ChatSendHelper.broadCastError("Started the game " + name +  "!");
 		isRunning = true;
+		ChatSendHelper.broadCastMessage("Teams:");
 		for(Team team : teams.values()){
+			ChatSendHelper.broadCastMessage(String.format("%s%s", Color.getColorCodeFromChar(team.getColor()), team.getName()));
 			ChunkCoordinates coords = team.getSpawnlocation();
 			if(coords != null){
 				for(CoKPlayer player : team.getAllPlayers()){
@@ -111,8 +112,7 @@ public class CoKGame {
 					if(playerEntity != null){
 						PlayerHelper.clearInventory(playerEntity);
 						playerEntity.setHealth(20.0f);
-						playerEntity.getFoodStats().setFoodLevel(20);
-						playerEntity.getFoodStats().setFoodSaturationLevel(20);
+						playerEntity.getFoodStats().addStats(20, 20);
 						playerEntity.setSpawnChunk(coords, true, 0);
 						playerEntity.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0, 0);
 					}

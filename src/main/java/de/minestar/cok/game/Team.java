@@ -8,6 +8,10 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.UUID;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -17,6 +21,7 @@ import net.minecraftforge.common.util.Constants.NBT;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
+import de.minestar.cok.util.LogHelper;
 import de.minestar.cok.util.PlayerHelper;
 
 public class Team {
@@ -34,15 +39,18 @@ public class Team {
 	public Team (String name, char color){
 		this.name = name;
 		this.color = color;
+		this.availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 	}
 	
 	
 	public Team (NBTTagCompound compound){
 		readFromNBT(compound);
+		this.availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 	}
 	
 	public Team(ByteBuf buf){
 		readFromBuffer(buf);
+		this.availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 	}
 	
 	public HashSet<CoKPlayer> getAllPlayers(){
@@ -168,7 +176,7 @@ public class Team {
 	 * distribute all available professions
 	 */
 	public void distributeProfessions(){
-		if(currentGame.isRunning()){
+		if(currentGame != null && currentGame.isRunning()){
 			while(availableProfessions.size() > 0){
 				CoKPlayer candidate = getProfessionCandidate();
 				if(candidate == null){
@@ -177,6 +185,7 @@ public class Team {
 				Profession p = availableProfessions.pop();
 				candidate.setProfession(p);
 				p.giveKit(candidate.getPlayerEntity(), this);
+				LogHelper.info(candidate.getUserName() + " " + p.getClassName());
 			}
 		}
 	}

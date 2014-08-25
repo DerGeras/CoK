@@ -36,7 +36,8 @@ public class CommandSetSpawn extends CoKCommand{
 			ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + args[0]);
 		}
 		if(args.length == 1){
-			game.setSpawnLocation(sender.getPlayerCoordinates());			
+			game.setSpawnLocation(sender.getPlayerCoordinates());
+			return;
 		}
 		if(args.length == 2){
 			Team team = game.getTeam(args[1]);
@@ -60,14 +61,14 @@ public class CommandSetSpawn extends CoKCommand{
 		LinkedList<String> list = new LinkedList<String>();
 		if(args.length == 1){
 			for(String name : CoKGameRegistry.registeredGames.keySet()){
-				addIfPrefixMatches(list, args[1], name);
+				addIfPrefixMatches(list, args[0], name);
 			}
 		}
 		if(args.length == 2){
 			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
 			if(game != null){
 				for(Team team : game.getAllTeams()){
-					addIfPrefixMatches(list, args[2], team.getName());
+					addIfPrefixMatches(list, args[1], team.getName());
 				}
 			}			
 		}
