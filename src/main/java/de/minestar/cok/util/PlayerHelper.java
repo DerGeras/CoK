@@ -3,6 +3,7 @@ package de.minestar.cok.util;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.server.MinecraftServer;
@@ -57,7 +58,7 @@ public class PlayerHelper {
 	 * clear all items that are marked as given.
 	 * @param playerEntity
 	 */
-	public static void clearGivenItemsFromInventory(EntityPlayerMP playerEntity) {
+	public static void clearGivenItemsFromInventory(EntityPlayer playerEntity) {
 		InventoryPlayer inv = playerEntity.inventory;
 		for(int i = 0; i < inv.mainInventory.length; i++){
 			if(inv.mainInventory[i] != null && ItemStackHelper.isGiven(inv.mainInventory[i])){

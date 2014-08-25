@@ -26,6 +26,7 @@ public class PlayerTracker {
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event){
+		PlayerHelper.clearGivenItemsFromInventory(event.player); //hotfix for unconventional situations
 		CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
 		if(player.getTeam() != null){
 			player.getTeam().playerJoined(player);
@@ -45,8 +46,8 @@ public class PlayerTracker {
 	
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event){
-		if(event.entityLiving instanceof EntityPlayerMP){
-			PlayerHelper.clearGivenItemsFromInventory((EntityPlayerMP) event.entityLiving);
+		if(event.entityLiving instanceof EntityPlayer){
+			PlayerHelper.clearGivenItemsFromInventory((EntityPlayer) event.entityLiving);
 		}
 	}
 	
