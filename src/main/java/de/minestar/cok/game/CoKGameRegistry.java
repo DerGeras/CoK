@@ -3,15 +3,18 @@ package de.minestar.cok.game;
 import io.netty.buffer.ByteBuf;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
+import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 
 public class CoKGameRegistry {
 
 	public static HashMap<String, CoKGame> registeredGames = new HashMap<String, CoKGame>();
+	public static HashSet<Profession> registeredProfessions = new HashSet<Profession>();
 	
 	public static void registerGame(String name){
 		registerGame(new CoKGame(name));

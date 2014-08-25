@@ -7,7 +7,9 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import cpw.mods.fml.relauncher.Side;
+import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.network.NetworkHandler;
 import de.minestar.cok.network.message.MessageCompleteGameState;
@@ -16,8 +18,9 @@ public class PlayerTracker {
 	
 	@SubscribeEvent
 	public void onPlayerLogin(PlayerLoggedInEvent event){
-		if(CoKPlayerRegistry.getPlayerForUUID(event.player.getUniqueID()) == null){
-			CoKPlayerRegistry.addPlayer(event.player.getUniqueID());
+		CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
+		if(player.getTeam() != null){
+			player.getTeam().playerJoined(player);
 		}
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 			NetworkHandler.network.sendTo(new MessageCompleteGameState(), (EntityPlayerMP) event.player);
@@ -26,13 +29,27 @@ public class PlayerTracker {
 	
 	@SubscribeEvent
 	public void onPlayerLogout(PlayerLoggedOutEvent event){
-		//TODO
+		CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
+		if(player.getTeam() != null){
+			player.getTeam().playerLeft(player);
+		}
 	}
 	
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event){
 		if(event.entityLiving instanceof EntityPlayer){
-			//TODO
+			CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
+			if(player.getTeam() != null){
+				player.getTeam().playerLeft(player);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerRespawn(PlayerRespawnEvent event){
+		CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
+		if(player.getTeam() != null){
+			player.getTeam().playerJoined(player);
 		}
 	}
 

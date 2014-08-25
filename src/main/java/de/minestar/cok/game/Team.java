@@ -2,20 +2,29 @@ package de.minestar.cok.game;
 
 import io.netty.buffer.ByteBuf;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
 import java.util.UUID;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
+import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
+import de.minestar.cok.util.PlayerHelper;
 
 public class Team {
 
 	private HashSet<UUID> playerUUIDs = new HashSet<UUID>();
+	private LinkedList<Profession> availableProfessions = new LinkedList<Profession>();
+	
+	private static Random rand = new Random();
 	
 	private String name;
 	private char color;
@@ -81,6 +90,7 @@ public class Team {
 				player.getTeam().removePlayer(player);
 			}
 			player.setTeam(this);
+			playerJoined(player);
 			return playerUUIDs.add(player.getUUID());
 		}
 		return false;
@@ -101,6 +111,7 @@ public class Team {
 			CoKGameWorldData.data.markDirty();
 		}
 		if(player != null){
+			playerLeft(player);
 			player.setTeam(null);
 		}
 		return playerUUIDs.remove(player);
@@ -130,6 +141,62 @@ public class Team {
 	
 	public void setGame(CoKGame game){
 		this.currentGame = game;
+	}
+	
+	/**
+	 * should be called whenever a player enters the team/logs back in/revives
+	 * @param player
+	 */
+	public void playerJoined(CoKPlayer player){
+		distributeProfessions();
+	}
+	
+	/**
+	 * should always be called when a player disconnects/dies/leaves the team
+	 * @param player
+	 */
+	public void playerLeft(CoKPlayer player){
+		if(player.getProfession() != null){
+			availableProfessions.add(player.getProfession());
+			player.setProfession(null);
+			PlayerHelper.clearGivenItemsFromInventory(player.getPlayerEntity());
+			distributeProfessions();
+		}
+	}
+	
+	/**
+	 * distribute all available professions
+	 */
+	public void distributeProfessions(){
+		if(currentGame.isRunning()){
+			while(availableProfessions.size() > 0){
+				CoKPlayer candidate = getProfessionCandidate();
+				if(candidate == null){
+					break;
+				}
+				Profession p = availableProfessions.pop();
+				candidate.setProfession(p);
+				p.giveKit(candidate.getPlayerEntity(), this);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @return an alive online player without profession
+	 */
+	public CoKPlayer getProfessionCandidate(){
+		ArrayList<CoKPlayer> candidates = new ArrayList<CoKPlayer>();
+		for(CoKPlayer player : getAllPlayers()){
+			if(player.getProfession() == null){
+				EntityPlayerMP playerEntity = player.getPlayerEntity();
+				if(playerEntity != null && playerEntity.isEntityAlive()){
+					candidates.add(player);
+				}
+			}
+		}
+		
+		return candidates.size() < 1 ? null : candidates.get(rand.nextInt(candidates.size()));
 	}
 	
 	/**

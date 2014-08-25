@@ -18,6 +18,7 @@ import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
+import de.minestar.cok.util.PlayerHelper;
 
 public class CoKGame {
 
@@ -108,6 +109,7 @@ public class CoKGame {
 				for(CoKPlayer player : team.getAllPlayers()){
 					EntityPlayerMP playerEntity = player.getPlayerEntity();
 					if(playerEntity != null){
+						PlayerHelper.clearInventory(playerEntity);
 						playerEntity.setHealth(20.0f);
 						playerEntity.getFoodStats().setFoodLevel(20);
 						playerEntity.getFoodStats().setFoodSaturationLevel(20);
@@ -116,6 +118,7 @@ public class CoKGame {
 					}
 				}
 			}
+			team.distributeProfessions();
 		}
 	}
 	

@@ -10,7 +10,11 @@ import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import de.minestar.cok.game.CoKGameRegistry;
 import de.minestar.cok.game.GameSettings;
+import de.minestar.cok.game.profession.ProfessionBarbarian;
+import de.minestar.cok.game.profession.ProfessionCrossbowman;
+import de.minestar.cok.game.profession.ProfessionKing;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.LogHelper;
 
@@ -18,6 +22,7 @@ public class ConfigurationHandler {
 	
 	public static final String CATEGORY_GAME_SETTINGS = "Game Settings";
 	public static final String CATEGORY_LOCAL_SETTINGS = "Local Settings";
+	public static final String CATEGORY_PROFESSIONS = "Professions";
 	
 	public static Configuration config;
 	
@@ -32,6 +37,7 @@ public class ConfigurationHandler {
 	private static void loadConfiguration(){
 		try{
 			config.load();
+			
 			//load game settings
 			String buildingBlockName =
 				config.getString("BuildingBlock", CATEGORY_GAME_SETTINGS, 
@@ -45,6 +51,16 @@ public class ConfigurationHandler {
 			GameSettings.protectedRadius =
 				config.getInt("ProtectionRadius", CATEGORY_GAME_SETTINGS, 3, 0, 64, 
 						"Square radius of protection around bases");
+			
+			//load professions
+			CoKGameRegistry.registeredProfessions.add(new ProfessionKing());
+			if(config.getBoolean("Barbarian", CATEGORY_PROFESSIONS, true, "Enables the barbarian")){
+				CoKGameRegistry.registeredProfessions.add(new ProfessionBarbarian());
+			}
+			if(config.getBoolean("Crossbowman", CATEGORY_PROFESSIONS, true, "Enables the crossbowman")){
+				CoKGameRegistry.registeredProfessions.add(new ProfessionCrossbowman());
+			}
+			
 		} catch(Exception e){
 			LogHelper.error("Could not load configuration file");
 		} finally {
