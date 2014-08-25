@@ -51,7 +51,9 @@ public class CoK {
 		//register EventHandlers
 		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 		MinecraftForge.EVENT_BUS.register(new BlockListener());
-		FMLCommonHandler.instance().bus().register(new PlayerTracker());
+		PlayerTracker playerTracker = new PlayerTracker();
+		FMLCommonHandler.instance().bus().register(playerTracker);
+		MinecraftForge.EVENT_BUS.register(playerTracker);
 		MinecraftForge.EVENT_BUS.register(new WorldLoadListener());
 		
 		//register items

@@ -2,6 +2,8 @@ package de.minestar.cok.hook;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -13,6 +15,7 @@ import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.network.NetworkHandler;
 import de.minestar.cok.network.message.MessageCompleteGameState;
+import de.minestar.cok.util.ItemStackHelper;
 
 public class PlayerTracker {
 	
@@ -38,7 +41,7 @@ public class PlayerTracker {
 	@SubscribeEvent
 	public void onPlayerDeath(LivingDeathEvent event){
 		if(event.entityLiving instanceof EntityPlayer){
-			CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
+			CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.entityLiving.getUniqueID());
 			if(player.getTeam() != null){
 				player.getTeam().playerLeft(player);
 			}
@@ -50,6 +53,15 @@ public class PlayerTracker {
 		CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
 		if(player.getTeam() != null){
 			player.getTeam().playerJoined(player);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerTossItem(ItemTossEvent event){
+		ItemStack stack = event.entityItem.getEntityItem();
+		if(ItemStackHelper.isGiven(stack)){
+			event.setCanceled(true);
+			event.player.inventory.addItemStackToInventory(stack);
 		}
 	}
 

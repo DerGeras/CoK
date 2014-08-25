@@ -48,7 +48,9 @@ public class CoKPlayerRegistry {
 		if(allPlayers.containsKey(uuid)){
 			return allPlayers.get(uuid);
 		}
-		return allPlayers.put(uuid, new CoKPlayer(uuid));
+		CoKPlayer player = new CoKPlayer(uuid);
+		allPlayers.put(uuid, player);
+		return player;
 	}
 	
 	public static void clearPlayers(){
