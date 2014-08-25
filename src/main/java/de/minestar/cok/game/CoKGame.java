@@ -108,6 +108,9 @@ public class CoKGame {
 				for(CoKPlayer player : team.getAllPlayers()){
 					EntityPlayerMP playerEntity = player.getPlayerEntity();
 					if(playerEntity != null){
+						playerEntity.setHealth(20.0f);
+						playerEntity.getFoodStats().setFoodLevel(20);
+						playerEntity.getFoodStats().setFoodSaturationLevel(20);
 						playerEntity.setSpawnChunk(coords, true, 0);
 						playerEntity.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0, 0);
 					}
