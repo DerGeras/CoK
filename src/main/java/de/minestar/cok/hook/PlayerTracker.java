@@ -69,7 +69,7 @@ public class PlayerTracker {
 	}
 	
 	@SubscribeEvent
-	public void onPlayerDrop(PlayerDropsEvent event){
+	public void onPlayerDeathDrops(PlayerDropsEvent event){
 		//drop head
 		CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.entityPlayer.getUniqueID());
 		if(player.getProfession() != null && player.getProfession().getClassName().equals("King")){

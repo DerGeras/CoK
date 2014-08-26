@@ -98,7 +98,9 @@ public class Team {
 				player.getTeam().removePlayer(player);
 			}
 			player.setTeam(this);
-			playerJoined(player);
+			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+				playerJoined(player);
+			}
 			return playerUUIDs.add(player.getUUID());
 		}
 		return false;
