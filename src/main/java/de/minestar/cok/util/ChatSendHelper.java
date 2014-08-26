@@ -1,9 +1,10 @@
 package de.minestar.cok.util;
 
 import net.minecraft.command.ICommandSender;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.management.ServerConfigurationManager;
 import net.minecraft.util.ChatComponentText;
+import de.minestar.cok.game.CoKGame;
 
 public class ChatSendHelper {
 
@@ -23,6 +24,18 @@ public class ChatSendHelper {
 	public static void broadCastError(String text){
 		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(
 				new ChatComponentText(String.format("%s[CoK] %s", Color.getColorCodeFromString("red"), text)));
+	}
+	
+	public static void broadCastMessageToGame(CoKGame game, String text){
+		for(EntityPlayer player : PlayerHelper.getPlayerEntitiesForGame(game)){
+			sendMessageToPlayer(player, text);
+		}
+	}
+	
+	public static void broadCastErrorToGame(CoKGame game, String text){
+		for(EntityPlayer player : PlayerHelper.getPlayerEntitiesForGame(game)){
+			sendErrorMessageToPlayer(player, text);
+		}
 	}
 	
 }

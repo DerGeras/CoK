@@ -21,6 +21,8 @@ import net.minecraftforge.common.util.Constants.NBT;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
+import de.minestar.cok.util.ChatSendHelper;
+import de.minestar.cok.util.Color;
 import de.minestar.cok.util.LogHelper;
 import de.minestar.cok.util.PlayerHelper;
 
@@ -187,7 +189,11 @@ public class Team {
 				Profession p = availableProfessions.pop();
 				candidate.setProfession(p);
 				p.giveKit(candidate.getPlayerEntity(), this);
-				LogHelper.info(candidate.getUserName() + " " + p.getClassName());
+				ChatSendHelper.broadCastMessageToGame(currentGame, String.format("%s is now %s of team %s%s",
+						candidate.getUserName(),
+						p.getClassName(),
+						Color.getColorCodeFromChar(this.color),
+						this.name));
 			}
 		}
 	}

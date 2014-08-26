@@ -1,12 +1,16 @@
 package de.minestar.cok.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.server.MinecraftServer;
+import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.game.CoKPlayer;
+import de.minestar.cok.game.Team;
 
 public class PlayerHelper {
 
@@ -76,6 +80,24 @@ public class PlayerHelper {
 			inv.setItemStack(null);
 		}
 		
+	}
+	
+	/**
+	 * return a set of players for the given game.
+	 * @param game
+	 * @return
+	 */
+	public static HashSet<EntityPlayer> getPlayerEntitiesForGame(CoKGame game){
+		HashSet<EntityPlayer> result = new HashSet<EntityPlayer>();
+		for(Team team : game.getAllTeams()){
+			for(CoKPlayer player : team.getAllPlayers()){
+				EntityPlayer playerEntity = getPlayerForUUID(player.getUUID());
+				if(playerEntity != null){
+					result.add(playerEntity);
+				}
+			}
+		}
+		return result;
 	}
 	
 }
