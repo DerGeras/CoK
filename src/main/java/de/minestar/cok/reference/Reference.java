@@ -24,6 +24,7 @@ public class Reference {
 	public static final String COMMAND_TEAM = "team";
 	public static final String COMMAND_PLAYER = "player";
 	public static final String COMMAND_SET_SPAWN = "setspawn";
+	public static final String COMMAND_PROTECT = "protection";
 	
 	//NBT Tags
 	public static final String GIVEN_ITEM = "given";

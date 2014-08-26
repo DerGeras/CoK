@@ -3,24 +3,55 @@ package de.minestar.cok.hook;
 import net.minecraftforge.event.world.BlockEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import de.minestar.cok.event.BlockPlaceEvent;
+import de.minestar.cok.game.CoKPlayer;
+import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.game.SocketRegistry;
 import de.minestar.cok.tileentity.TileEntitySocket;
+import de.minestar.cok.worldguard.Worldguard;
 
 public class BlockListener {
 
 	@SubscribeEvent
 	public void onBlockPlace(BlockPlaceEvent event){
-		//LogHelper.info(String.format("Block placed at %d, %d, %d", event.x, event.x, event.z));
-		for(TileEntitySocket socket : SocketRegistry.getAllSockets()){
-			socket.checkEvent(event);
+		if(event.player.capabilities.isCreativeMode){
+			return;
+		}
+		//check whether game is running
+		CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.player.getUniqueID());
+		if(player.getGame() == null || !player.getGame().isRunning()){
+			event.setCanceled(true);
+			return;
+		}
+		//check for protection
+		boolean isProtected = Worldguard.isProtected(event.player.dimension, event.x, event.y, event.z);
+		event.setCanceled(isProtected);
+		if(!isProtected){
+			//check for sockets in the area
+			for(TileEntitySocket socket : SocketRegistry.getAllSockets()){
+				socket.checkEvent(event);
+			}
 		}
 	}
 	
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event){
-		//LogHelper.info(String.format("Block broken at %d, %d, %d", event.x, event.y, event.z));
-		for(TileEntitySocket socket : SocketRegistry.getAllSockets()){
-			socket.checkEvent(event);
+		if(event.getPlayer().capabilities.isCreativeMode){
+			return;
+		}
+		//check whether game is running
+		CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.getPlayer().getUniqueID());
+		if(player.getGame() == null || !player.getGame().isRunning()){
+			event.setCanceled(true);
+			return;
+		}
+		//check for protection
+		boolean isProtected = Worldguard.isProtected(event.getPlayer().dimension, event.x, event.y, event.z);
+		event.setCanceled(isProtected);
+		if(!isProtected){
+			//check for sockets in the area
+			for(TileEntitySocket socket : SocketRegistry.getAllSockets()){
+				socket.checkEvent(event);
+			}
 		}
 	}
 	
