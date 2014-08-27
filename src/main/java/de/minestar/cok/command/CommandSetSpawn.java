@@ -65,7 +65,7 @@ public class CommandSetSpawn extends CoKCommand{
 			}
 		}
 		if(args.length == 2){
-			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
+			CoKGame game = CoKGameRegistry.registeredGames.get(args[0]);
 			if(game != null){
 				for(Team team : game.getAllTeams()){
 					addIfPrefixMatches(list, args[1], team.getName());
