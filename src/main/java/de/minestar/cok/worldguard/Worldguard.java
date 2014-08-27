@@ -86,9 +86,9 @@ public class Worldguard {
 						posACompound.getInteger("posZ"));
 				NBTTagCompound posBCompound = regionCompound.getCompoundTag("posB");
 				ChunkCoordinates posB = new ChunkCoordinates(
-						posACompound.getInteger("posX"),
-						posACompound.getInteger("posY"),
-						posACompound.getInteger("posZ"));
+						posBCompound.getInteger("posX"),
+						posBCompound.getInteger("posY"),
+						posBCompound.getInteger("posZ"));
 				//register region
 				addProtectedRegion(dim, new WorldRegion(posA, posB));
 			}

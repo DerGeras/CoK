@@ -22,7 +22,7 @@ public class CreativeTabCoK {
 													@Override
 													@SideOnly(Side.CLIENT)
 													public Item getTabIconItem(){
-														return Item.getItemFromBlock(ModBlocks.towerBrick);
+														return Item.getItemFromBlock(ModBlocks.towerbrick);
 													}
 												};
 

@@ -29,7 +29,6 @@ public class CommandCoK extends CoKCommand {
 			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
 			return;
 		}
-		LogHelper.info(args[0]);
 		if(args[0].equals("create")){
 			if(CoKGameRegistry.registeredGames.containsKey(args[1])){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "A game with the name " + args[1] + " already exits!");

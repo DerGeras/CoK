@@ -10,12 +10,12 @@ import de.minestar.cok.reference.Reference;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks {
 	
-	public static final CoKBlock towerBrick = new BlockTowerBrick();
+	public static final CoKBlock towerbrick = new BlockTowerBrick();
 	public static final CoKBlockContainer socket = new BlockSocket();
 
 	
 	public static void init(){
-		GameRegistry.registerBlock(towerBrick, "towerbrick");
+		GameRegistry.registerBlock(towerbrick, "towerbrick");
 		GameRegistry.registerBlock(socket, "socket");
 	}
 	

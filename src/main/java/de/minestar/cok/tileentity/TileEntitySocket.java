@@ -67,7 +67,7 @@ public class TileEntitySocket extends TileEntity {
     		Block block = this.worldObj.getBlock(xCoord, yCoord + i, zCoord);
     		if(block == GameSettings.defaultBuildingBlock) {
     			//Change to tower bricks
-    			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerBrick);
+    			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerbrick);
     			//queue a score check
     			//TODO ServerTickHandler.isScoreCheckQueued = true;
     			//send notification to team TODO
@@ -75,7 +75,7 @@ public class TileEntitySocket extends TileEntity {
     				//ChatSendHelper.sendMessageToTeam(CoKGame.getTeamWithColor(this.getBlockMetadata()), "Clonk!");
     			//}
     		} else{
-    			if(block != ModBlocks.towerBrick){
+    			if(block != ModBlocks.towerbrick){
     				this.worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);
     			}
     		}
@@ -90,7 +90,7 @@ public class TileEntitySocket extends TileEntity {
     	int res = 0;
     	for(int i = 1; i <= GameSettings.buildingHeight; i++){
     		Block block = this.worldObj.getBlock(xCoord, yCoord + i, zCoord);
-		  	if(block == ModBlocks.towerBrick){
+		  	if(block == ModBlocks.towerbrick){
 				res++;
 			}    		
     	}
@@ -148,7 +148,7 @@ public class TileEntitySocket extends TileEntity {
     	boolean added = false;
     	for(int i = 1; i <= GameSettings.buildingHeight && !added; i++){
     		if(this.worldObj.isAirBlock(xCoord, yCoord + i, zCoord)){
-				this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerBrick);
+				this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerbrick);
     			//TODO ServerTickHandler.isScoreCheckQueued = true;
     			added = true;
     			break;
