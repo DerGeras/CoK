@@ -12,6 +12,10 @@ import de.minestar.cok.util.ItemStackHelper;
 
 public abstract class Profession {
 	
+	public static final Profession king = new ProfessionKing();
+	public static final Profession barbarian = new ProfessionBarbarian();
+	public static final Profession crossbowman = new ProfessionCrossbowman();
+	
 	private String name = "";
 	
 	public Profession(String name){

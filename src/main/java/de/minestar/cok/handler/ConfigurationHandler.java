@@ -12,6 +12,7 @@ import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import de.minestar.cok.game.CoKGameRegistry;
 import de.minestar.cok.game.GameSettings;
+import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.profession.ProfessionBarbarian;
 import de.minestar.cok.game.profession.ProfessionCrossbowman;
 import de.minestar.cok.game.profession.ProfessionKing;
@@ -53,12 +54,12 @@ public class ConfigurationHandler {
 						"Square radius of protection around bases");
 			
 			//load professions
-			CoKGameRegistry.registeredProfessions.add(new ProfessionKing());
+			CoKGameRegistry.registeredProfessions.add(Profession.king);
 			if(config.getBoolean("Barbarian", CATEGORY_PROFESSIONS, true, "Enables the barbarian")){
-				CoKGameRegistry.registeredProfessions.add(new ProfessionBarbarian());
+				CoKGameRegistry.registeredProfessions.add(Profession.barbarian);
 			}
 			if(config.getBoolean("Crossbowman", CATEGORY_PROFESSIONS, true, "Enables the crossbowman")){
-				CoKGameRegistry.registeredProfessions.add(new ProfessionCrossbowman());
+				CoKGameRegistry.registeredProfessions.add(Profession.crossbowman);
 			}
 			
 		} catch(Exception e){

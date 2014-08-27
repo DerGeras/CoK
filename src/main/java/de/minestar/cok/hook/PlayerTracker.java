@@ -17,6 +17,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.CoKPlayerRegistry;
+import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.network.NetworkHandler;
 import de.minestar.cok.network.message.MessageCompleteGameState;
 import de.minestar.cok.util.ItemStackHelper;
@@ -72,7 +73,7 @@ public class PlayerTracker {
 	public void onPlayerDeathDrops(PlayerDropsEvent event){
 		//drop head
 		CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.entityPlayer.getUniqueID());
-		if(player.getProfession() != null && player.getProfession().getClassName().equals("King")){
+		if(player.getProfession() != null && player.getProfession() == Profession.king){
 			ItemStack headStack = new ItemStack(Items.skull);
 			headStack.setItemDamage(3); //Skulltype head
 			NBTTagCompound headTag = headStack.getTagCompound();
