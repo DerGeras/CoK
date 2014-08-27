@@ -21,9 +21,9 @@ public class WorldRegion {
 	}
 	
 	public boolean isInRegion(int x, int y, int z){
-		return(x > Math.max(posA.posX, posB.posX) && x < Math.min(posA.posX, posB.posX)
-				&& y > Math.max(posA.posY, posB.posY) && y < Math.min(posA.posY, posB.posY)
-				&& z > Math.max(posA.posZ, posB.posZ) && z < Math.min(posA.posZ, posB.posZ));
+		return(x >= Math.min(posA.posX, posB.posX) && x <= Math.max(posA.posX, posB.posX)
+				&& y >= Math.min(posA.posY, posB.posY) && y <= Math.max(posA.posY, posB.posY)
+				&& z >= Math.min(posA.posZ, posB.posZ) && z <= Math.max(posA.posZ, posB.posZ));
 	}
 
 	public ChunkCoordinates getPosA() {

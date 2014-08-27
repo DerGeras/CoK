@@ -7,6 +7,7 @@ import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.game.SocketRegistry;
 import de.minestar.cok.tileentity.TileEntitySocket;
+import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.worldguard.Worldguard;
 
 public class BlockListener {
@@ -25,7 +26,9 @@ public class BlockListener {
 		//check for protection
 		boolean isProtected = Worldguard.isProtected(event.player.dimension, event.x, event.y, event.z);
 		event.setCanceled(isProtected);
-		if(!isProtected){
+		if(isProtected){
+			ChatSendHelper.sendErrorMessageToPlayer(event.player, "This area is protected!");
+		} else {
 			//check for sockets in the area
 			for(TileEntitySocket socket : SocketRegistry.getAllSockets()){
 				socket.checkEvent(event);
@@ -47,7 +50,9 @@ public class BlockListener {
 		//check for protection
 		boolean isProtected = Worldguard.isProtected(event.getPlayer().dimension, event.x, event.y, event.z);
 		event.setCanceled(isProtected);
-		if(!isProtected){
+		if(isProtected){
+			ChatSendHelper.sendErrorMessageToPlayer(event.getPlayer(), "This area is protected!");
+		} else {
 			//check for sockets in the area
 			for(TileEntitySocket socket : SocketRegistry.getAllSockets()){
 				socket.checkEvent(event);

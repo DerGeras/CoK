@@ -9,11 +9,11 @@ import java.util.HashSet;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
@@ -143,6 +143,32 @@ public class CoKGame {
 					if(playerEntity != null){
 						playerEntity.setSpawnChunk(spawnLocation, true, 0);
 						playerEntity.playerNetServerHandler.setPlayerLocation(spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * called when a player with a profession dies
+	 * @param team
+	 * @param profession
+	 */
+	public void punishTeam(Team team, Profession profession){
+		if(profession != null){
+			HashSet<TileEntitySocket> sockets = SocketRegistry.getSockets(team.getColorAsInt());
+			if(sockets != null){
+				int rest = (int) Math.ceil(sockets.size() * profession.getPunishment());
+				boolean added = true;
+				while(added && rest > 0){
+					added = false;
+					for(TileEntitySocket socket : sockets){
+						if(socket.addBlock()){
+							added = true;
+							if(--rest <= 0){
+								break;
+							}
+						}
 					}
 				}
 			}

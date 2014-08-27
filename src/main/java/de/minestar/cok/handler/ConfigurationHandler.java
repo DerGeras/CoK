@@ -47,7 +47,7 @@ public class ConfigurationHandler {
 			GameSettings.defaultBuildingBlock = Block.getBlockFromName(buildingBlockName);
 			
 			GameSettings.buildingHeight =
-				config.getInt("BuildingHeight", CATEGORY_GAME_SETTINGS, 16, 0, 128, "Building height for towers");
+				config.getInt("BuildingHeight", CATEGORY_GAME_SETTINGS, 12, 0, 128, "Building height for towers");
 			
 			GameSettings.protectedRadius =
 				config.getInt("ProtectionRadius", CATEGORY_GAME_SETTINGS, 3, 0, 64, 

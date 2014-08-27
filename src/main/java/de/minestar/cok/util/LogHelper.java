@@ -7,7 +7,7 @@ import de.minestar.cok.reference.Reference;
 
 public class LogHelper {
     public static void log(Level logLevel, Object object){
-        FMLLog.log(Reference.MOD_NAME, logLevel, String.valueOf(object));
+        FMLLog.log(Reference.MOD_ID, logLevel, String.valueOf(object));
     }
 
     public static void all(Object object){

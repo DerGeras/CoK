@@ -49,6 +49,10 @@ public class PlayerTracker {
 	public void onPlayerDeath(LivingDeathEvent event){
 		if(event.entityLiving instanceof EntityPlayer){
 			PlayerHelper.clearGivenItemsFromInventory((EntityPlayer) event.entityLiving);
+			CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.entityLiving.getUniqueID());
+			if(player != null && player.getGame() != null){
+				player.getGame().punishTeam(player.getTeam(), player.getProfession());
+			}
 		}
 	}
 	

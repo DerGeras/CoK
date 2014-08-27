@@ -3,8 +3,10 @@ package de.minestar.cok.event;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.eventhandler.Cancelable;
 import cpw.mods.fml.common.eventhandler.Event;
 
+@Cancelable
 public class BlockPlaceEvent extends Event {
 
 	public final World world;

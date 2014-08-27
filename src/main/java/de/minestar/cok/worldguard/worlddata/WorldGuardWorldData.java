@@ -13,7 +13,7 @@ public class WorldGuardWorldData extends WorldSavedData {
 	
 	public static final String DATA_KEY = "CoKWorldGuard";
 	
-	public static WorldGuardWorldData data;
+	private static WorldGuardWorldData data;
 	
 	/**
 	 * Initializing data
@@ -28,6 +28,12 @@ public class WorldGuardWorldData extends WorldSavedData {
 				data = new WorldGuardWorldData();
 				storage.setData(DATA_KEY, data);
 			}
+		}
+	}
+	
+	public static void markDataDirty(){
+		if(data != null){
+			data.markDirty();
 		}
 	}
 

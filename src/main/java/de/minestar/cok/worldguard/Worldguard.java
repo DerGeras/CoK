@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+import de.minestar.cok.util.LogHelper;
+import de.minestar.cok.worldguard.worlddata.WorldGuardWorldData;
+
 import joptsimple.util.KeyValuePair;
 
 import net.minecraft.nbt.NBTTagCompound;
@@ -33,8 +36,11 @@ public class Worldguard {
 	 */
 	public static boolean isProtected(int dimensionID, int x, int y, int z){
 		boolean res = false;
-		for(WorldRegion r : protectedRegions.get(dimensionID)){
-			res = res || r.isInRegion(x, y, z);
+		HashSet<WorldRegion> dimRegions = protectedRegions.get(dimensionID);
+		if(dimRegions != null){	
+			for(WorldRegion r : dimRegions){
+				res = res || r.isInRegion(x, y, z);
+			}
 		}
 		return res;
 	}
@@ -46,14 +52,17 @@ public class Worldguard {
 			protectedRegions.put(dimensionID, dimRegions);
 		}
 		dimRegions.add(region);
+		WorldGuardWorldData.markDataDirty();
 	}
 	
 	public static void clearProtectedRegions(){
 		protectedRegions.clear();
+		WorldGuardWorldData.markDataDirty();
 	}
 	
 	public static void clearProtectedRegionsFromDim(int dimensionID){
 		protectedRegions.remove(dimensionID);
+		WorldGuardWorldData.markDataDirty();
 	}
 	
 	/**
@@ -92,18 +101,14 @@ public class Worldguard {
 	 */
 	public static void writeToNBT(NBTTagCompound compound){
 		NBTTagList dimensionList = new NBTTagList();
-		compound.setTag("dimensions", dimensionList);
 		//write dimensions
 		for(Map.Entry<Integer, HashSet<WorldRegion>> dimRegions : protectedRegions.entrySet()){
 			NBTTagCompound dimCompound = new NBTTagCompound();
-			dimensionList.appendTag(dimCompound);
 			dimCompound.setInteger("dimensionID", dimRegions.getKey());
 			//write regions
 			NBTTagList regionList = new NBTTagList();
-			dimCompound.setTag("regions", regionList);
 			for(WorldRegion region : dimRegions.getValue()){
 				NBTTagCompound regionCompound = new NBTTagCompound();
-				regionList.appendTag(regionCompound);
 				//write posA
 				NBTTagCompound posACompound = new NBTTagCompound();
 				posACompound.setInteger("posX", region.getPosA().posX);
@@ -116,8 +121,12 @@ public class Worldguard {
 				posBCompound.setInteger("posY", region.getPosB().posY);
 				posBCompound.setInteger("posZ", region.getPosB().posZ);
 				regionCompound.setTag("posB", posBCompound);
+				regionList.appendTag(regionCompound);
 			}
+			dimCompound.setTag("regions", regionList);
+			dimensionList.appendTag(dimCompound);
 		}
+		compound.setTag("dimensions", dimensionList);
 	}
 	
 }
