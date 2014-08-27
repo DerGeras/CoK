@@ -12,6 +12,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -23,6 +24,7 @@ import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
+import de.minestar.cok.util.ItemStackHelper;
 import de.minestar.cok.util.LogHelper;
 import de.minestar.cok.util.PlayerHelper;
 
@@ -41,18 +43,15 @@ public class Team {
 	public Team (String name, char color){
 		this.name = name;
 		this.color = color;
-		this.availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 	}
 	
 	
 	public Team (NBTTagCompound compound){
 		readFromNBT(compound);
-		this.availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 	}
 	
 	public Team(ByteBuf buf){
 		readFromBuffer(buf);
-		this.availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 	}
 	
 	public HashSet<CoKPlayer> getAllPlayers(){
@@ -173,6 +172,41 @@ public class Team {
 			player.setProfession(null);
 			PlayerHelper.clearGivenItemsFromInventory(player.getPlayerEntity());
 			distributeProfessions();
+		}
+	}
+	
+	/**
+	 * called when the game starts
+	 */
+	public void onGameStart(){
+		if(spawnLocation != null){
+			for(CoKPlayer player : getAllPlayers()){
+				EntityPlayerMP playerEntity = player.getPlayerEntity();
+				if(playerEntity != null){
+					PlayerHelper.clearInventory(playerEntity);
+					playerEntity.setHealth(20.0f);
+					playerEntity.getFoodStats().addStats(20, 20);
+					playerEntity.setSpawnChunk(spawnLocation, true, 0);
+					playerEntity.playerNetServerHandler.setPlayerLocation(
+							spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);
+				}
+			}
+		}
+		availableProfessions.clear();
+		availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
+		distributeProfessions();
+	}
+	
+	/**
+	 * called when the game stops
+	 */
+	public void onGameStop(){
+		for(CoKPlayer player : getAllPlayers()){
+			player.setProfession(null);
+			EntityPlayer playerEntity = PlayerHelper.getPlayerForUUID(player.getUUID());
+			if(playerEntity != null){
+				PlayerHelper.clearGivenItemsFromInventory(playerEntity);
+			}
 		}
 	}
 	

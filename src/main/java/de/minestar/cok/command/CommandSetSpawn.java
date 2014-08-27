@@ -6,6 +6,7 @@ import java.util.List;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKGameRegistry;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.ChatSendHelper;
 import net.minecraft.command.ICommandSender;
@@ -40,6 +41,7 @@ public class CommandSetSpawn extends CoKCommand{
 			return;
 		}
 		if(args.length == 2){
+			CoKGameWorldData.data.markDirty();
 			Team team = game.getTeam(args[1]);
 			if(team != null){
 				team.setSpawnCoordinates(sender.getPlayerCoordinates());

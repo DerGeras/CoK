@@ -105,20 +105,9 @@ public class CoKGame {
 		ChatSendHelper.broadCastMessage("Teams:");
 		for(Team team : teams.values()){
 			ChatSendHelper.broadCastMessage(String.format("%s%s", Color.getColorCodeFromChar(team.getColor()), team.getName()));
-			ChunkCoordinates coords = team.getSpawnlocation();
-			if(coords != null){
-				for(CoKPlayer player : team.getAllPlayers()){
-					EntityPlayerMP playerEntity = player.getPlayerEntity();
-					if(playerEntity != null){
-						PlayerHelper.clearInventory(playerEntity);
-						playerEntity.setHealth(20.0f);
-						playerEntity.getFoodStats().addStats(20, 20);
-						playerEntity.setSpawnChunk(coords, true, 0);
-						playerEntity.playerNetServerHandler.setPlayerLocation(coords.posX, coords.posY, coords.posZ, 0, 0);
-					}
-				}
-			}
-			team.distributeProfessions();
+		}
+		for(Team team : teams.values()){
+			team.onGameStart();
 		}
 	}
 	
@@ -127,6 +116,7 @@ public class CoKGame {
 		ChatSendHelper.broadCastError("The game " + name + " has ended!");
 		ChatSendHelper.broadCastMessage("Scores:");
 		for(Team team : teams.values()){
+			team.onGameStop();
 			HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
 			ChatSendHelper.broadCastMessage(String.format("%s%s%s:%d/%d",
 					Color.getColorCodeFromChar(team.getColor()),

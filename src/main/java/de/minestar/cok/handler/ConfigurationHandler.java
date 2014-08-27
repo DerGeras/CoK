@@ -54,13 +54,13 @@ public class ConfigurationHandler {
 						"Square radius of protection around bases");
 			
 			//load professions
-			CoKGameRegistry.registeredProfessions.add(Profession.king);
-			if(config.getBoolean("Barbarian", CATEGORY_PROFESSIONS, true, "Enables the barbarian")){
-				CoKGameRegistry.registeredProfessions.add(Profession.barbarian);
-			}
 			if(config.getBoolean("Crossbowman", CATEGORY_PROFESSIONS, true, "Enables the crossbowman")){
 				CoKGameRegistry.registeredProfessions.add(Profession.crossbowman);
 			}
+			if(config.getBoolean("Barbarian", CATEGORY_PROFESSIONS, true, "Enables the barbarian")){
+				CoKGameRegistry.registeredProfessions.add(Profession.barbarian);
+			}
+			CoKGameRegistry.registeredProfessions.add(Profession.king);
 			
 		} catch(Exception e){
 			LogHelper.error("Could not load configuration file");
