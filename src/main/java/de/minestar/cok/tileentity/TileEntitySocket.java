@@ -11,12 +11,12 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.CoK;
 import de.minestar.cok.event.BlockPlaceEvent;
-import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.game.GameSettings;
 import de.minestar.cok.game.SocketRegistry;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.game.TeamRegistry;
+import de.minestar.cok.hook.ServerTickListener;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.util.ChatSendHelper;
 
@@ -70,7 +70,7 @@ public class TileEntitySocket extends TileEntity {
     			//Change to tower bricks
     			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerbrick);
     			//queue a score check
-    			//TODO ServerTickHandler.isScoreCheckQueued = true;
+    			ServerTickListener.isScoreCheckQueued = true;
     			//send notification to team
     			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
     				ChatSendHelper.broadCastMessageToTeam(TeamRegistry.getTeam(getBlockMetadata()), "Clonk!");
@@ -150,7 +150,7 @@ public class TileEntitySocket extends TileEntity {
     	for(int i = 1; i <= GameSettings.buildingHeight && !added; i++){
     		if(this.worldObj.isAirBlock(xCoord, yCoord + i, zCoord)){
 				this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerbrick);
-    			//TODO ServerTickHandler.isScoreCheckQueued = true;
+    			ServerTickListener.isScoreCheckQueued = true;
     			added = true;
     			break;
 			}

@@ -198,7 +198,7 @@ public class Team {
 	}
 	
 	/**
-	 * called when the game stops
+	 * called when the game stops or the team was defeated
 	 */
 	public void onGameStop(){
 		for(CoKPlayer player : getAllPlayers()){

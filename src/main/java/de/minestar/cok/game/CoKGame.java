@@ -16,6 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
+import de.minestar.cok.hook.ServerTickListener;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
@@ -140,7 +141,7 @@ public class CoKGame {
 					team.getName(),
 					Color.getColorCodeFromString("blue"),
 					getScoreForTeam(team),
-					teamSockets == null ? 0 : teamSockets.size() * GameSettings.buildingHeight));
+					getMaxScoreForTeam(team)));
 		}
 		isRunning = false;
 		if(spawnLocation != null){
@@ -153,6 +154,37 @@ public class CoKGame {
 					}
 				}
 			}
+		}
+	}
+	
+	/**
+	 * called once per serverTick
+	 */
+	@SideOnly(Side.SERVER)
+	public void onUpdate(){
+		HashSet<Team> defeatedTeams = new HashSet<Team>();
+		if(ServerTickListener.isScoreCheckQueued){
+			for(Team team : getAllTeams()){
+				int score = getScoreForTeam(team);
+				if(score >= getMaxScoreForTeam(team)){
+					defeatedTeams.add(team);
+				}
+			}
+		}
+		for(Team team : defeatedTeams){
+			team.onGameStop();
+			ChatSendHelper.broadCastMessageToGame(this, String.format("Team %s%s%s has been defeated!", 
+					Color.getColorCodeFromChar(team.getColor()),
+					team.getName(),
+					Color.getColorCodeFromString("blue")));
+			for(CoKPlayer player : team.getAllPlayers()){
+				EntityPlayerMP playerEntity = player.getPlayerEntity();
+				if(playerEntity != null){
+					playerEntity.setSpawnChunk(spawnLocation, true, 0);
+					playerEntity.playerNetServerHandler.setPlayerLocation(spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);
+				}
+			}
+			removeTeam(team.getName());
 		}
 	}
 	
@@ -193,6 +225,12 @@ public class CoKGame {
 			sum += s.countBlocks();
 		}
 		return sum;
+	}
+	
+	@SideOnly(Side.SERVER)
+	public int getMaxScoreForTeam(Team team){
+		HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
+		return teamSockets == null ? 0 : teamSockets.size() * GameSettings.buildingHeight;
 	}
 	
 	public void readFromNBT(NBTTagCompound compound){
