@@ -16,6 +16,7 @@ import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.game.GameSettings;
 import de.minestar.cok.game.SocketRegistry;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.game.TeamRegistry;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.util.ChatSendHelper;
 
@@ -70,10 +71,10 @@ public class TileEntitySocket extends TileEntity {
     			this.worldObj.setBlock(xCoord, yCoord + i, zCoord, ModBlocks.towerbrick);
     			//queue a score check
     			//TODO ServerTickHandler.isScoreCheckQueued = true;
-    			//send notification to team TODO
-    			//if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
-    				//ChatSendHelper.sendMessageToTeam(CoKGame.getTeamWithColor(this.getBlockMetadata()), "Clonk!");
-    			//}
+    			//send notification to team
+    			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+    				ChatSendHelper.broadCastMessageToTeam(TeamRegistry.getTeam(getBlockMetadata()), "Clonk!");
+    			}
     		} else{
     			if(block != ModBlocks.towerbrick){
     				this.worldObj.setBlockToAir(xCoord, yCoord + i, zCoord);

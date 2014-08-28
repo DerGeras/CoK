@@ -7,6 +7,7 @@ import net.minecraft.command.ICommandSender;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKGameRegistry;
 import de.minestar.cok.game.Team;
+import de.minestar.cok.game.TeamRegistry;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
@@ -20,44 +21,65 @@ public class CommandTeam extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: /%s [add|remove] {gameName} {teamName} {{teamColor on add}}", getCommandName());
+		return String.format("Usage: /%s [add|remove|move] {teamName} {{teamColor on add|gameName on move}}", getCommandName());
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if(args.length < 3){
+		if(args.length < 2){
 			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
 			return;
 		}
-		CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
-		if(game == null){
-			ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + args[1]);
-			return;
-		}
-		if(args[0].equals("add") && args.length == 4){
-			for(Team team : game.getAllTeams()){
-				if(team.getName().equals(args[2])){
-					ChatSendHelper.sendErrorMessageToPlayer(sender, "Team with the name " + args[2] + "already exists!");
-					return;
-				}
-				if(team.getColor() == Color.getColorFromString(args[3])){ 
-					ChatSendHelper.sendErrorMessageToPlayer(sender, "Team with the color " + args[3] + "already exists!");
-					return;
-				}
-			}
-			game.addTeam(new Team(args[2], Color.getColorFromString(args[3])));
-			ChatSendHelper.sendMessageToPlayer(sender, String.format("Team %s with color %s created in game %s!", 
-					args[2], args[3], args[1]));
-			return;
-		}
-		if(args[0].equals("remove")){
-			if(!game.getAllTeamNames().contains(args[2])){
-				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find team " + args[2] + "!");
+		String command = args[0];
+		String teamName = args[1];
+		Team teamForName = TeamRegistry.getTeam(teamName);
+		if(command.equals("add") && args.length == 3){
+			String color = args[2];
+			if(teamForName != null){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Team with the name " + teamName + "already exists!");
 				return;
 			}
-			game.removeTeam(args[2]);
-			ChatSendHelper.sendErrorMessageToPlayer(sender, String.format("Team %s from game %s removed!",
-					args[2], args[1]));
+			if(TeamRegistry.getTeam(Color.getColorFromString(color)) != null){ 
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Team with the color " + color + "already exists!");
+				return;
+			}
+			TeamRegistry.addTeam(new Team(teamName, Color.getColorFromString(color)));
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Team %s with color %s succesfully created!", 
+					teamName, color));
+			return;
+		}
+		if(command.equals("remove")){
+			if(teamForName == null){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find team " + teamName + "!");
+				return;
+			}
+			if(teamForName.getGame() != null && teamForName.getGame().isRunning()){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Connot remove a team from a running game!");
+				return;
+			}
+			TeamRegistry.removeTeam(teamName);
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Team %s succesfully removed!",
+					teamName));
+			return;
+		}
+		if(command.equals("move") && args.length == 3){
+			String gameName = args[2];
+			CoKGame game = CoKGameRegistry.registeredGames.get(gameName);
+			if(game == null){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + gameName + "!");
+				return;
+			}
+			if(game.isRunning()){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Cannot move a team to a running game!");
+				return;
+			}
+			if(teamForName.getGame() != null && teamForName.getGame().isRunning()){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Connot move a team from a running game!");
+				return;
+			}
+			game.addTeam(teamForName);
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Succesfully moved team %s to game %s",
+					teamName, gameName));
 			return;
 		}
 		ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
@@ -67,24 +89,21 @@ public class CommandTeam extends CoKCommand {
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
 		if(args.length == 1){
-			addIfPrefixMatches(list, args[0], "add", "remove");
-		}
-		if(args.length == 2 && (args[0].equals("add") || args[0].equals("remove"))){
-			for(String name : CoKGameRegistry.registeredGames.keySet()){
-				addIfPrefixMatches(list, args[1], name);
-			}
+			addIfPrefixMatches(list, args[0], "add", "remove", "move");
 		}
 		
-		if(args.length == 3 && (args[0].equals("remove"))){
-			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
-			if(game != null){
-				for(Team team : game.getAllTeams()){
-					addIfPrefixMatches(list, args[2], team.getName());
-				}
-			}			
+		if(args.length == 2 && (args[0].equals("remove") || args[0].equals("move"))){
+			for(Team team : TeamRegistry.getAllTeams()){
+				addIfPrefixMatches(list, args[1], team.getName());
+			}		
 		}
-		if(args.length == 4 && args[0].equals("add")){
-			addIfPrefixMatches(list, args[3], Color.allColors);
+		if(args.length == 3 && args[0].equals("add")){
+			addIfPrefixMatches(list, args[2], Color.allColors);
+		}
+		if(args.length == 3 && args[0].equals("move")){
+			for(String gameName : CoKGameRegistry.registeredGames.keySet()){
+				addIfPrefixMatches(list, args[2], gameName);
+			}
 		}
 		return list;
 	}

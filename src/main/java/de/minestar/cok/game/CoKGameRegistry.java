@@ -46,6 +46,7 @@ public class CoKGameRegistry {
 	public static void readFromNBT(NBTTagCompound compound){
 		clearGames();
 		CoKPlayerRegistry.readFromNBT(compound);
+		TeamRegistry.readFromNBT(compound);
 		NBTTagList gameList = compound.getTagList("games", NBT.TAG_COMPOUND);
 		for(int i = 0; i < gameList.tagCount(); i++){
 			NBTTagCompound gameCompound = gameList.getCompoundTagAt(i);
@@ -55,6 +56,7 @@ public class CoKGameRegistry {
 	
 	public static void writeToNBT(NBTTagCompound compound){
 		CoKPlayerRegistry.writeToNBT(compound);
+		TeamRegistry.writeToNBT(compound);
 		NBTTagList gameList = new NBTTagList();
 		for(CoKGame game : registeredGames.values()){
 			NBTTagCompound gameCompound = new NBTTagCompound();
@@ -64,20 +66,22 @@ public class CoKGameRegistry {
 		compound.setTag("games", gameList);
 	}
 	
-	public static void writeToBuffer(ByteBuf buf){
-		CoKPlayerRegistry.writeToBuffer(buf);
-		buf.writeInt(registeredGames.size());
-		for(CoKGame game : registeredGames.values()){
-			game.writeToBuffer(buf);
-		}
-	}
-	
 	public static void readFromBuffer(ByteBuf buf){
 		clearGames();
 		CoKPlayerRegistry.readFromBuffer(buf);
+		TeamRegistry.readFromBuffer(buf);
 		int gameCount =  buf.readInt();
 		for(int i = 0; i < gameCount; i++){
 			registerGame(new CoKGame(buf));
+		}
+	}
+	
+	public static void writeToBuffer(ByteBuf buf){
+		CoKPlayerRegistry.writeToBuffer(buf);
+		TeamRegistry.writeToBuffer(buf);
+		buf.writeInt(registeredGames.size());
+		for(CoKGame game : registeredGames.values()){
+			game.writeToBuffer(buf);
 		}
 	}
 	

@@ -89,7 +89,27 @@ public class PlayerHelper {
 	 */
 	public static HashSet<EntityPlayer> getPlayerEntitiesForGame(CoKGame game){
 		HashSet<EntityPlayer> result = new HashSet<EntityPlayer>();
-		for(Team team : game.getAllTeams()){
+		if(game != null){
+			for(Team team : game.getAllTeams()){
+				for(CoKPlayer player : team.getAllPlayers()){
+					EntityPlayer playerEntity = getPlayerForUUID(player.getUUID());
+					if(playerEntity != null){
+						result.add(playerEntity);
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * return a set of player entitities for the given game
+	 * @param team
+	 * @return
+	 */
+	public static HashSet<EntityPlayer> getPlayerEntitiesForTeam(Team team) {
+		HashSet<EntityPlayer> result = new HashSet<EntityPlayer>();
+		if(team != null){
 			for(CoKPlayer player : team.getAllPlayers()){
 				EntityPlayer playerEntity = getPlayerForUUID(player.getUUID());
 				if(playerEntity != null){

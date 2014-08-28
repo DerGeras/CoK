@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
@@ -40,25 +41,32 @@ public class CoKGame {
 		readFromBuffer(buf);
 	}
 	
+	public void addTeam(String name){
+		addTeam(TeamRegistry.getTeam(name));
+	}
+	
 	public void addTeam(Team team){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
 		}
 		if(team != null){
+			if(team.getGame() != null){
+				team.getGame().removeTeam(team.getName());
+			}
 			team.setGame(this);
 			teams.put(team.getName(), team);
 		}
-	}
-	
-	public void removeTeam(Team team){
-		teams.remove(team.getName());
 	}
 	
 	public void removeTeam(String name){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
 		}
-		teams.remove(name);
+		Team team = teams.get(name);
+		if(team != null){
+			team.setGame(null);
+			teams.remove(name);
+		}
 	}
 	
 	public Team getTeam(int color){
@@ -96,6 +104,15 @@ public class CoKGame {
 	
 	public void setSpawnLocation(ChunkCoordinates spawnLocation){
 		this.spawnLocation = spawnLocation;
+	}
+	
+	/**
+	 * should be called when the game is removed
+	 */
+	public void clearTeams(){
+		for(Team team : getAllTeams()){
+			team.setGame(null);
+		}
 	}
 	
 	@SideOnly(Side.SERVER)
@@ -189,11 +206,9 @@ public class CoKGame {
 			spawnLocation = new ChunkCoordinates(posX, posY, posZ);
 		}
 		//read teams
-		NBTTagList teamList = compound.getTagList("teams", NBT.TAG_COMPOUND);
-		for(int i = 0; i < teamList.tagCount(); i++){
-			NBTTagCompound teamCompound = teamList.getCompoundTagAt(i);
-			Team team = new Team(teamCompound);
-			addTeam(team);
+		int[] teamColors = compound.getIntArray("teams");
+		for(int i = 0; i < teamColors.length; i++){
+			addTeam(TeamRegistry.getTeam(teamColors[i]));
 		}
 	}
 	
@@ -207,12 +222,13 @@ public class CoKGame {
 			compound.setInteger("spawnZ", spawnLocation.posZ);
 		}
 		//write teams
-		NBTTagList teamList = new NBTTagList();
+		int[] teamColors = new int[teams.size()];
+		int pos = 0;
 		for(Team team : teams.values()){
-			NBTTagCompound teamCompound = new NBTTagCompound();
-			team.writeToNBT(teamCompound);
-			teamList.appendTag(teamCompound);
+			teamColors[pos] = team.getColorAsInt();
+			pos++;
 		}
+		NBTTagIntArray teamList = new NBTTagIntArray(teamColors);
 		compound.setTag("teams", teamList);
 	}
 	
@@ -233,7 +249,7 @@ public class CoKGame {
 		//write teams
 		buf.writeInt(teams.size());
 		for(Team team: teams.values()){
-			team.writeToBuffer(buf);
+			buf.writeChar(team.getColor());
 		}
 	}
 	
@@ -254,7 +270,7 @@ public class CoKGame {
 		//read teams
 		int teamCount = buf.readInt();
 		for(int i = 0 ; i < teamCount; i++){
-			addTeam(new Team(buf));
+			addTeam(TeamRegistry.getTeam(buf.readChar()));
 		}
 	}
 	

@@ -24,6 +24,9 @@ public class CoKPlayerRegistry {
 	}
 	
 	public static void removePlayer(CoKPlayer player){
+		if(player.getTeam() != null){
+			player.getTeam().removePlayer(player);
+		}
 		allPlayers.remove(player);
 	}
 	

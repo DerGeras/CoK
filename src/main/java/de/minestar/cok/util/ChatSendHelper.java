@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import de.minestar.cok.game.CoKGame;
+import de.minestar.cok.game.Team;
 
 public class ChatSendHelper {
 
@@ -37,5 +38,19 @@ public class ChatSendHelper {
 			sendErrorMessageToPlayer(player, text);
 		}
 	}
+	
+	
+	public static void broadCastMessageToTeam(Team team, String text){
+		for(EntityPlayer player : PlayerHelper.getPlayerEntitiesForTeam(team)){
+			sendMessageToPlayer(player, text);
+		}
+	}
+	
+	public static void broadCastErrorToTeam(Team team, String text){
+		for(EntityPlayer player : PlayerHelper.getPlayerEntitiesForTeam(team)){
+			sendErrorMessageToPlayer(player, text);
+		}
+	}
+	
 	
 }

@@ -45,9 +45,7 @@ public class CommandCoK extends CoKCommand {
 					ChatSendHelper.sendErrorMessageToPlayer(sender, "Cannot remove a running game!");
 					return;
 				}
-				for(Team team : game.getAllTeams()){
-					team.clearPlayers();
-				}
+				game.clearTeams();
 				CoKGameRegistry.registeredGames.remove(args[1]);
 				ChatSendHelper.sendMessageToPlayer(sender, "The game " + args[1] + " was succesfully removed");
 				return;
