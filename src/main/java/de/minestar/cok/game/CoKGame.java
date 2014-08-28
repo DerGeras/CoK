@@ -132,7 +132,7 @@ public class CoKGame {
 	@SideOnly(Side.SERVER)
 	public void stopGame(){
 		ChatSendHelper.broadCastError("The game " + name + " has ended!");
-		ChatSendHelper.broadCastMessage("Scores:");
+		ChatSendHelper.broadCastMessage("Remaining Teams:");
 		for(Team team : teams.values()){
 			team.onGameStop();
 			HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
@@ -162,6 +162,9 @@ public class CoKGame {
 	 */
 	@SideOnly(Side.SERVER)
 	public void onUpdate(){
+		if(!isRunning()){
+			return;
+		}
 		HashSet<Team> defeatedTeams = new HashSet<Team>();
 		if(ServerTickListener.isScoreCheckQueued){
 			for(Team team : getAllTeams()){
@@ -185,6 +188,9 @@ public class CoKGame {
 				}
 			}
 			removeTeam(team.getName());
+		}
+		if(teams.size() <= 1){
+			stopGame();
 		}
 	}
 	
