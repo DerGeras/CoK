@@ -47,6 +47,7 @@ public class CommandPlayer extends CoKCommand {
 			if(player.getTeam() != null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, String.format("Player %s is already in team %s!",
 						playerName, player.getTeam().getName()));
+				return;
 			}
 			team.addPlayer(player);
 			ChatSendHelper.sendMessageToPlayer(sender, String.format("%s succesfully added to team %s!",
