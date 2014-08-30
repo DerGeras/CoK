@@ -37,7 +37,7 @@ public class CommandProtect extends CoKCommand {
 			EntityPlayer player = getCommandSenderAsPlayer(sender);
 			WorldRegion region = startedProtections.get(player.getUniqueID());
 			ChunkCoordinates coords;
-			if(args.length == 5){
+			if(args.length == 4){
 				coords = new ChunkCoordinates(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 			} else {
 				coords = sender.getPlayerCoordinates();
