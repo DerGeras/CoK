@@ -22,13 +22,13 @@ public class CommandSetSpawn extends CoKCommand{
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: /%s [game|team] {name}",
+		return String.format("Usage: /%s [game|team] {name} {{x}} {{y}} {{z}}",
 				getCommandName());
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if(args.length != 2){
+		if(args.length < 2){
 			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
 			return;
 		}
@@ -40,8 +40,15 @@ public class CommandSetSpawn extends CoKCommand{
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + name + "!");
 				return;
 			}
-			game.setSpawnLocation(sender.getPlayerCoordinates());
-			ChatSendHelper.sendMessageToPlayer(sender, "Spawnpoint successfully created for team " + game + "!");
+			ChunkCoordinates coords;
+			if(args.length == 5){
+				coords = new ChunkCoordinates(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+			} else {
+				coords = sender.getPlayerCoordinates();
+			}
+			game.setSpawnLocation(coords);
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Spawnpoint successfully created for game %s to %d %d %d!",
+					name, coords.posX, coords.posY, coords.posZ));
 			return;
 		}
 		if(command.equals("team")){
@@ -50,8 +57,15 @@ public class CommandSetSpawn extends CoKCommand{
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find team " + name + "!");
 				return;
 			}
-			team.setSpawnCoordinates(sender.getPlayerCoordinates());
-			ChatSendHelper.sendMessageToPlayer(sender, "Spawnpoint successfully created for team " + name + "!");
+			ChunkCoordinates coords;
+			if(args.length == 5){
+				coords = new ChunkCoordinates(Integer.parseInt(args[2]), Integer.parseInt(args[3]), Integer.parseInt(args[4]));
+			} else {
+				coords = sender.getPlayerCoordinates();
+			}
+			team.setSpawnCoordinates(coords);
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Spawnpoint successfully created for team %s to %d %d %d!",
+					name, coords.posX, coords.posY, coords.posZ));
 			return;
 		}
 		ChatSendHelper.sendErrorMessageToPlayer(sender, getCommandUsage(sender));

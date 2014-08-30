@@ -24,30 +24,35 @@ public class CommandProtect extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: %s [add|clear] {{dimID for clear}}", getCommandName());
+		return String.format("Usage: %s [add|clear] {{dimID for clear| x y z for add}}", getCommandName());
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if(args.length < 1 || args.length > 2){
+		if(args.length < 1){
 			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
 			return;
 		}
-		if(args[0].equals("add")){
+		if(args[0].equals("add") && args.length >= 1){
 			EntityPlayer player = getCommandSenderAsPlayer(sender);
 			WorldRegion region = startedProtections.get(player.getUniqueID());
-			ChunkCoordinates playerPos = new ChunkCoordinates((int)player.posX, (int)player.posY, (int)player.posZ);
+			ChunkCoordinates coords;
+			if(args.length == 5){
+				coords = new ChunkCoordinates(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+			} else {
+				coords = sender.getPlayerCoordinates();
+			}
 			if(region != null){
 				startedProtections.remove(player.getUniqueID());
-				region.setPosB(playerPos);
+				region.setPosB(coords);
 				Worldguard.addProtectedRegion(player.dimension, region);
 				ChatSendHelper.sendMessageToPlayer(sender, String.format("Protecting area (%d %d %d) (%d %d %d)!", 
 						region.getPosA().posX, region.getPosA().posY, region.getPosA().posZ, 
-						playerPos.posX, playerPos.posY, playerPos.posZ));
+						coords.posX, coords.posY, coords.posZ));
 			} else {
-				startedProtections.put(player.getUniqueID(), new WorldRegion(playerPos));
+				startedProtections.put(player.getUniqueID(), new WorldRegion(coords));
 				ChatSendHelper.sendMessageToPlayer(sender, String.format("Protection started at %d %d %d!", 
-						playerPos.posX, playerPos.posY, playerPos.posZ));
+						coords.posX, coords.posY, coords.posZ));
 			}
 			return;
 		}
