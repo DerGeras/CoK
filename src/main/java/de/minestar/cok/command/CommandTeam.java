@@ -78,8 +78,18 @@ public class CommandTeam extends CoKCommand {
 				return;
 			}
 			game.addTeam(teamForName);
-			ChatSendHelper.sendMessageToPlayer(sender, String.format("Succesfully moved team %s to game %s",
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Succesfully moved team %s to game %s!",
 					teamName, gameName));
+			return;
+		}
+
+		if(command.equals("move") && args.length == 2){
+			if(teamForName.getGame() != null && teamForName.getGame().isRunning()){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, "Connot remove a team from a running game!");
+				return;
+			}
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Succesfully moved team %s to global!",
+					teamName));
 			return;
 		}
 		ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
