@@ -127,6 +127,7 @@ public class CoKGame {
 		for(Team team : teams.values()){
 			team.onGameStart();
 		}
+		ServerTickListener.isScoreCheckQueued = true;
 	}
 	
 	@SideOnly(Side.SERVER)
