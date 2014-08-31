@@ -16,8 +16,8 @@ import de.minestar.cok.game.GameSettings;
 import de.minestar.cok.game.SocketRegistry;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.game.TeamRegistry;
-import de.minestar.cok.hook.ServerTickListener;
 import de.minestar.cok.init.ModBlocks;
+import de.minestar.cok.listener.ServerTickListener;
 import de.minestar.cok.util.ChatSendHelper;
 
 public class TileEntitySocket extends TileEntity {

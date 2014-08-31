@@ -1,4 +1,4 @@
-package de.minestar.cok.hook;
+package de.minestar.cok.listener;
 
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -6,8 +6,12 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.DamageSource;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -91,6 +95,29 @@ public class PlayerTracker {
 		}
 		if(player.getTeam() != null){
 			player.getTeam().playerLeft(player);
+		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerAttack(LivingAttackEvent event){
+		if(event.entityLiving instanceof EntityPlayer){
+			CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.entityLiving.getUniqueID());
+			if(player != null){
+				if(player.getGame() == null || !player.getGame().isRunning()){
+					event.setCanceled(true);
+				}
+			}
+		}
+		if(event.source.getEntity() instanceof EntityPlayer){
+			if(((EntityPlayer) event.source.getEntity()).capabilities.isCreativeMode){
+				return;
+			}
+			CoKPlayer player = CoKPlayerRegistry.getPlayerForUUID(event.source.getEntity().getUniqueID());
+			if(player != null){
+				if(player.getGame() == null || !player.getGame().isRunning()){
+					event.setCanceled(true);
+				}
+			}
 		}
 	}
 

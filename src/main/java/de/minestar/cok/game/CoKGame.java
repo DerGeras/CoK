@@ -16,7 +16,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
-import de.minestar.cok.hook.ServerTickListener;
+import de.minestar.cok.listener.ServerTickListener;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;

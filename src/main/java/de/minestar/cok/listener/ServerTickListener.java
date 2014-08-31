@@ -1,4 +1,4 @@
-package de.minestar.cok.hook;
+package de.minestar.cok.listener;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;

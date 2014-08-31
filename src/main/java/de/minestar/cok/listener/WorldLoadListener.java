@@ -1,4 +1,4 @@
-package de.minestar.cok.hook;
+package de.minestar.cok.listener;
 
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.eventhandler.EventPriority;

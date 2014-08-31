@@ -43,6 +43,10 @@ public class CommandTeam extends CoKCommand {
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Team with the color " + color + "already exists!");
 				return;
 			}
+			if(Color.getColorFromString(color) == 'g'){
+				ChatSendHelper.sendErrorMessageToPlayer(sender, color + " is not a valid color!");
+				return;
+			}
 			TeamRegistry.addTeam(new Team(teamName, Color.getColorFromString(color)));
 			ChatSendHelper.sendMessageToPlayer(sender, String.format("Team %s with color %s succesfully created!", 
 					teamName, color));
