@@ -1,0 +1,17 @@
+[
+{
+  "modid": "CoK",
+  "name": "Clash of Kingdoms",
+  "description": "Kingdoms clash. What else?",
+  "version": "0.7.0-MC.1.7.10",
+  "credits": "Thanks to the Minestar community for their continuous support and feedback, and special thanks to Pahimar for his modding tutorials ;)",
+  "logoFile": "",
+  "mcversion": "1.7.10",
+  "url": "http://www.minestar.de",
+  "updateUrl": "",
+  "authorList": [ "Geras" ],
+  "parent":"",
+  "screenshots": [],
+  "dependencies": []
+}
+]

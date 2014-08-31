@@ -1,13 +1,21 @@
 #folders
 eclipse
 
-*.class
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
 # Builds #
 build
 release
+
+# STUFF #
+
+.classpath
+.DS_STORE
+.gradle/
+.project
+.settings
+bin/
+CREDITS-fml.txt
+forge-*-changelog.txt
+LICENSE-fml.txt
+MinecraftForge-Credits.txt
+MinecraftForge-License.txt
+README.txt
