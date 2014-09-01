@@ -14,10 +14,12 @@ import org.lwjgl.opengl.GL11;
 import de.minestar.cok.client.model.ModelCrossbow;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.PathHelper;
+import de.minestar.cok.weapon.ItemCrossbow;
 
 public class ItemRendererCrossbow implements IItemRenderer  {
 	
-	public static final ResourceLocation textureResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("crossbow.png"));
+	public static final ResourceLocation shaftTextureResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("crossbow.png"));
+	public static final ResourceLocation boltTextureResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("bolt.png"));
 	public static final ResourceLocation crossbowModelResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("crossbow.obj"));
 
     public IModelCustom crossbowModel = AdvancedModelLoader.loadModel(crossbowModelResource);
@@ -44,19 +46,21 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 		case EQUIPPED : {
 				GL11.glPushMatrix();
 				
-				Minecraft.getMinecraft().renderEngine.bindTexture(textureResource);
+				Minecraft.getMinecraft().renderEngine.bindTexture(shaftTextureResource);
 
-				GL11.glRotatef(90f, 1.0f, 0.0f, 0.0f);
-				GL11.glRotatef(312f, 0.0f, 1.0f, 0.0f);
-				GL11.glRotatef(90f, 0.0f, 0.0f, 1.0f);
+				GL11.glRotatef(100f, 1.0f, 0.0f, 0.0f);
+				GL11.glRotatef(310f, 0.0f, 1.0f, 0.0f);
+				GL11.glRotatef(99f, 0.0f, 0.0f, 1.0f);
 				
-				if(data[1] != null && data[1] instanceof EntityPlayer){
-					GL11.glTranslatef(0.05f, -0.05f, -0.5f);
-				} else{
-					GL11.glTranslatef(0.05f, -0.05f, -0.8f);
-				}
+				GL11.glTranslatef(-0.07f, -0.23f, -1.3f);
 				
-				crossbowModel.renderAll();
+				crossbowModel.renderAllExcept("Bolt_Cylinder");
+				
+				if(stack.getTagCompound() != null && (stack.getTagCompound().getBoolean(ItemCrossbow.CHARGED_STRING)
+			    		|| stack.getTagCompound().getBoolean(ItemCrossbow.CLIENT_CHARGED))){
+					Minecraft.getMinecraft().renderEngine.bindTexture(boltTextureResource);
+			    	crossbowModel.renderOnly("Bolt_Cylinder");
+			    }
 				
 				GL11.glPopMatrix();
 				break;
@@ -64,7 +68,7 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 		case EQUIPPED_FIRST_PERSON: {
 			GL11.glPushMatrix();
 			
-			Minecraft.getMinecraft().renderEngine.bindTexture(textureResource);
+			Minecraft.getMinecraft().renderEngine.bindTexture(shaftTextureResource);
 
 			GL11.glRotatef(90f, 1.0f, 0.0f, 0.0f);
 			GL11.glRotatef(312f, 0.0f, 1.0f, 0.0f);
@@ -72,7 +76,13 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 			
 			GL11.glTranslatef(0.05f, -0.3f, -0.8f);
 			
-			crossbowModel.renderAll();
+			crossbowModel.renderAllExcept("Bolt_Cylinder");
+			
+			if(stack.getTagCompound() != null && (stack.getTagCompound().getBoolean(ItemCrossbow.CHARGED_STRING)
+		    		|| stack.getTagCompound().getBoolean(ItemCrossbow.CLIENT_CHARGED))){
+				Minecraft.getMinecraft().renderEngine.bindTexture(boltTextureResource);
+		    	crossbowModel.renderOnly("Bolt_Cylinder");
+		    }
 			
 			GL11.glPopMatrix();
 			break;
@@ -80,7 +90,7 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 		case ENTITY: {
 			GL11.glPushMatrix();
 			
-			Minecraft.getMinecraft().renderEngine.bindTexture(textureResource);
+			Minecraft.getMinecraft().renderEngine.bindTexture(shaftTextureResource);
 
 			GL11.glRotatef(90f, 1.0f, 0.0f, 0.0f);
 			GL11.glRotatef(260.0f, 0.0f, 1.0f, 0.0f);
@@ -88,7 +98,13 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 			
 			GL11.glTranslatef(0.0f, 0.0f, 0.0f);
 			
-			crossbowModel.renderAll();
+			crossbowModel.renderAllExcept("Bolt_Cylinder");
+			
+			if(stack.getTagCompound() != null && (stack.getTagCompound().getBoolean(ItemCrossbow.CHARGED_STRING)
+		    		|| stack.getTagCompound().getBoolean(ItemCrossbow.CLIENT_CHARGED))){
+				Minecraft.getMinecraft().renderEngine.bindTexture(boltTextureResource);
+		    	crossbowModel.renderOnly("Bolt_Cylinder");
+		    }
 			
 			GL11.glPopMatrix();
 			break;
