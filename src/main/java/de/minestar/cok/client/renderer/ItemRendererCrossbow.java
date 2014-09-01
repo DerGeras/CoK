@@ -1,14 +1,13 @@
 package de.minestar.cok.client.renderer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.client.model.AdvancedModelLoader;
+import net.minecraftforge.client.model.IModelCustom;
 
 import org.lwjgl.opengl.GL11;
 
@@ -18,9 +17,10 @@ import de.minestar.cok.util.PathHelper;
 
 public class ItemRendererCrossbow implements IItemRenderer  {
 	
-public ModelCrossbow crossbowModel = new ModelCrossbow();
+	public static final ResourceLocation textureResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("crossbow.png"));
+	public static final ResourceLocation crossbowModelResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("crossbow.obj"));
 
-	public static final ResourceLocation texture = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("ModelCrossBow.png"));
+    public IModelCustom crossbowModel = AdvancedModelLoader.loadModel(crossbowModelResource);
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -44,19 +44,19 @@ public ModelCrossbow crossbowModel = new ModelCrossbow();
 		case EQUIPPED : {
 				GL11.glPushMatrix();
 				
-				Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+				Minecraft.getMinecraft().renderEngine.bindTexture(textureResource);
 
 				GL11.glRotatef(90f, 1.0f, 0.0f, 0.0f);
 				GL11.glRotatef(312f, 0.0f, 1.0f, 0.0f);
-				GL11.glRotatef(270f, 0.0f, 0.0f, 1.0f);
+				GL11.glRotatef(90f, 0.0f, 0.0f, 1.0f);
 				
 				if(data[1] != null && data[1] instanceof EntityPlayer){
-					GL11.glTranslatef(0.05f, -0.05f, -0.8f);
+					GL11.glTranslatef(0.05f, -0.05f, -0.5f);
 				} else{
 					GL11.glTranslatef(0.05f, -0.05f, -0.8f);
 				}
 				
-				crossbowModel.render((Entity) data[1], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f, stack);
+				crossbowModel.renderAll();
 				
 				GL11.glPopMatrix();
 				break;
@@ -64,15 +64,15 @@ public ModelCrossbow crossbowModel = new ModelCrossbow();
 		case EQUIPPED_FIRST_PERSON: {
 			GL11.glPushMatrix();
 			
-			Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+			Minecraft.getMinecraft().renderEngine.bindTexture(textureResource);
 
 			GL11.glRotatef(90f, 1.0f, 0.0f, 0.0f);
 			GL11.glRotatef(312f, 0.0f, 1.0f, 0.0f);
-			GL11.glRotatef(270f, 0.0f, 0.0f, 1.0f);
+			GL11.glRotatef(90f, 0.0f, 0.0f, 1.0f);
 			
-			GL11.glTranslatef(0.05f, -0.05f, -0.8f);
+			GL11.glTranslatef(0.05f, -0.3f, -0.8f);
 			
-			crossbowModel.render((Entity) data[1], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f, stack);
+			crossbowModel.renderAll();
 			
 			GL11.glPopMatrix();
 			break;
@@ -80,7 +80,7 @@ public ModelCrossbow crossbowModel = new ModelCrossbow();
 		case ENTITY: {
 			GL11.glPushMatrix();
 			
-			Minecraft.getMinecraft().renderEngine.bindTexture(texture);
+			Minecraft.getMinecraft().renderEngine.bindTexture(textureResource);
 
 			GL11.glRotatef(90f, 1.0f, 0.0f, 0.0f);
 			GL11.glRotatef(260.0f, 0.0f, 1.0f, 0.0f);
@@ -88,7 +88,7 @@ public ModelCrossbow crossbowModel = new ModelCrossbow();
 			
 			GL11.glTranslatef(0.0f, 0.0f, 0.0f);
 			
-			crossbowModel.render((Entity) data[1], 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0625f, stack);
+			crossbowModel.renderAll();
 			
 			GL11.glPopMatrix();
 			break;
