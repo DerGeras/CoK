@@ -136,7 +136,6 @@ public class CoKGame {
 		ChatSendHelper.broadCastMessage("Remaining Teams:");
 		for(Team team : teams.values()){
 			team.onGameStop();
-			HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
 			ChatSendHelper.broadCastMessage(String.format("%s%s%s:%d/%d",
 					Color.getColorCodeFromChar(team.getColor()),
 					team.getName(),

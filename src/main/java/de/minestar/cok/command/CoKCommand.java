@@ -25,7 +25,7 @@ public abstract class CoKCommand extends CommandBase {
 	
 	@Override
 	public abstract List addTabCompletionOptions(ICommandSender icommandsender,
-			String[] astring);
+			String[] args);
 
 	@Override
 	public boolean isUsernameIndex(String[] astring, int i) {
