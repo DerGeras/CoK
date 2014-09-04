@@ -14,7 +14,7 @@ public class BlockListener {
 
 	@SubscribeEvent
 	public void onBlockPlace(BlockPlaceEvent event){
-		if(event.player.capabilities.isCreativeMode){
+		if(event.player.capabilities.isCreativeMode || event.isCanceled()){
 			return;
 		}
 		//check whether game is running
@@ -38,7 +38,7 @@ public class BlockListener {
 	
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event){
-		if(event.getPlayer().capabilities.isCreativeMode){
+		if(event.getPlayer().capabilities.isCreativeMode || event.isCanceled()){
 			return;
 		}
 		//check whether game is running

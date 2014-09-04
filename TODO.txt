@@ -1,0 +1,5 @@
+set general spawn
+remove player from team
+Spieler können außerhalb des Spiels bauen
+Punktestand broadcasten bei tod von Spezialklassen
+Crash wenn man Server wechselt (alte Daten? o.O)

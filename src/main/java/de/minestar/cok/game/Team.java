@@ -79,7 +79,7 @@ public class Team {
 	}
 	
 	public boolean hasPlayer(CoKPlayer player){
-		return playerUUIDs.contains(player);
+		return playerUUIDs.contains(player.getUUID());
 	}
 	
 	public ChunkCoordinates getSpawnlocation(){
