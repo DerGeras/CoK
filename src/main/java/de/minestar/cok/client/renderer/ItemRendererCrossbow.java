@@ -22,9 +22,9 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 	public static final ResourceLocation boltTextureResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("bolt.png"));
 	public static final ResourceLocation crossbowModelResource = new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForModel("crossbow.obj"));
 
-    public static IModelCustom crossbowModel = AdvancedModelLoader.loadModel(crossbowModelResource);
+    public static IModelCustom crossbowModel;
     
-    public static String BOLT_GROUP = "Cylinder";
+    public static final String BOLT_GROUP = "Cylinder";
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -44,6 +44,9 @@ public class ItemRendererCrossbow implements IItemRenderer  {
 
 	@Override
 	public void renderItem(ItemRenderType type, ItemStack stack, Object... data) {
+		if(crossbowModel == null){
+			crossbowModel = AdvancedModelLoader.loadModel(crossbowModelResource);
+		}
 		switch(type){
 		case EQUIPPED : {
 				GL11.glPushMatrix();
