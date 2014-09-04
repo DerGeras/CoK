@@ -11,6 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import de.minestar.cok.chunkloadcallback.SocketChunkLoadCallBack;
 import de.minestar.cok.command.CommandCoK;
+import de.minestar.cok.command.CommandInfo;
 import de.minestar.cok.command.CommandPlayer;
 import de.minestar.cok.command.CommandProtect;
 import de.minestar.cok.command.CommandScore;
@@ -105,6 +106,7 @@ public class CoK {
 		e.registerServerCommand(new CommandSetSpawn());
 		e.registerServerCommand(new CommandProtect());
 		e.registerServerCommand(new CommandScore());
+		e.registerServerCommand(new CommandInfo());
 	}
 
 }

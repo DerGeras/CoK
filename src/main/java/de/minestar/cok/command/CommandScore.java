@@ -63,6 +63,11 @@ public class CommandScore extends CoKCommand{
 		}
 		ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));		
 	}
+	
+	@Override
+	public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
+		return true;
+	}
 
 	@Override
 	public List addTabCompletionOptions(ICommandSender icommandsender,

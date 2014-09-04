@@ -92,6 +92,9 @@ public class CommandTeam extends CoKCommand {
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Connot remove a team from a running game!");
 				return;
 			}
+			if(teamForName.getGame() != null){
+				teamForName.getGame().removeTeam(teamName);
+			}
 			ChatSendHelper.sendMessageToPlayer(sender, String.format("Succesfully moved team %s to global!",
 					teamName));
 			return;

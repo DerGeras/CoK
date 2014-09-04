@@ -88,6 +88,14 @@ public class Team {
 	
 	public void setSpawnCoordinates(ChunkCoordinates coords){
 		this.spawnLocation = coords;
+		if(spawnLocation != null){
+			for(CoKPlayer player : getAllPlayers()){
+				EntityPlayerMP playerEntity = player.getPlayerEntity();
+				if(playerEntity != null){
+					playerEntity.setSpawnChunk(spawnLocation, true, 0);				
+				}
+			}
+		}
 	}
 	
 	public boolean addPlayer(CoKPlayer player){
@@ -101,6 +109,13 @@ public class Team {
 			player.setTeam(this);
 			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 				playerJoined(player);
+				if(getGame() != null && getGame().isRunning() && spawnLocation != null){
+					EntityPlayerMP playerEntity = player.getPlayerEntity();
+					if(playerEntity != null){
+						playerEntity.playerNetServerHandler.setPlayerLocation(
+								spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);			
+					}
+				}
 			}
 			return playerUUIDs.add(player.getUUID());
 		}
@@ -159,6 +174,12 @@ public class Team {
 	 * @param player
 	 */
 	public void playerJoined(CoKPlayer player){
+		if(spawnLocation != null){
+			EntityPlayerMP playerEntity = player.getPlayerEntity();
+			if(playerEntity != null){
+				playerEntity.setSpawnChunk(spawnLocation, true, 0);				
+			}
+		}
 		distributeProfessions();
 	}
 	
