@@ -1,6 +1,6 @@
 package de.minestar.cok.preloader;
 
-import scala.actors.threadpool.Arrays;
+import java.util.Arrays;
 
 import com.google.common.eventbus.EventBus;
 
