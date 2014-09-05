@@ -1,7 +1,9 @@
 package de.minestar.cok.listener;
 
 import net.minecraftforge.event.world.BlockEvent;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.event.BlockPlaceEvent;
 import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.CoKPlayerRegistry;
@@ -14,6 +16,9 @@ public class BlockListener {
 
 	@SubscribeEvent
 	public void onBlockPlace(BlockPlaceEvent event){
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
+			return; //TODO currently not checking on clientside
+		}
 		if(event.player.capabilities.isCreativeMode || event.isCanceled()){
 			return;
 		}
@@ -38,6 +43,9 @@ public class BlockListener {
 	
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event){
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
+			return; //TODO currently not checking on clientside
+		}
 		if(event.getPlayer().capabilities.isCreativeMode || event.isCanceled()){
 			return;
 		}
