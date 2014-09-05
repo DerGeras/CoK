@@ -25,6 +25,16 @@ public class CoKGameRegistry {
 	}
 	
 	
+	public static ChunkCoordinates getGeneralSpawn() {
+		return generalSpawn;
+	}
+
+
+	public static void setGeneralSpawn(ChunkCoordinates generalSpawn) {
+		CoKGameRegistry.generalSpawn = generalSpawn;
+	}
+
+
 	public static void registerGame(CoKGame game){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
