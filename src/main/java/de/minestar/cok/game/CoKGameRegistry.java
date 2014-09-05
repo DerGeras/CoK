@@ -7,6 +7,8 @@ import java.util.HashSet;
 
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
@@ -15,6 +17,8 @@ public class CoKGameRegistry {
 
 	public static HashMap<String, CoKGame> registeredGames = new HashMap<String, CoKGame>();
 	public static HashSet<Profession> registeredProfessions = new HashSet<Profession>();
+	
+	private static ChunkCoordinates generalSpawn;
 	
 	public static void registerGame(String name){
 		registerGame(new CoKGame(name));

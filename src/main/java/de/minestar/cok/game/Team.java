@@ -140,7 +140,7 @@ public class Team {
 			playerLeft(player);
 			player.setTeam(null);
 		}
-		return playerUUIDs.remove(player);
+		return playerUUIDs.remove(player.getUUID());
 	}
 	
 	public boolean removePlayer(String name){
