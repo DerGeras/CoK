@@ -41,14 +41,15 @@ public class EventAdder implements IClassTransformer{
 		ClassReader classReader = new ClassReader(bytes);
 		classReader.accept(classNode, 0);
 		
-		for(MethodNode method : classNode.methods){			
+		for(MethodNode method : classNode.methods){
+			CoreLogHelper.info("Method: "  + method.name + method.desc);
 			//(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;IIIIFFF)Z
 			if(method.name.equals(ref.get("targetMethod"))
 					&& method.desc.equals(String.format("(L%s;L%s;IIIIFFF)Z", 
 							ref.get("entityPlayerJavaClassName"), ref.get("worldJavaClassName")))){				
 				
 				//found method
-				LogHelper.info("Patching method " + ref.get("targetMethod"));
+				CoreLogHelper.info("Patching method " + ref.get("targetMethod"));
 				
 				LabelNode label1 = new LabelNode(new Label());
 				LabelNode label2 = new LabelNode(new Label());

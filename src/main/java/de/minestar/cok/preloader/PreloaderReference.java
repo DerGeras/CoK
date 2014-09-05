@@ -17,11 +17,11 @@ public class PreloaderReference {
     public static final HashMap<String, String> ISdeobf = new HashMap<String, String>();// ItemStack, DEV, placeEvent
 	
     static{
-    	ISobf.put("itemStackJavaClassName", "yd");
-    	ISobf.put("itemStackClassName", "yd");
+    	ISobf.put("itemStackJavaClassName", "add");
+    	ISobf.put("itemStackClassName", "add");
     	ISobf.put("targetMethod", "a");
-    	ISobf.put("entityPlayerJavaClassName", "ue");
-    	ISobf.put("worldJavaClassName", "abv");
+    	ISobf.put("entityPlayerJavaClassName", "yz");
+    	ISobf.put("worldJavaClassName", "ahb");
     	
     	ISdeobf.put("itemStackJavaClassName", "net/minecraft/item/ItemStack");
     	ISdeobf.put("itemStackClassName", "net.minecraft.item.ItemStack");
