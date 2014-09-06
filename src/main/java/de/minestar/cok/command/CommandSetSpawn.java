@@ -22,17 +22,33 @@ public class CommandSetSpawn extends CoKCommand{
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: /%s [game|team] {name} {{x}} {{y}} {{z}}",
+		return String.format("Usage: /%s [global|game|team] {name} {{x}} {{y}} {{z}}",
 				getCommandName());
 	}
 
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
-		if(args.length < 2){
+		if(args.length < 1){
 			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
 			return;
 		}
 		String command = args[0];
+		if(command.equals("global")){
+			ChunkCoordinates coords;
+			if(args.length == 4){
+				coords = new ChunkCoordinates(Integer.parseInt(args[1]), Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+			} else{
+				coords = sender.getPlayerCoordinates();
+			}
+			CoKGameRegistry.setGeneralSpawn(coords);
+			ChatSendHelper.sendMessageToPlayer(sender, String.format("Global spawnpoint successfully set to %d %d %d!",
+					 coords.posX, coords.posY, coords.posZ));
+			return;
+		}
+		if(args.length < 2){
+			ChatSendHelper.sendMessageToPlayer(sender, getCommandUsage(sender));
+			return;
+		}
 		String name = args[1];
 		if(command.equals("game")){
 			CoKGame game = CoKGameRegistry.registeredGames.get(name);
