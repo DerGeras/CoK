@@ -297,13 +297,9 @@ public class Team {
 	 * remove all players from team
 	 */
 	public void clearPlayers(){
-		for(UUID uuid : playerUUIDs){
-			CoKPlayerRegistry.getPlayerForUUID(uuid).setTeam(null);
-			CoKPlayerRegistry.getPlayerForUUID(uuid).setProfession(null);
+		for(CoKPlayer player : getAllPlayers()){
+			removePlayer(player);
 		}
-		availableProfessions.clear();
-		availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
-		playerUUIDs.clear();
 	}
 	
 	public void readFromNBT(NBTTagCompound compound){
