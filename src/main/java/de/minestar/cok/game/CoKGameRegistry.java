@@ -30,8 +30,8 @@ public class CoKGameRegistry {
 	}
 
 
-	public static void setGeneralSpawn(ChunkCoordinates generalSpawn) {
-		CoKGameRegistry.generalSpawn = generalSpawn;
+	public static void setGeneralSpawn(ChunkCoordinates spawnLocation) {
+		CoKGameRegistry.generalSpawn = spawnLocation;
 	}
 
 

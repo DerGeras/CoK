@@ -6,6 +6,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
@@ -19,6 +20,7 @@ import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import cpw.mods.fml.relauncher.Side;
+import de.minestar.cok.game.CoKGameRegistry;
 import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.CoKPlayerRegistry;
 import de.minestar.cok.game.profession.Profession;
@@ -35,7 +37,11 @@ public class PlayerTracker {
 		CoKPlayer player = CoKPlayerRegistry.getOrCreatPlayerForUUID(event.player.getUniqueID());
 		if(player.getTeam() != null){
 			player.getTeam().playerJoined(player);
+			
 		}
+		
+		respawnPlayer(player);
+		
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 			NetworkHandler.network.sendTo(new MessageCompleteGameState(), (EntityPlayerMP) event.player);
 		}
@@ -66,6 +72,8 @@ public class PlayerTracker {
 		if(player.getTeam() != null){
 			player.getTeam().playerJoined(player);
 		}
+		
+		respawnPlayer(player);
 	}
 	
 	@SubscribeEvent
@@ -116,6 +124,34 @@ public class PlayerTracker {
 			if(player != null){
 				if(player.getGame() == null || !player.getGame().isRunning()){
 					event.setCanceled(true);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * teleports the player wherever needed
+	 * @param player
+	 */
+	private void respawnPlayer(CoKPlayer player){
+		//respawning stuff
+		EntityPlayerMP playerEntity = PlayerHelper.getPlayerForUUID(player.getUUID());
+		if(playerEntity != null){
+			if(player.getGame() == null){
+				if(CoKGameRegistry.getGeneralSpawn() != null){
+					ChunkCoordinates coords = CoKGameRegistry.getGeneralSpawn();
+					if(coords != null){
+						playerEntity.playerNetServerHandler.setPlayerLocation(
+								coords.posX, coords.posY, coords.posZ, 0, 0);	
+					}
+				}
+			} else { //game != null
+				if(!player.getGame().isRunning() && player.getGame().getSpawnLocation() != null){
+					ChunkCoordinates coords = player.getGame().getSpawnLocation();
+					if(coords != null){
+						playerEntity.playerNetServerHandler.setPlayerLocation(
+								coords.posX, coords.posY, coords.posZ, 0, 0);	
+					}
 				}
 			}
 		}

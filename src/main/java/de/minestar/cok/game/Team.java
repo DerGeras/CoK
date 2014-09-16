@@ -88,7 +88,7 @@ public class Team {
 	
 	public void setSpawnCoordinates(ChunkCoordinates coords){
 		this.spawnLocation = coords;
-		if(spawnLocation != null){
+		if(spawnLocation != null && getGame() != null && getGame().isRunning()){
 			for(CoKPlayer player : getAllPlayers()){
 				EntityPlayerMP playerEntity = player.getPlayerEntity();
 				if(playerEntity != null){
@@ -109,11 +109,19 @@ public class Team {
 			player.setTeam(this);
 			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
 				playerJoined(player);
-				if(getGame() != null && getGame().isRunning() && spawnLocation != null){
-					EntityPlayerMP playerEntity = player.getPlayerEntity();
-					if(playerEntity != null){
-						playerEntity.playerNetServerHandler.setPlayerLocation(
-								spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);			
+				EntityPlayerMP playerEntity = player.getPlayerEntity();
+				if(getGame() != null && playerEntity != null){
+					if(getGame().isRunning()){
+						if(spawnLocation != null){
+							playerEntity.playerNetServerHandler.setPlayerLocation(
+									spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);	
+						}
+					} else{ //game not running
+						ChunkCoordinates coords = getGame().getSpawnLocation();
+						if(coords != null){
+							playerEntity.playerNetServerHandler.setPlayerLocation(
+									coords.posX, coords.posY, coords.posZ, 0, 0);	
+						}
 					}
 				}
 			}
@@ -174,10 +182,16 @@ public class Team {
 	 * @param player
 	 */
 	public void playerJoined(CoKPlayer player){
-		if(spawnLocation != null){
-			EntityPlayerMP playerEntity = player.getPlayerEntity();
-			if(playerEntity != null){
-				playerEntity.setSpawnChunk(spawnLocation, true, 0);				
+		EntityPlayerMP playerEntity = player.getPlayerEntity();
+		if(getGame() != null && playerEntity != null){
+			if(getGame().isRunning()){
+				if(spawnLocation != null){
+					playerEntity.setSpawnChunk(spawnLocation, true, 0);
+				}
+			} else { //game not running
+				if(getGame().getSpawnLocation() != null){
+					playerEntity.setSpawnChunk(getGame().getSpawnLocation(), true, 0);
+				}
 			}
 		}
 		distributeProfessions();
@@ -279,6 +293,8 @@ public class Team {
 			CoKPlayerRegistry.getPlayerForUUID(uuid).setTeam(null);
 			CoKPlayerRegistry.getPlayerForUUID(uuid).setProfession(null);
 		}
+		availableProfessions.clear();
+		availableProfessions.addAll(CoKGameRegistry.registeredProfessions);
 		playerUUIDs.clear();
 	}
 	
