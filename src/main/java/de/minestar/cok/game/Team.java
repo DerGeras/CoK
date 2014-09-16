@@ -147,6 +147,14 @@ public class Team {
 		if(player != null){
 			playerLeft(player);
 			player.setTeam(null);
+			//teleport to global spawn
+			EntityPlayerMP playerEntity = PlayerHelper.getPlayerForUUID(player.getUUID());
+			ChunkCoordinates coords = CoKGameRegistry.getGeneralSpawn();
+			if(playerEntity != null && coords != null){
+				playerEntity.setSpawnChunk(spawnLocation, true, 0);
+				playerEntity.playerNetServerHandler.setPlayerLocation(
+						coords.posX, coords.posY, coords.posZ, 0, 0);	
+			}
 		}
 		return playerUUIDs.remove(player.getUUID());
 	}
