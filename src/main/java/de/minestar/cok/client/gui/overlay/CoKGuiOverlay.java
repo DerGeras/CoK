@@ -16,17 +16,17 @@ import de.minestar.cok.util.LogHelper;
 
 public class CoKGuiOverlay extends Gui{
 	
-	//score offsets in %
-	private static float scoreOverlayXOffset = 0.8f;
-	private static float scoreOverlayYOffset = 0.1f;
+	//score offsets
+	private static final int scoreOverlayXOffset = 100; //100 pixels from the right corner
+	private static final int scoreOverlayYOffset = 15;
 	
-	private static int scoreOverlayWidth = 50;
+	private static final int scoreOverlayWidth = 90;
 	
 	public static HashSet<ScoreContainer> scores = new HashSet<ScoreContainer>();
 	
 	//TODO testing stuff!
 	static{
-		scores.add(new ScoreContainer('0', "Test1", 13, 15));
+		scores.add(new ScoreContainer('3', "Test1", 13, 15));
 		scores.add(new ScoreContainer('5', "Test2", 13, 15));
 	}
 	
@@ -51,12 +51,19 @@ public class CoKGuiOverlay extends Gui{
 		//draw score overlay
 		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft(),
 				Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
-		int x = (int) (scoreOverlayXOffset * res.getScaledWidth());
-		int y = (int) (scoreOverlayYOffset * res.getScaledHeight());
+		int x = res.getScaledWidth() - scoreOverlayXOffset;
+		int y = scoreOverlayYOffset;
 		int width = scoreOverlayWidth;
-		int height = scores.size() * 12;
+		int height = scores.size() * 12 + 6;
+		//draw background
 		this.drawGradientRect(x, y, x+width, y+height, 0xb0000000, 0xb0000000);
-		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("TestString", x+3, y+3, 0xff0000);
+		//draw scores
+		x += 3;
+		y += 3;
+		for(ScoreContainer score : scores){
+			Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(score.getFormattedString(), x, y, 0xff0000);
+			y += 12;
+		}
 	}
 
 }
