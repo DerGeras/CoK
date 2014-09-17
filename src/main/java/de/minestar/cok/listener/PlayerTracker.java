@@ -137,6 +137,7 @@ public class PlayerTracker {
 		//respawning stuff
 		EntityPlayerMP playerEntity = PlayerHelper.getPlayerForUUID(player.getUUID());
 		if(playerEntity != null){
+			playerEntity.getFoodStats().addStats(20, 20);
 			if(player.getGame() == null){
 				if(CoKGameRegistry.getGeneralSpawn() != null){
 					ChunkCoordinates coords = CoKGameRegistry.getGeneralSpawn();
