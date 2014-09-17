@@ -14,7 +14,7 @@ import de.minestar.cok.util.LogHelper;
 
 public class ItemCrossbow extends CoKItem {
 
-	private static int ticksToCharge = 2 * 20 + 200;
+	private static int ticksToCharge = 30 + 200;
 	
 	public static final String CHARGED_STRING = "charged";
 	public static final String CLIENT_CHARGED = "clientcharged";

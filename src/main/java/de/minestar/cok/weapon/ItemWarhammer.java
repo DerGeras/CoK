@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class ItemWarhammer extends CoKWeapon {
 	
 	private static final int maxItemInUseDuration = 60;
-	private static final double knockBackRadius = 3.0d;
+	private static final double knockBackRadius = 5.0d;
 	
 
 	public ItemWarhammer() {

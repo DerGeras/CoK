@@ -9,7 +9,9 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.chunkloadcallback.SocketChunkLoadCallBack;
+import de.minestar.cok.client.gui.overlay.CoKGuiOverlay;
 import de.minestar.cok.command.CommandCoK;
 import de.minestar.cok.command.CommandInfo;
 import de.minestar.cok.command.CommandPlayer;
@@ -53,13 +55,7 @@ public class CoK {
 		ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
 		
 		//register EventHandlers
-		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
-		MinecraftForge.EVENT_BUS.register(new BlockListener());
-		PlayerTracker playerTracker = new PlayerTracker();
-		FMLCommonHandler.instance().bus().register(playerTracker);
-		MinecraftForge.EVENT_BUS.register(playerTracker);
-		MinecraftForge.EVENT_BUS.register(new WorldLoadListener());
-		FMLCommonHandler.instance().bus().register(new ServerTickListener());
+		registerEventHandlers();
 		
 		//register items
 		ModItems.init();
@@ -107,6 +103,21 @@ public class CoK {
 		e.registerServerCommand(new CommandProtect());
 		e.registerServerCommand(new CommandScore());
 		e.registerServerCommand(new CommandInfo());
+	}
+	
+	private void registerEventHandlers(){
+		FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+		MinecraftForge.EVENT_BUS.register(new BlockListener());
+		PlayerTracker playerTracker = new PlayerTracker();
+		FMLCommonHandler.instance().bus().register(playerTracker);
+		MinecraftForge.EVENT_BUS.register(playerTracker);
+		MinecraftForge.EVENT_BUS.register(new WorldLoadListener());
+		FMLCommonHandler.instance().bus().register(new ServerTickListener());
+		
+		//Clientsided
+		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
+			MinecraftForge.EVENT_BUS.register(new CoKGuiOverlay());
+		}
 	}
 
 }
