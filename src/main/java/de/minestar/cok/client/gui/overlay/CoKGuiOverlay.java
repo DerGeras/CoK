@@ -1,34 +1,24 @@
 package de.minestar.cok.client.gui.overlay;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import de.minestar.cok.util.LogHelper;
+import de.minestar.cok.game.ScoreContainer;
 
 public class CoKGuiOverlay extends Gui{
+	
+	public static LinkedList<ScoreContainer> scores = new LinkedList<ScoreContainer>();
 	
 	//score offsets
 	private static final int scoreOverlayXOffset = 100; //100 pixels from the right corner
 	private static final int scoreOverlayYOffset = 15;
 	
 	private static final int scoreOverlayWidth = 90;
-	
-	public static HashSet<ScoreContainer> scores = new HashSet<ScoreContainer>();
-	
-	//TODO testing stuff!
-	static{
-		scores.add(new ScoreContainer('3', "Test1", 13, 15));
-		scores.add(new ScoreContainer('5', "Test2", 13, 15));
-	}
 	
 	/**
 	 * draw all of the overlay

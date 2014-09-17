@@ -9,18 +9,17 @@ import java.util.HashSet;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraftforge.common.util.Constants.NBT;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.listener.ServerTickListener;
+import de.minestar.cok.network.NetworkHandler;
+import de.minestar.cok.network.message.MessageScore;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
-import de.minestar.cok.util.PlayerHelper;
 
 public class CoKGame {
 
@@ -167,12 +166,18 @@ public class CoKGame {
 		}
 		HashSet<Team> defeatedTeams = new HashSet<Team>();
 		if(ServerTickListener.isScoreCheckQueued){
+			HashSet<ScoreContainer> scores = new HashSet<ScoreContainer>();
 			for(Team team : getAllTeams()){
-				int score = getScoreForTeam(team);
-				if(score >= getMaxScoreForTeam(team)){
+				ScoreContainer score = new ScoreContainer(team.getColor(),
+						team.getName(),
+						getScoreForTeam(team),
+						getMaxScoreForTeam(team));
+				scores.add(score);
+				if(score.getCurrentScore() >= score.getMaxScore()){
 					defeatedTeams.add(team);
 				}
 			}
+			NetworkHandler.sendMessageToGame(this, new MessageScore(scores));
 		}
 		for(Team team : defeatedTeams){
 			team.onGameStop();

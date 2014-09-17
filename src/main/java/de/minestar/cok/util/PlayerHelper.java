@@ -87,12 +87,12 @@ public class PlayerHelper {
 	 * @param game
 	 * @return
 	 */
-	public static HashSet<EntityPlayer> getPlayerEntitiesForGame(CoKGame game){
-		HashSet<EntityPlayer> result = new HashSet<EntityPlayer>();
+	public static HashSet<EntityPlayerMP> getPlayerEntitiesForGame(CoKGame game){
+		HashSet<EntityPlayerMP> result = new HashSet<EntityPlayerMP>();
 		if(game != null){
 			for(Team team : game.getAllTeams()){
 				for(CoKPlayer player : team.getAllPlayers()){
-					EntityPlayer playerEntity = getPlayerForUUID(player.getUUID());
+					EntityPlayerMP playerEntity = getPlayerForUUID(player.getUUID());
 					if(playerEntity != null){
 						result.add(playerEntity);
 					}

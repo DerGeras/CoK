@@ -1,5 +1,6 @@
-package de.minestar.cok.client.gui.overlay;
+package de.minestar.cok.game;
 
+import io.netty.buffer.ByteBuf;
 import de.minestar.cok.util.Color;
 
 /**
@@ -7,7 +8,7 @@ import de.minestar.cok.util.Color;
  * @author Oliver
  *
  */
-public class ScoreContainer {
+public class ScoreContainer implements Comparable<ScoreContainer>{
 
 	private char teamColor;
 	private String teamName;
@@ -21,6 +22,10 @@ public class ScoreContainer {
 		this.maxScore = maxScore;
 	}
 	
+	public ScoreContainer(ByteBuf buf){
+		fromBytes(buf);
+	}
+	
 	public String getFormattedString(){
 		return String.format("%s%s%s:%s/%s",
 				Color.getColorCodeFromChar(teamColor),
@@ -28,6 +33,30 @@ public class ScoreContainer {
 				Color.getColorCodeFromString("white"),
 				currentScore,
 				maxScore);
+	}
+	
+	/**
+	 * read content from byte buffer
+	 * @param buf
+	 */
+	public void fromBytes(ByteBuf buf){
+		this.teamColor = buf.readChar();
+		int teamNameSize = buf.readInt();
+		this.teamName = new String(buf.readBytes(teamNameSize).array());
+		this.currentScore = buf.readInt();
+		this.maxScore = buf.readInt();
+	}
+	
+	/**
+	 * write content to byte buffer
+	 * @param buf
+	 */
+	public void toBytes(ByteBuf buf){
+		buf.writeChar(teamColor);
+		buf.writeInt(teamName.length());
+		buf.writeBytes(teamName.getBytes());
+		buf.writeInt(currentScore);
+		buf.writeInt(maxScore);
 	}
 
 	public int getCurrentScore() {
@@ -52,6 +81,11 @@ public class ScoreContainer {
 
 	public String getTeamName() {
 		return teamName;
+	}
+
+	@Override
+	public int compareTo(ScoreContainer o) {
+		return this.teamColor < o.teamColor ? -1 : 1;
 	}
 	
 	
