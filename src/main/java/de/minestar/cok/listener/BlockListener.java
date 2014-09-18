@@ -16,6 +16,7 @@ public class BlockListener {
 
 	@SubscribeEvent
 	public void onBlockPlace(BlockPlaceEvent event){
+		ServerTickListener.isScoreCheckQueued = true;
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
 			return; //TODO currently not checking on clientside
 		}
@@ -43,6 +44,7 @@ public class BlockListener {
 	
 	@SubscribeEvent
 	public void onBlockBreak(BlockEvent.BreakEvent event){
+		ServerTickListener.isScoreCheckQueued = true;
 		if(FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
 			return; //TODO currently not checking on clientside
 		}

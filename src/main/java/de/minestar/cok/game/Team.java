@@ -145,15 +145,17 @@ public class Team {
 			CoKGameWorldData.data.markDirty();
 		}
 		if(player != null){
-			playerLeft(player);
 			player.setTeam(null);
-			//teleport to global spawn
-			EntityPlayerMP playerEntity = PlayerHelper.getPlayerForUUID(player.getUUID());
-			ChunkCoordinates coords = CoKGameRegistry.getGeneralSpawn();
-			if(playerEntity != null && coords != null){
-				playerEntity.setSpawnChunk(spawnLocation, true, 0);
-				playerEntity.playerNetServerHandler.setPlayerLocation(
-						coords.posX, coords.posY, coords.posZ, 0, 0);	
+			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
+				playerLeft(player);
+				//teleport to global spawn
+				EntityPlayerMP playerEntity = player.getPlayerEntity();
+				ChunkCoordinates coords = CoKGameRegistry.getGeneralSpawn();
+				if(playerEntity != null && coords != null){
+					playerEntity.setSpawnChunk(spawnLocation, true, 0);
+					playerEntity.playerNetServerHandler.setPlayerLocation(
+							coords.posX, coords.posY, coords.posZ, 0, 0);	
+				}
 			}
 		}
 		return playerUUIDs.remove(player.getUUID());
@@ -189,6 +191,7 @@ public class Team {
 	 * should be called whenever a player enters the team/logs back in/revives
 	 * @param player
 	 */
+	@SideOnly(Side.SERVER)
 	public void playerJoined(CoKPlayer player){
 		EntityPlayerMP playerEntity = player.getPlayerEntity();
 		if(getGame() != null && playerEntity != null){
@@ -209,6 +212,7 @@ public class Team {
 	 * should always be called when a player disconnects/dies/leaves the team
 	 * @param player
 	 */
+	@SideOnly(Side.SERVER)
 	public void playerLeft(CoKPlayer player){
 		if(player.getProfession() != null){
 			availableProfessions.add(player.getProfession());

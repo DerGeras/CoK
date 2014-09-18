@@ -177,7 +177,7 @@ public class CoKGame {
 					defeatedTeams.add(team);
 				}
 			}
-			NetworkHandler.sendMessageToGame(this, new MessageScore(scores));
+			NetworkHandler.sendMessageToGame(this, new MessageScore(this.name, scores));
 		}
 		for(Team team : defeatedTeams){
 			team.onGameStop();
