@@ -16,6 +16,9 @@ public class NetworkHandler{
 	
 	public static SimpleNetworkWrapper network;
 	
+	/**
+	 * Initialize the network and register messages
+	 */
 	public static void preInit(){
 		network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.CHANNEL_NAME);
 		//register messages
@@ -23,6 +26,12 @@ public class NetworkHandler{
 		network.registerMessage(MessageScore.class, MessageScore.class, 1, Side.CLIENT);
 	}
 	
+	/**
+	 * Sends a message to all players of a specified game
+	 * 
+	 * @param game - target game
+	 * @param message - message to be send
+	 */
 	public static void sendMessageToGame(CoKGame game, IMessage message){
 		for(EntityPlayerMP player : PlayerHelper.getPlayerEntitiesForGame(game)){
 			network.sendTo(message, player);

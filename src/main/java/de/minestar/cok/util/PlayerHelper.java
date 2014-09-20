@@ -8,12 +8,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.server.MinecraftServer;
+
+import com.sun.istack.internal.Nullable;
+
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.Team;
 
 public class PlayerHelper {
 
+	@Nullable
 	public static EntityPlayerMP getPlayerForName(String username){
 		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)MinecraftServer.getServer().getConfigurationManager().playerEntityList){
 			if(player.getGameProfile().getName().equals(username)){
@@ -23,6 +27,7 @@ public class PlayerHelper {
 		return null;
 	}
 	
+	@Nullable
 	public static EntityPlayerMP getPlayerForUUID(UUID uuid){
 		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)MinecraftServer.getServer().getConfigurationManager().playerEntityList){
 			if(player.getGameProfile().getId().equals(uuid)){
@@ -32,16 +37,19 @@ public class PlayerHelper {
 		return null;
 	}
 	
+	
 	public static UUID getUUIDForName(String name){
 		 return MinecraftServer.getServer().func_152358_ax().func_152655_a(name).getId();
 	}
+	
 	
 	public static String getNameForUUID(UUID uuid){
 		return MinecraftServer.getServer().func_152358_ax().func_152652_a(uuid).getName();
 	}
 
 	/**
-	 * clears all of the player inventory
+	 * Clears all of the player inventory
+	 * 
 	 * @param playerEntity
 	 */
 	public static void clearInventory(EntityPlayerMP playerEntity) {
@@ -59,7 +67,8 @@ public class PlayerHelper {
 	}
 
 	/**
-	 * clear all items that are marked as given.
+	 * Clear all items that are marked as given.
+	 * 
 	 * @param playerEntity
 	 */
 	public static void clearGivenItemsFromInventory(EntityPlayer playerEntity) {
@@ -83,7 +92,8 @@ public class PlayerHelper {
 	}
 	
 	/**
-	 * return a set of players for the given game.
+	 * Returns a set of player entites for the given game.
+	 * 
 	 * @param game
 	 * @return
 	 */
@@ -103,7 +113,8 @@ public class PlayerHelper {
 	}
 
 	/**
-	 * return a set of player entitities for the given game
+	 * Returns a set of player entitities for the given team
+	 * 
 	 * @param team
 	 * @return
 	 */

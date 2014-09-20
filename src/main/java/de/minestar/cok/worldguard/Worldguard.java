@@ -19,7 +19,8 @@ public class Worldguard {
 	public static HashMap<Integer, HashSet<WorldRegion>> protectedRegions = new HashMap<Integer, HashSet<WorldRegion>>();
 	
 	/**
-	 * checks whether the given position is protected
+	 * Checks whether the given position is protected
+	 * 
 	 * @param coordinates
 	 * @return
 	 */
@@ -28,7 +29,8 @@ public class Worldguard {
 	}
 	
 	/**
-	 * checks whether the given position is protected
+	 * Checks whether the given position is protected
+	 * 
 	 * @param x
 	 * @param y
 	 * @param z
@@ -45,6 +47,12 @@ public class Worldguard {
 		return res;
 	}
 	
+	/**
+	 * Adds a protected region for the given dimension
+	 * 
+	 * @param dimensionID
+	 * @param region
+	 */
 	public static void addProtectedRegion(int dimensionID, WorldRegion region){
 		HashSet<WorldRegion> dimRegions = protectedRegions.get(dimensionID);
 		if(dimRegions == null){
@@ -55,18 +63,27 @@ public class Worldguard {
 		WorldGuardWorldData.markDataDirty();
 	}
 	
+	/**
+	 * Clear all protected regions
+	 */
 	public static void clearProtectedRegions(){
 		protectedRegions.clear();
 		WorldGuardWorldData.markDataDirty();
 	}
 	
+	/**
+	 * Clear all projected regions from this dimension
+	 * 
+	 * @param dimensionID
+	 */
 	public static void clearProtectedRegionsFromDim(int dimensionID){
 		protectedRegions.remove(dimensionID);
 		WorldGuardWorldData.markDataDirty();
 	}
 	
 	/**
-	 * read protected regions from nbt
+	 * Read protected regions from nbt
+	 * 
 	 * @param compound
 	 */
 	public static void readFromNBT(NBTTagCompound compound){
@@ -96,7 +113,8 @@ public class Worldguard {
 	}
 	
 	/**
-	 * write protected regions to nbt
+	 * Write protected regions to nbt
+	 * 
 	 * @param compound
 	 */
 	public static void writeToNBT(NBTTagCompound compound){

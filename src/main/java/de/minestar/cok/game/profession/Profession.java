@@ -6,6 +6,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import de.minestar.cok.game.Team;
 import de.minestar.cok.util.Color;
 import de.minestar.cok.util.ItemStackHelper;
@@ -23,7 +24,8 @@ public abstract class Profession {
 	}
 	
 	/**
-	 * give the player the kit for the profession
+	 * Give the player the kit for the profession
+	 * 
 	 * @param player
 	 */
 	public void giveKit(EntityPlayerMP player, Team team){
@@ -45,6 +47,8 @@ public abstract class Profession {
 	
 	/**
 	 * returns the % of blocks that increase in case of a player death.
+	 * (number of blocks = number of sockets * punishment
+	 * 
 	 * @return
 	 */
 	public abstract float getPunishment();
@@ -57,8 +61,9 @@ public abstract class Profession {
 	}
 	
 	/**
-	 * Tries to add a stack to the inventory, throws out non-given items (dropPlayerItem calls
-	 * ItemTossEvent)
+	 * Tries to add a stack to the inventory, throws out non-given items (dropPlayerItem throws
+	 * {@link ItemTossEvent))
+	 * 
 	 * @param player
 	 * @param inventory
 	 * @param stack

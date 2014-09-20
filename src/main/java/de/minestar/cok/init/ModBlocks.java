@@ -13,7 +13,9 @@ public class ModBlocks {
 	public static final CoKBlock towerbrick = new BlockTowerBrick();
 	public static final CoKBlockContainer socket = new BlockSocket();
 
-	
+	/**
+	 * Register blocks on initialization
+	 */
 	public static void init(){
 		GameRegistry.registerBlock(towerbrick, "towerbrick");
 		GameRegistry.registerBlock(socket, "socket");

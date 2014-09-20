@@ -27,6 +27,12 @@ public class ConfigurationHandler {
 	
 	public static Configuration config;
 	
+	
+	/**
+	 * Called on pre-initialization
+	 * 
+	 * @param file - the configuration file
+	 */
 	public static void preInit(File file){
 		if(config == null){
 			config = new Configuration(file);
@@ -71,6 +77,11 @@ public class ConfigurationHandler {
 		}
 	}
 	
+	/**
+	 * Called when the configuration is changed from the configuration GUI
+	 * 
+	 * @param event
+	 */
 	@SubscribeEvent
 	public void onConfigurationChanged(ConfigChangedEvent.OnConfigChangedEvent event){
 		if(event.modID.equalsIgnoreCase(Reference.MOD_ID)){

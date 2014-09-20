@@ -1,10 +1,9 @@
 package de.minestar.cok.game;
 
-import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
+import com.sun.istack.internal.Nullable;
 
 import de.minestar.cok.tileentity.TileEntitySocket;
 
@@ -15,8 +14,9 @@ public class SocketRegistry {
 	public static HashMap<Integer, HashSet<TileEntitySocket>> sockets = new HashMap<Integer, HashSet<TileEntitySocket>>();
 	
 	/**
-	 * register a socket block
-	 * @param coords
+	 * register a socket tile entity
+	 * 
+	 * @param socket
 	 */
 	public static boolean registerSocket(TileEntitySocket socket){
 		unsortedSockets.remove(socket);
@@ -26,8 +26,8 @@ public class SocketRegistry {
 	
 	/**
 	 * sort unsorted sockets.
-	 * Needed this due to the call of "socket.getBlockMetadata()" needing the world to
-	 * be loaded first
+	 * Needed this due to the call of {@link TileEntitySocket#getBlockMetadata()}
+	 * needing the world to be loaded first
 	 */
 	public static void sortSockets(){
 		for(TileEntitySocket socket : unsortedSockets){
@@ -43,7 +43,8 @@ public class SocketRegistry {
 	}
 	
 	/**
-	 * unregister a socket block
+	 * unregister a socket
+	 * 
 	 * @param coords
 	 * @return
 	 */
@@ -60,14 +61,21 @@ public class SocketRegistry {
 	
 	/**
 	 * get all sockets of a specified color
+	 * 
 	 * @param color
 	 * @return
 	 */
+	@Nullable
 	public static HashSet<TileEntitySocket> getSockets(int color){
 		sortSockets();
 		return sockets.get(color);
 	}
 	
+	/**
+	 * Returns all registered sockets
+	 * 
+	 * @return
+	 */
 	public static HashSet<TileEntitySocket> getAllSockets(){
 		sortSockets();
 		HashSet<TileEntitySocket> allSockets = new HashSet<TileEntitySocket>();

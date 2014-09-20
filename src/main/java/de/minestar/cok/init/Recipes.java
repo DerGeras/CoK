@@ -11,6 +11,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 
 public class Recipes {
 	
+	/**
+	 * Register recipes on initialization
+	 */
 	public static void init(){
 		//recipe for bolts
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.bolt, 8), "x","x", 'x', "ingotIron"));

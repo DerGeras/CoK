@@ -23,6 +23,9 @@ public class ModItems {
 	public static final CoKItem crossbow = new ItemCrossbow();
 	
 	
+	/**
+	 * Register items on initialization
+	 */
 	public static void init(){
 		GameRegistry.registerItem(dough, "dough");
 		OreDictionary.registerOre("itemDough", dough);

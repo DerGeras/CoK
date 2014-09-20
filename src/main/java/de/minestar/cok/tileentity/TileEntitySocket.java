@@ -84,7 +84,8 @@ public class TileEntitySocket extends TileEntity {
     }
     
     /**
-     * count the number of valid blocks above the socket
+     * Count the number of valid blocks above the socket
+     * 
      * @return
      */
     public int countBlocks(){
@@ -100,6 +101,7 @@ public class TileEntitySocket extends TileEntity {
     
     /**
      * Checks for possible rule violations in the vicinity
+     * 
      * @param event
      */
     public void checkEvent(BlockEvent.BreakEvent event){
@@ -121,6 +123,7 @@ public class TileEntitySocket extends TileEntity {
     
     /**
      * Checks for possible rule violations in the vicinity
+     * 
      * @param event
      */
     public void checkEvent(BlockPlaceEvent event){
@@ -143,7 +146,8 @@ public class TileEntitySocket extends TileEntity {
     
     /**
      * Add a block to the tower
-     * @return whether a block could be placed ( < maxBuildingheight)
+     * 
+     * @return whether a block could be placed (height < maxBuildingheight)
      */
     public boolean addBlock(){
     	boolean added = false;

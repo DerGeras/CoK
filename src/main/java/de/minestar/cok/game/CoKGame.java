@@ -10,6 +10,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.util.ChunkCoordinates;
+
+import com.sun.istack.internal.Nullable;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
@@ -45,6 +48,11 @@ public class CoKGame {
 		addTeam(TeamRegistry.getTeam(name));
 	}
 	
+	/**
+	 * Add the specified team to the game
+	 * 
+	 * @param team
+	 */
 	public void addTeam(Team team){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
@@ -58,6 +66,11 @@ public class CoKGame {
 		}
 	}
 	
+	/**
+	 * removes a team with a given name
+	 * 
+	 * @param name
+	 */
 	public void removeTeam(String name){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
@@ -69,6 +82,13 @@ public class CoKGame {
 		}
 	}
 	
+	/**
+	 * Returns a team for the given color, if such a team exists
+	 * 
+	 * @param color
+	 * @return
+	 */
+	@Nullable
 	public Team getTeam(int color){
 		for(Team team : teams.values()){
 			if(team.getColorAsInt() == color){
@@ -78,14 +98,31 @@ public class CoKGame {
 		return null;
 	}
 	
+	/**
+	 * Returns a team for the given name, if such a team exists
+	 * 
+	 * @param name
+	 * @return
+	 */
+	@Nullable
 	public Team getTeam(String name){
 		return teams.get(name);
 	}
 	
+	/**
+	 * Returns all teams in this game
+	 * 
+	 * @return
+	 */
 	public Collection<Team> getAllTeams(){
 		return teams.values();
 	}
 	
+	/**
+	 * Returns all team names from this game
+	 * 
+	 * @return
+	 */
 	public Collection<String> getAllTeamNames(){
 		return teams.keySet();
 	}
@@ -107,7 +144,8 @@ public class CoKGame {
 	}
 	
 	/**
-	 * should be called when the game is removed
+	 * Removes all teams from this game
+	 * should be called when the game is removed from the registry
 	 */
 	public void clearTeams(){
 		for(Team team : getAllTeams()){
@@ -115,6 +153,12 @@ public class CoKGame {
 		}
 	}
 	
+	/**
+	 * Start this game
+	 * 
+	 * {@link de.minestar.cok.game.Team#onGameStart()}
+	 * is called for all teams participating in this game.
+	 */
 	@SideOnly(Side.SERVER)
 	public void startGame(){
 		ChatSendHelper.broadCastError("Started the game " + name +  "!");
@@ -129,6 +173,13 @@ public class CoKGame {
 		ServerTickListener.isScoreCheckQueued = true;
 	}
 	
+	/**
+	 * Stop this game
+	 * 
+	 * {@link de.minestar.cok.game.Team#onGameStop()} is called
+	 * for all teams participating in this game, players are teleported
+	 * to the default spawn of this game (if present)
+	 */
 	@SideOnly(Side.SERVER)
 	public void stopGame(){
 		ChatSendHelper.broadCastError("The game " + name + " has ended!");
@@ -158,6 +209,8 @@ public class CoKGame {
 	
 	/**
 	 * called once per serverTick
+	 * 
+	 * Checks for scores and winning conditions. Defeated teams are removed here.
 	 */
 	@SideOnly(Side.SERVER)
 	public void onUpdate(){
@@ -200,7 +253,8 @@ public class CoKGame {
 	}
 	
 	/**
-	 * called when a player with a profession dies
+	 * Should be called when a player with a profession dies
+	 * 
 	 * @param team
 	 * @param profession
 	 */
@@ -225,6 +279,12 @@ public class CoKGame {
 		}
 	}
 	
+	/**
+	 * Returns the current score for the given team
+	 * 
+	 * @param team
+	 * @return
+	 */
 	@SideOnly(Side.SERVER)
 	public int getScoreForTeam(Team team){
 		HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
@@ -238,6 +298,13 @@ public class CoKGame {
 		return sum;
 	}
 	
+	/**
+	 * Returns the maximum score for the given team 
+	 * -> Number of sockets * maxbuildingheight
+	 * 
+	 * @param team
+	 * @return
+	 */
 	@SideOnly(Side.SERVER)
 	public int getMaxScoreForTeam(Team team){
 		HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());

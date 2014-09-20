@@ -43,7 +43,7 @@ public class CoKGameRegistry {
 	}
 	
 	/**
-	 * should clear everything, games, teams, players
+	 * Clears everything, games, teams, players
 	 */
 	public static void clearAll(){
 		registeredGames.clear();
@@ -52,7 +52,7 @@ public class CoKGameRegistry {
 	}
 	
 	/**
-	 * clear games
+	 * Clear all registered games
 	 */
 	public static void clearGames(){
 		for(CoKGame game : registeredGames.values()){

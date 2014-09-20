@@ -11,19 +11,19 @@ import de.minestar.cok.reference.Reference;
 public class CreativeTabCoK {
 	
 	public static final CreativeTabs COK_ITEM_TAB = new CreativeTabs(Reference.MOD_ID.toLowerCase() + ".items"){
-													@Override
-													@SideOnly(Side.CLIENT)
-													public Item getTabIconItem(){
-														return ModItems.bolt;
-													}
-												};
+		@Override
+		@SideOnly(Side.CLIENT)
+		public Item getTabIconItem(){
+			return ModItems.bolt;
+		}
+	};
 												
 	public static final CreativeTabs COK_BLOCK_TAB = new CreativeTabs(Reference.MOD_ID.toLowerCase() + ".blocks"){
-													@Override
-													@SideOnly(Side.CLIENT)
-													public Item getTabIconItem(){
-														return Item.getItemFromBlock(ModBlocks.towerbrick);
-													}
-												};
+		@Override
+		@SideOnly(Side.CLIENT)
+		public Item getTabIconItem(){
+			return Item.getItemFromBlock(ModBlocks.towerbrick);
+		}
+	};
 
 }

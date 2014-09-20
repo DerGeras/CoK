@@ -3,11 +3,6 @@ package de.minestar.cok.game;
 import io.netty.buffer.ByteBuf;
 import de.minestar.cok.util.Color;
 
-/**
- * basic scorecontainer, should only be used for the gui overlay
- * @author Oliver
- *
- */
 public class ScoreContainer implements Comparable<ScoreContainer>{
 
 	private char teamColor;

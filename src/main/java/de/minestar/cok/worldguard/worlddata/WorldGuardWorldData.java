@@ -31,6 +31,9 @@ public class WorldGuardWorldData extends WorldSavedData {
 		}
 	}
 	
+	/**
+	 * Marks the data as dirty, if not called the data will not be saved!
+	 */
 	public static void markDataDirty(){
 		if(data != null){
 			data.markDirty();

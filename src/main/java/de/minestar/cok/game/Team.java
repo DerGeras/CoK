@@ -8,10 +8,6 @@ import java.util.LinkedList;
 import java.util.Random;
 import java.util.UUID;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
@@ -19,13 +15,17 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
+
+import com.sun.istack.internal.Nullable;
+
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
-import de.minestar.cok.util.ItemStackHelper;
-import de.minestar.cok.util.LogHelper;
 import de.minestar.cok.util.PlayerHelper;
 
 public class Team {
@@ -54,6 +54,11 @@ public class Team {
 		readFromBuffer(buf);
 	}
 	
+	/**
+	 * Returns all players of this team (includes offlien players)
+	 * 
+	 * @return
+	 */
 	public HashSet<CoKPlayer> getAllPlayers(){
 		return CoKPlayerRegistry.getPlayersForUUIDs(playerUUIDs);
 	}
@@ -71,13 +76,21 @@ public class Team {
 	}
 	
 	public void setName(String name){
-		this.name = name;
+		if(name != null){
+			this.name = name;
+		}
 	}
 	
+	/**
+	 * returns the integer representation of this teams color
+	 * 
+	 * @return
+	 */
 	public int getColorAsInt(){
 		return color >= 97 ? color - 87 : color - 48;
 	}
 	
+
 	public boolean hasPlayer(CoKPlayer player){
 		return playerUUIDs.contains(player.getUUID());
 	}
@@ -86,7 +99,14 @@ public class Team {
 		return spawnLocation;
 	}
 	
-	public void setSpawnCoordinates(ChunkCoordinates coords){
+	/**
+	 * Sets the spawn location for this team.
+	 * In case the game is running, the spawn coordinates for
+	 * all players are set to this location
+	 * 
+	 * @param coords
+	 */
+	public void setSpawnCoordinates(@Nullable ChunkCoordinates coords){
 		this.spawnLocation = coords;
 		if(spawnLocation != null && getGame() != null && getGame().isRunning()){
 			for(CoKPlayer player : getAllPlayers()){
@@ -98,6 +118,15 @@ public class Team {
 		}
 	}
 	
+	/**
+	 * Add a player to the team.
+	 * In case the game is running, the player is teleported to the
+	 * spawnpoint of the team, otherwise they will be teleported
+	 * to the spawn specified by the game (if it is non-null)
+	 * 
+	 * @param player
+	 * @return
+	 */
 	public boolean addPlayer(CoKPlayer player){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
@@ -113,12 +142,14 @@ public class Team {
 				if(getGame() != null && playerEntity != null){
 					if(getGame().isRunning()){
 						if(spawnLocation != null){
+							playerEntity.setSpawnChunk(spawnLocation, true, 0);
 							playerEntity.playerNetServerHandler.setPlayerLocation(
 									spawnLocation.posX, spawnLocation.posY, spawnLocation.posZ, 0, 0);	
 						}
 					} else{ //game not running
 						ChunkCoordinates coords = getGame().getSpawnLocation();
 						if(coords != null){
+							playerEntity.setSpawnChunk(coords, true, 0);
 							playerEntity.playerNetServerHandler.setPlayerLocation(
 									coords.posX, coords.posY, coords.posZ, 0, 0);	
 						}
@@ -140,6 +171,13 @@ public class Team {
 		return addPlayer(player);
 	}
 	
+	/**
+	 * Removes a player from the team. The player is then teleported
+	 * to the general spawnpoint (if set)
+	 * 
+	 * @param player
+	 * @return
+	 */
 	public boolean removePlayer(CoKPlayer player){
 		if(CoKGameWorldData.data != null){
 			CoKGameWorldData.data.markDirty();
@@ -173,6 +211,7 @@ public class Team {
 	
 	/**
 	 * return all sockets correspondent to this team
+	 * 
 	 * @return
 	 */
 	public HashSet<TileEntitySocket> getSockets(){
@@ -188,7 +227,9 @@ public class Team {
 	}
 	
 	/**
-	 * should be called whenever a player enters the team/logs back in/revives
+	 * Should be called whenever a player enters the team/logs back in/revives
+	 * Triggers a distribution of all available professions
+	 * 
 	 * @param player
 	 */
 	@SideOnly(Side.SERVER)
@@ -209,7 +250,9 @@ public class Team {
 	}
 	
 	/**
-	 * should always be called when a player disconnects/dies/leaves the team
+	 * Should always be called when a player disconnects/dies/leaves the team
+	 * Triggers a distribution of all available professions
+	 * 
 	 * @param player
 	 */
 	@SideOnly(Side.SERVER)
@@ -223,7 +266,10 @@ public class Team {
 	}
 	
 	/**
-	 * called when the game starts
+	 * Called from {@link CoKGame#startGame()}
+	 * Teleports the players to their respective team bases
+	 * and sets health and hunger to max
+	 * Triggers a distribution of all professions
 	 */
 	public void onGameStart(){
 		if(spawnLocation != null){
@@ -245,7 +291,8 @@ public class Team {
 	}
 	
 	/**
-	 * called when the game stops or the team was defeated
+	 * Called from {@link CoKGame#stopGame()}
+	 * Clears given items from inventory
 	 */
 	public void onGameStop(){
 		for(CoKPlayer player : getAllPlayers()){
@@ -258,7 +305,7 @@ public class Team {
 	}
 	
 	/**
-	 * distribute all available professions
+	 * Distribute all available professions
 	 */
 	public void distributeProfessions(){
 		if(currentGame != null && currentGame.isRunning()){
@@ -280,9 +327,12 @@ public class Team {
 	}
 	
 	/**
+	 * Returns a suitable profession candidate
+	 * (a player that is alive and has no profession)
 	 * 
-	 * @return an alive online player without profession
+	 * @return
 	 */
+	@Nullable
 	public CoKPlayer getProfessionCandidate(){
 		ArrayList<CoKPlayer> candidates = new ArrayList<CoKPlayer>();
 		for(CoKPlayer player : getAllPlayers()){
@@ -298,7 +348,7 @@ public class Team {
 	}
 	
 	/**
-	 * remove all players from team
+	 * Remove all players from the team
 	 */
 	public void clearPlayers(){
 		for(CoKPlayer player : getAllPlayers()){

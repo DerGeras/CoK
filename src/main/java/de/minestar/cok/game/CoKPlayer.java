@@ -4,18 +4,11 @@ import io.netty.buffer.ByteBuf;
 
 import java.util.UUID;
 
-import cpw.mods.fml.client.config.GuiCheckBox;
-import cpw.mods.fml.client.config.GuiConfig;
-
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagString;
-import net.minecraft.util.ChunkCoordinates;
-import net.minecraftforge.common.util.Constants.NBT;
+
+import com.sun.istack.internal.Nullable;
+
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.util.PlayerHelper;
 
@@ -41,6 +34,12 @@ public class CoKPlayer {
 		this.team = team;
 	}
 	
+	/**
+	 * Returns the player entity corresponding to this Player.
+	 * 
+	 * @return
+	 */
+	@Nullable
 	public EntityPlayerMP getPlayerEntity(){
 		return PlayerHelper.getPlayerForUUID(uuid);
 	}
@@ -53,6 +52,7 @@ public class CoKPlayer {
 		return uuid;
 	}
 	
+	@Nullable
 	public Team getTeam(){
 		return team;
 	}
@@ -61,10 +61,12 @@ public class CoKPlayer {
 		this.profession = profession;
 	}
 	
+	@Nullable
 	public Profession getProfession(){
 		return profession;
 	}
 	
+	@Nullable
 	public CoKGame getGame(){
 		if(team != null){
 			return team.getGame();
