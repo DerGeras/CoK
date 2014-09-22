@@ -68,7 +68,7 @@ public class CommandTeam extends CoKCommand {
 		}
 		if(command.equals("move") && args.length == 3){
 			String gameName = args[2];
-			CoKGame game = CoKGameRegistry.registeredGames.get(gameName);
+			CoKGame game = CoKGameRegistry.getGame(gameName);
 			if(game == null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + gameName + "!");
 				return;
@@ -118,7 +118,7 @@ public class CommandTeam extends CoKCommand {
 			addIfPrefixMatches(list, args[2], Color.allColors);
 		}
 		if(args.length == 3 && args[0].equals("move")){
-			for(String gameName : CoKGameRegistry.registeredGames.keySet()){
+			for(String gameName : CoKGameRegistry.getAllGameNames()){
 				addIfPrefixMatches(list, args[2], gameName);
 			}
 		}

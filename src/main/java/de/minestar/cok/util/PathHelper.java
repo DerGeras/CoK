@@ -8,4 +8,8 @@ public class PathHelper {
 		return String.format("models/%s", name);
 	}
 	
+	public static String getPathForGUI(String name){
+		return String.format("gui/%s", name);
+	}
+	
 }

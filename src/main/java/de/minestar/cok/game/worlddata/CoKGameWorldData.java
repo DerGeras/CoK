@@ -1,6 +1,7 @@
 package de.minestar.cok.game.worlddata;
 
 import de.minestar.cok.game.CoKGameRegistry;
+import de.minestar.cok.listener.ServerTickListener;
 import de.minestar.cok.util.LogHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
@@ -10,9 +11,9 @@ import net.minecraft.world.storage.MapStorage;
 
 public class CoKGameWorldData extends WorldSavedData {
 	
-	public static final String DATA_KEY = "CoKGameWorldData";
+	private static final String DATA_KEY = "CoKGameWorldData";
 	
-	public static CoKGameWorldData data;
+	private static CoKGameWorldData data;
 	
 	/**
 	 * Initializing data
@@ -28,6 +29,13 @@ public class CoKGameWorldData extends WorldSavedData {
 				storage.setData(DATA_KEY, data);
 			}
 		}
+	}
+	
+	public static void markDataDirty(){
+		if(data != null){
+			data.markDirty();
+		}
+		ServerTickListener.isGameStateUpdated = true;
 	}
 
 	public CoKGameWorldData() {

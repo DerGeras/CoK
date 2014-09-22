@@ -30,7 +30,7 @@ public class CommandCoK extends CoKCommand {
 			return;
 		}
 		if(args[0].equals("create")){
-			if(CoKGameRegistry.registeredGames.containsKey(args[1])){
+			if(CoKGameRegistry.getAllGameNames().contains(args[1])){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "A game with the name " + args[1] + " already exits!");
 				return;
 			}
@@ -39,21 +39,21 @@ public class CommandCoK extends CoKCommand {
 			return;
 		}
 		if(args[0].equals("remove")){
-			if(CoKGameRegistry.registeredGames.containsKey(args[1])){
-				CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
+			if(CoKGameRegistry.getAllGameNames().contains(args[1])){
+				CoKGame game = CoKGameRegistry.getGame(args[1]);
 				if(game.isRunning()){
 					ChatSendHelper.sendErrorMessageToPlayer(sender, "Cannot remove a running game!");
 					return;
 				}
 				game.clearTeams();
-				CoKGameRegistry.registeredGames.remove(args[1]);
+				CoKGameRegistry.removeGame(args[1]);
 				ChatSendHelper.sendMessageToPlayer(sender, "The game " + args[1] + " was succesfully removed");
 				return;
 			}
 			ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find the game " + args[1] + "!");
 		}
 		if(args[0].equals("start")){
-			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
+			CoKGame game = CoKGameRegistry.getGame(args[1]);
 			if(game == null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + args[1] + "!");
 				return;
@@ -66,7 +66,7 @@ public class CommandCoK extends CoKCommand {
 			return;
 		}
 		if(args[0].equals("stop")){
-			CoKGame game = CoKGameRegistry.registeredGames.get(args[1]);
+			CoKGame game = CoKGameRegistry.getGame(args[1]);
 			if(game == null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + args[1] + "!");
 				return;
@@ -88,7 +88,7 @@ public class CommandCoK extends CoKCommand {
 			addIfPrefixMatches(list, args[0], "create", "remove", "start", "stop");
 		}
 		if(args.length == 2 && (args[0].equals("start") || args[0].equals("stop") || args[0].equals("remove"))){
-			for(String name : CoKGameRegistry.registeredGames.keySet()){
+			for(String name : CoKGameRegistry.getAllGameNames()){
 				addIfPrefixMatches(list, args[1], name);
 			}
 		}

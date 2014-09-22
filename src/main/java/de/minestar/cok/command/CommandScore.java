@@ -30,7 +30,7 @@ public class CommandScore extends CoKCommand{
 	@Override
 	public void processCommand(ICommandSender sender, String[] args) {
 		if(args.length == 0){
-			for(CoKGame game : CoKGameRegistry.registeredGames.values()){
+			for(CoKGame game : CoKGameRegistry.getAllGames()){
 				ChatSendHelper.sendMessageToPlayer(sender, String.format("Scores for game %s:", game.getName()));
 				for(Team team : game.getAllTeams()){
 					ChatSendHelper.sendMessageToPlayer(sender, String.format("%s%s%s:%d/%d",
@@ -45,7 +45,7 @@ public class CommandScore extends CoKCommand{
 		}
 		if(args.length == 1){
 			String gameName = args[0];
-			CoKGame game = CoKGameRegistry.registeredGames.get(gameName);
+			CoKGame game = CoKGameRegistry.getGame(gameName);
 			if(game == null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + gameName + "!");
 				return;
@@ -74,7 +74,7 @@ public class CommandScore extends CoKCommand{
 			String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
 		if(args.length == 1){
-			for(String gameName : CoKGameRegistry.registeredGames.keySet()){
+			for(String gameName : CoKGameRegistry.getAllGameNames()){
 				addIfPrefixMatches(list, args[0], gameName);
 			}
 		}

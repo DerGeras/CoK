@@ -53,7 +53,7 @@ public class CommandInfo extends CoKCommand {
 	
 	private void sendGeneralInfo(ICommandSender sender){
 		ChatSendHelper.sendMessageToPlayer(sender, "Registered games:");
-		for(CoKGame game : CoKGameRegistry.registeredGames.values()){
+		for(CoKGame game : CoKGameRegistry.getAllGames()){
 			ChatSendHelper.sendMessageToPlayer(sender, "-" + game.getName());
 		}
 		ChatSendHelper.sendMessageToPlayer(sender, "Registered teams:");
@@ -63,7 +63,7 @@ public class CommandInfo extends CoKCommand {
 	}
 	
 	private void sendGameInfo(ICommandSender sender, String name){
-		CoKGame game = CoKGameRegistry.registeredGames.get(name);
+		CoKGame game = CoKGameRegistry.getGame(name);
 		if(game == null){
 			ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + name + "!");
 			return;
@@ -121,7 +121,7 @@ public class CommandInfo extends CoKCommand {
 			addIfPrefixMatches(list, args[0], "game", "team", "player");
 		}
 		if(args.length == 2 && args[0].equals("game")){
-			for(String gameName : CoKGameRegistry.registeredGames.keySet()){
+			for(String gameName : CoKGameRegistry.getAllGameNames()){
 				addIfPrefixMatches(list, args[1], gameName);
 			}
 		}

@@ -1,10 +1,17 @@
 package de.minestar.cok.proxy;
 
-public interface IProxy {
+import cpw.mods.fml.common.network.IGuiHandler;
+
+public interface IProxy extends IGuiHandler{
 	
 	/**
-	 * Register all item renderers
+	 * Called on pre-initialization
 	 */
-	public void registerItemRenderers();
+	public void preInit();
+	
+	/**
+	 * Called on initialization
+	 */
+	public void init();
 	
 }

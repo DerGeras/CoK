@@ -51,7 +51,7 @@ public class CommandSetSpawn extends CoKCommand{
 		}
 		String name = args[1];
 		if(command.equals("game")){
-			CoKGame game = CoKGameRegistry.registeredGames.get(name);
+			CoKGame game = CoKGameRegistry.getGame(name);
 			if(game == null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Could not find game " + name + "!");
 				return;
@@ -95,7 +95,7 @@ public class CommandSetSpawn extends CoKCommand{
 			addIfPrefixMatches(list, args[0], "game", "team");
 		}
 		if(args.length == 2 && args[0].equals("game")){
-			for(String gameName : CoKGameRegistry.registeredGames.keySet()){
+			for(String gameName : CoKGameRegistry.getAllGameNames()){
 				addIfPrefixMatches(list, args[1], gameName);
 			}
 		}

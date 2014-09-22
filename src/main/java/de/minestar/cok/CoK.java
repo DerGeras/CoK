@@ -9,9 +9,11 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.chunkloadcallback.SocketChunkLoadCallBack;
 import de.minestar.cok.client.gui.overlay.CoKGuiOverlay;
+import de.minestar.cok.client.keybinding.KeyListener;
 import de.minestar.cok.command.CommandCoK;
 import de.minestar.cok.command.CommandInfo;
 import de.minestar.cok.command.CommandPlayer;
@@ -51,6 +53,9 @@ public class CoK {
 	
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event){
+		//proxy pre-initialization
+		proxy.preInit();
+		
 		//config stuff
 		ConfigurationHandler.preInit(event.getSuggestedConfigurationFile());
 		
@@ -75,8 +80,8 @@ public class CoK {
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent event){
-		//register item renderers
-		proxy.registerItemRenderers();
+		//proxy initialization
+		proxy.init();
 		
 		//register tile entities
 		ModTileEntities.init();
@@ -117,6 +122,7 @@ public class CoK {
 		//Clientsided
 		if(FMLCommonHandler.instance().getSide() == Side.CLIENT){
 			MinecraftForge.EVENT_BUS.register(new CoKGuiOverlay());
+			FMLCommonHandler.instance().bus().register(new KeyListener());
 		}
 	}
 

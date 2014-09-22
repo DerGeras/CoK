@@ -54,9 +54,7 @@ public class CoKGame {
 	 * @param team
 	 */
 	public void addTeam(Team team){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		if(team != null){
 			if(team.getGame() != null){
 				team.getGame().removeTeam(team.getName());
@@ -72,9 +70,7 @@ public class CoKGame {
 	 * @param name
 	 */
 	public void removeTeam(String name){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		Team team = teams.get(name);
 		if(team != null){
 			team.setGame(null);
@@ -159,7 +155,6 @@ public class CoKGame {
 	 * {@link de.minestar.cok.game.Team#onGameStart()}
 	 * is called for all teams participating in this game.
 	 */
-	@SideOnly(Side.SERVER)
 	public void startGame(){
 		ChatSendHelper.broadCastError("Started the game " + name +  "!");
 		isRunning = true;
@@ -180,7 +175,6 @@ public class CoKGame {
 	 * for all teams participating in this game, players are teleported
 	 * to the default spawn of this game (if present)
 	 */
-	@SideOnly(Side.SERVER)
 	public void stopGame(){
 		ChatSendHelper.broadCastError("The game " + name + " has ended!");
 		ChatSendHelper.broadCastMessage("Remaining Teams:");
@@ -208,11 +202,10 @@ public class CoKGame {
 	}
 	
 	/**
-	 * called once per serverTick
+	 * Called once per serverTick
 	 * 
 	 * Checks for scores and winning conditions. Defeated teams are removed here.
 	 */
-	@SideOnly(Side.SERVER)
 	public void onUpdate(){
 		if(!isRunning()){
 			return;
@@ -285,7 +278,6 @@ public class CoKGame {
 	 * @param team
 	 * @return
 	 */
-	@SideOnly(Side.SERVER)
 	public int getScoreForTeam(Team team){
 		HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
 		if(teamSockets == null){
@@ -305,7 +297,6 @@ public class CoKGame {
 	 * @param team
 	 * @return
 	 */
-	@SideOnly(Side.SERVER)
 	public int getMaxScoreForTeam(Team team){
 		HashSet<TileEntitySocket> teamSockets = SocketRegistry.getSockets(team.getColorAsInt());
 		return teamSockets == null ? 0 : teamSockets.size() * GameSettings.buildingHeight;

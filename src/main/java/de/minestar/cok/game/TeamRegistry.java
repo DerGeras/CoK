@@ -25,16 +25,12 @@ public class TeamRegistry {
 	}
 	
 	public static void addTeam(Team team){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		registeredTeams.put(team.getName(), team);
 	}
 	
 	public static void removeTeam(String name){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		Team team = registeredTeams.get(name);
 		if(team != null){
 			if(team.getGame() != null){
@@ -70,9 +66,7 @@ public class TeamRegistry {
 	}
 	
 	public static void clearTeams(){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		for(Team team : registeredTeams.values()){
 			team.clearPlayers();
 			if(team.getGame() != null){

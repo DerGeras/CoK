@@ -75,6 +75,10 @@ public class Team {
 		return name;
 	}
 	
+	public String getFormattedName(){
+		return String.format("%s%s", Color.getColorCodeFromChar(color), name);
+	}
+	
 	public void setName(String name){
 		if(name != null){
 			this.name = name;
@@ -128,9 +132,7 @@ public class Team {
 	 * @return
 	 */
 	public boolean addPlayer(CoKPlayer player){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		if(player != null){
 			if(player.getTeam() != null){
 				player.getTeam().removePlayer(player);
@@ -179,9 +181,7 @@ public class Team {
 	 * @return
 	 */
 	public boolean removePlayer(CoKPlayer player){
-		if(CoKGameWorldData.data != null){
-			CoKGameWorldData.data.markDirty();
-		}
+		CoKGameWorldData.markDataDirty();
 		if(player != null){
 			player.setTeam(null);
 			if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER){
@@ -232,7 +232,6 @@ public class Team {
 	 * 
 	 * @param player
 	 */
-	@SideOnly(Side.SERVER)
 	public void playerJoined(CoKPlayer player){
 		EntityPlayerMP playerEntity = player.getPlayerEntity();
 		if(getGame() != null && playerEntity != null){
@@ -255,7 +254,6 @@ public class Team {
 	 * 
 	 * @param player
 	 */
-	@SideOnly(Side.SERVER)
 	public void playerLeft(CoKPlayer player){
 		if(player.getProfession() != null){
 			availableProfessions.add(player.getProfession());

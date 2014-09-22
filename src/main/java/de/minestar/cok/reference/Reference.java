@@ -30,4 +30,7 @@ public class Reference {
 	
 	//NBT Tags
 	public static final String GIVEN_ITEM = "given";
+	
+	//GUI IDs
+	public static final int GUI_INFO_ID = 0;
 }
