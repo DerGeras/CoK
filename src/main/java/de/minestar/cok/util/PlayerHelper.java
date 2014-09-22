@@ -11,6 +11,8 @@ import net.minecraft.server.MinecraftServer;
 
 import com.sun.istack.internal.Nullable;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKPlayer;
 import de.minestar.cok.game.Team;
@@ -19,7 +21,7 @@ public class PlayerHelper {
 
 	@Nullable
 	public static EntityPlayerMP getPlayerForName(String username){
-		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)MinecraftServer.getServer().getConfigurationManager().playerEntityList){
+		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList){
 			if(player.getGameProfile().getName().equals(username)){
 				return player;
 			}
@@ -29,8 +31,8 @@ public class PlayerHelper {
 	
 	@Nullable
 	public static EntityPlayerMP getPlayerForUUID(UUID uuid){
-		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)MinecraftServer.getServer().getConfigurationManager().playerEntityList){
-			if(player.getGameProfile().getId().equals(uuid)){
+		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList){
+			if(player.getPersistentID().equals(uuid)){
 				return player;
 			}
 		}
@@ -38,13 +40,13 @@ public class PlayerHelper {
 	}
 	
 	
-	public static UUID getUUIDForName(String name){
-		 return MinecraftServer.getServer().func_152358_ax().func_152655_a(name).getId();
+	public static UUID getUUIDForName(String username){
+		 return getPlayerForName(username).getPersistentID();
 	}
 	
 	
 	public static String getNameForUUID(UUID uuid){
-		return MinecraftServer.getServer().func_152358_ax().func_152652_a(uuid).getName();
+		return getPlayerForUUID(uuid).getGameProfile().getName();
 	}
 
 	/**

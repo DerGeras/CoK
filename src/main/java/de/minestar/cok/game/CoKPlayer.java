@@ -9,6 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 import com.sun.istack.internal.Nullable;
 
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.util.PlayerHelper;
 
@@ -17,9 +19,11 @@ public class CoKPlayer {
 	private UUID uuid;
 	private Team team;
 	private Profession profession;
+	private String cachedName;
 	
 	public CoKPlayer(UUID uuid){
 		this.uuid = uuid;
+		this.cachedName = PlayerHelper.getNameForUUID(uuid);
 	}
 	
 	public CoKPlayer(NBTTagCompound compound){
@@ -45,7 +49,10 @@ public class CoKPlayer {
 	}
 	
 	public String getUserName(){
-		return PlayerHelper.getNameForUUID(uuid);
+		if(FMLCommonHandler.instance().getEffectiveSide() == Side.SERVER && getPlayerEntity() != null){
+			return cachedName = PlayerHelper.getNameForUUID(uuid);
+		}
+		return cachedName;
 	}
 	
 	public UUID getUUID(){
@@ -77,11 +84,15 @@ public class CoKPlayer {
 	public void readFromNBT(NBTTagCompound compound){
 		//read uuid
 		this.uuid = UUID.fromString(compound.getString("uuid"));
+		//read cached name
+		this.cachedName = compound.getString("cachedName");
 	}
 	
 	public void writeToNBT(NBTTagCompound compound){
 		//write uuid
 		compound.setString("uuid", uuid.toString());
+		//write cached name
+		compound.setString("cachedName", cachedName);
 	}
 	
 	
@@ -90,12 +101,18 @@ public class CoKPlayer {
 		String uuidString = uuid.toString();
 		buf.writeInt(uuidString.length());
 		buf.writeBytes(uuidString.getBytes());
+		//write cached name
+		buf.writeInt(cachedName.length());
+		buf.writeBytes(cachedName.getBytes());
 	}
 	
 	public void readFromBuffer(ByteBuf buf){
 		//read uuid
 		int uuidStringLength = buf.readInt();
 		this.uuid = UUID.fromString(new String(buf.readBytes(uuidStringLength).array()));
+		//read cached name
+		int cachedNameLength = buf.readInt();
+		this.cachedName = new String(buf.readBytes(cachedNameLength).array());
 	}
 	
 }

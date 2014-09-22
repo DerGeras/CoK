@@ -10,6 +10,10 @@ import org.lwjgl.opengl.GL11;
 
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKGameRegistry;
+import de.minestar.cok.game.CoKPlayer;
+import de.minestar.cok.game.CoKPlayerRegistry;
+import de.minestar.cok.game.Team;
+import de.minestar.cok.game.TeamRegistry;
 import de.minestar.cok.reference.Reference;
 import de.minestar.cok.util.PathHelper;
 
@@ -19,9 +23,10 @@ public class CoKGUIInfo extends GuiScreen {
 				new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForGUI("GuiBackground.png"));
 	
 	private static int backGroundWidth = 256;
-	private static int backGroundHeight = 128;
+	private static int backGroundHeight = 150;
 	
 	private static final int textIndent = 12;
+	private static final int textOffset = 12;
 	
 	private GuiButton gamesButton;
 	private GuiButton teamsButton;
@@ -64,7 +69,7 @@ public class CoKGUIInfo extends GuiScreen {
 			break;
 		}
 		case 3: {
-			drawPlayerScreen(posX, posY);
+			drawPlayersScreen(posX, posY);
 			break;
 		}
 		default: {
@@ -77,10 +82,10 @@ public class CoKGUIInfo extends GuiScreen {
 	private void drawGamesScreen(int posX, int posY){
 		int xOffset = posX;
 		int yOffset = posY;
-		Minecraft.getMinecraft().fontRenderer.drawString("Games", posX, posY, 0x000000);
+		Minecraft.getMinecraft().fontRenderer.drawString("Games:", posX, posY, 0x000000);
 		xOffset += textIndent;
 		for(CoKGame game : CoKGameRegistry.getAllGames()){
-			yOffset += 12;
+			yOffset += textOffset;
 			Minecraft.getMinecraft().fontRenderer.drawString(game.getName(), xOffset, yOffset, 0x000000);
 		}
 	}
@@ -88,13 +93,31 @@ public class CoKGUIInfo extends GuiScreen {
 	private void drawTeamsScreen(int posX, int posY){
 		int xOffset = posX;
 		int yOffset = posY;
-		//TODO
+		Minecraft.getMinecraft().fontRenderer.drawString("Teams:", posX, posY, 0x000000);
+		xOffset += textIndent;
+		for(Team team: TeamRegistry.getAllTeams()){
+			yOffset += textOffset;
+			Minecraft.getMinecraft().fontRenderer.drawString(team.getFormattedName(), xOffset, yOffset, 0x000000);
+			xOffset += textIndent;
+			for(CoKPlayer player : team.getAllPlayers()){
+				yOffset += textOffset;
+				Minecraft.getMinecraft().fontRenderer.drawString(player.getUserName(), xOffset, yOffset, 0x000000);
+			}
+			xOffset -= textIndent;
+		}
 	}
 	
-	private void drawPlayerScreen(int posX, int posY){
+	private void drawPlayersScreen(int posX, int posY){
 		int xOffset = posX;
 		int yOffset = posY;
-		//TODO
+		Minecraft.getMinecraft().fontRenderer.drawString("Players without teams:", posX, posY, 0x000000);
+		xOffset += textIndent;
+		for(CoKPlayer player : CoKPlayerRegistry.getAllPlayers()){
+			if(player.getTeam() == null){
+				yOffset += textOffset;
+				Minecraft.getMinecraft().fontRenderer.drawString(player.getUserName(), posX, posY, 0x000000);				
+			}
+		}
 	}
 	
 	@Override
@@ -106,13 +129,13 @@ public class CoKGUIInfo extends GuiScreen {
 
 		posX += 15;
 		posY += 15;
-		gamesButton = new GuiButton(0, posX, posY, 100, 20, "Games");
+		gamesButton = new GuiButton(0, posX, posY, 75, 20, "Games");
 		this.buttonList.add(gamesButton);
 		posY += 25;
-		teamsButton = new GuiButton(1, posX, posY, 100, 20, "Teams");
+		teamsButton = new GuiButton(1, posX, posY, 75, 20, "Teams");
 		this.buttonList.add(teamsButton);
 		posY += 25;
-		playerButton = new GuiButton(2, posX, posY, 100, 20, "Players");
+		playerButton = new GuiButton(2, posX, posY, 75, 20, "Players");
 		this.buttonList.add(playerButton);
 	}
 	

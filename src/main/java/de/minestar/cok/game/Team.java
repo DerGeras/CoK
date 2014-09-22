@@ -26,6 +26,7 @@ import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
+import de.minestar.cok.util.LogHelper;
 import de.minestar.cok.util.PlayerHelper;
 
 public class Team {
@@ -368,7 +369,7 @@ public class Team {
 		NBTTagList playerList = compound.getTagList("players", NBT.TAG_STRING);
 		for(int i = 0; i < playerList.tagCount(); i++){
 			String uuidString = playerList.getStringTagAt(i);
-			addPlayer(CoKPlayerRegistry.getOrCreatPlayerForUUID(UUID.fromString(uuidString)));
+			addPlayer(CoKPlayerRegistry.getPlayerForUUID(UUID.fromString(uuidString)));
 		}
 	}
 	
@@ -391,6 +392,8 @@ public class Team {
 	
 	
 	public void writeToBuffer(ByteBuf buf){
+		//write color
+		buf.writeChar(color);
 		//write name
 		buf.writeInt(name.length());
 		buf.writeBytes(name.getBytes());
@@ -411,6 +414,8 @@ public class Team {
 	}
 	
 	public void readFromBuffer(ByteBuf buf){
+		//read color
+		this.color = buf.readChar();
 		//read name
 		int nameLength = buf.readInt();
 		this.name = new String(buf.readBytes(nameLength).array());
@@ -428,7 +433,7 @@ public class Team {
 			//read UUID
 			int uuidLength = buf.readInt();
 			UUID uuid = UUID.fromString(new String(buf.readBytes(uuidLength).array()));
-			addPlayer(CoKPlayerRegistry.getOrCreatPlayerForUUID(uuid));
+			addPlayer(CoKPlayerRegistry.getPlayerForUUID(uuid));
 		}
 	}
 }
