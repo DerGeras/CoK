@@ -1,4 +1,4 @@
-package de.minestar.cok.handler;
+package de.minestar.cok.config;
 
 import java.io.File;
 
@@ -58,6 +58,10 @@ public class ConfigurationHandler {
 			GameSettings.protectedRadius =
 				config.getInt("ProtectionRadius", CATEGORY_GAME_SETTINGS, 3, 0, 64, 
 						"Square radius of protection around bases");
+			
+			GameSettings.professionRedistributionTime = 
+					config.getInt("Profession redistribution time", CATEGORY_GAME_SETTINGS, 20*60, 0, 20*60*60,
+							"Time until profession redistribution after the last player with a profession died.");
 			
 			//load professions
 			if(config.getBoolean("Crossbowman", CATEGORY_PROFESSIONS, true, "Enables the crossbowman")){

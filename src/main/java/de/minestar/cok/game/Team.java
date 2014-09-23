@@ -36,8 +36,6 @@ public class Team {
 	
 	private static Random rand = new Random();
 	
-	private static final int professionRespawnTime = 20 * 60;
-	
 	private String name;
 	private char color;
 	private ChunkCoordinates spawnLocation;
@@ -262,7 +260,7 @@ public class Team {
 			availableProfessions.add(player.getProfession());
 			player.setProfession(null);
 			PlayerHelper.clearGivenItemsFromInventory(player.getPlayerEntity());
-			timeSinceLastProfessionChange = professionRespawnTime;
+			timeSinceLastProfessionChange = GameSettings.professionRedistributionTime;
 		}
 	}
 	

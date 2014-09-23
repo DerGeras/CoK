@@ -21,7 +21,7 @@ import de.minestar.cok.command.CommandProtect;
 import de.minestar.cok.command.CommandScore;
 import de.minestar.cok.command.CommandSetSpawn;
 import de.minestar.cok.command.CommandTeam;
-import de.minestar.cok.handler.ConfigurationHandler;
+import de.minestar.cok.config.ConfigurationHandler;
 import de.minestar.cok.init.ModBlocks;
 import de.minestar.cok.init.ModItems;
 import de.minestar.cok.init.ModTileEntities;

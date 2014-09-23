@@ -7,7 +7,7 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
-import de.minestar.cok.handler.ConfigurationHandler;
+import de.minestar.cok.config.ConfigurationHandler;
 import de.minestar.cok.reference.Reference;
 
 public class CoKGuiConfig extends GuiConfig{

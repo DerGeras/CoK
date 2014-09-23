@@ -16,4 +16,7 @@ public class GameSettings {
 	//Protected Zone around a socket
 	public static int protectedRadius;
 	
+	//Respawn time for professions
+	public static int professionRedistributionTime;
+	
 }
