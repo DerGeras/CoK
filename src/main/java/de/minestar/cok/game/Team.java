@@ -36,10 +36,13 @@ public class Team {
 	
 	private static Random rand = new Random();
 	
+	private static final int professionRespawnTime = 20 * 60;
+	
 	private String name;
 	private char color;
 	private ChunkCoordinates spawnLocation;
 	private CoKGame currentGame;
+	private int timeSinceLastProfessionChange;
 	
 	public Team (String name, char color){
 		this.name = name;
@@ -246,7 +249,6 @@ public class Team {
 				}
 			}
 		}
-		distributeProfessions();
 	}
 	
 	/**
@@ -260,7 +262,7 @@ public class Team {
 			availableProfessions.add(player.getProfession());
 			player.setProfession(null);
 			PlayerHelper.clearGivenItemsFromInventory(player.getPlayerEntity());
-			distributeProfessions();
+			timeSinceLastProfessionChange = professionRespawnTime;
 		}
 	}
 	
@@ -299,6 +301,25 @@ public class Team {
 			EntityPlayer playerEntity = PlayerHelper.getPlayerForUUID(player.getUUID());
 			if(playerEntity != null){
 				PlayerHelper.clearGivenItemsFromInventory(playerEntity);
+			}
+		}
+	}
+	
+	/**
+	 * Called by {@link CoKGame#onUpdate()}
+	 * Redistributes professions etc.
+	 */
+	public void onUpdate(){
+		if(currentGame != null && currentGame.isRunning()){
+			timeSinceLastProfessionChange = Math.max(0, timeSinceLastProfessionChange - 1);
+			if(timeSinceLastProfessionChange == 20 * 10){
+				ChatSendHelper.broadCastMessageToTeam(this, "Class redestribution in 10 seconds!");
+			}
+			if(timeSinceLastProfessionChange == 20 * 5){
+				ChatSendHelper.broadCastMessageToTeam(this, "Class redestribution in 5 seconds!");				
+			}
+			if(timeSinceLastProfessionChange == 0){
+				distributeProfessions();
 			}
 		}
 	}

@@ -56,7 +56,7 @@ public class CoKGUIInfo extends GuiScreen {
 		super.drawScreen(x, y, f);
 		
 		//draw info
-		posX = this.width / 2;
+		posX += 100;
 		posY += 15;
 		
 		switch(guiMode){

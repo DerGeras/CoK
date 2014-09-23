@@ -204,12 +204,18 @@ public class CoKGame {
 	/**
 	 * Called once per serverTick
 	 * 
+	 * Calls{@link Team#onUpdate()} for all teams of this game
 	 * Checks for scores and winning conditions. Defeated teams are removed here.
 	 */
 	public void onUpdate(){
 		if(!isRunning()){
 			return;
 		}
+		//uptade teams
+		for(Team team : getAllTeams()){
+			team.onUpdate();
+		}
+		//check score
 		HashSet<Team> defeatedTeams = new HashSet<Team>();
 		if(ServerTickListener.isScoreCheckQueued){
 			HashSet<ScoreContainer> scores = new HashSet<ScoreContainer>();
@@ -225,6 +231,7 @@ public class CoKGame {
 			}
 			NetworkHandler.sendMessageToGame(this, new MessageScore(this.name, scores));
 		}
+		//remove defeated teams
 		for(Team team : defeatedTeams){
 			team.onGameStop();
 			ChatSendHelper.broadCastMessageToGame(this, String.format("Team %s%s%s has been defeated!", 

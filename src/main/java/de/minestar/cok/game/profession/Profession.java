@@ -29,6 +29,9 @@ public abstract class Profession {
 	 * @param player
 	 */
 	public void giveKit(EntityPlayerMP player, Team team){
+		//healing up
+		player.setHealth(20);
+		player.getFoodStats().addStats(20, 20);
 		//Armor
 		ItemStack helmet = player.inventory.armorItemInSlot(3);
 		if(helmet != null){
