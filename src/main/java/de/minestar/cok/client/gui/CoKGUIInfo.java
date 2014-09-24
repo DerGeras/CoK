@@ -3,6 +3,7 @@ package de.minestar.cok.client.gui;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 
@@ -22,8 +23,8 @@ public class CoKGUIInfo extends GuiScreen {
 	public static ResourceLocation backGroundTexture =
 				new ResourceLocation(Reference.MOD_ID.toLowerCase(), PathHelper.getPathForGUI("GuiBackground.png"));
 	
-	private static int backGroundWidth = 256;
-	private static int backGroundHeight = 150;
+	private static int backGroundWidth = 400;
+	private static int backGroundHeight = 200;
 	
 	private static final int textIndent = 12;
 	private static final int textOffset = 12;
@@ -50,8 +51,21 @@ public class CoKGUIInfo extends GuiScreen {
 
 		int posX = (this.width - backGroundWidth) / 2;
 		int posY = (this.height - backGroundHeight) / 2;
-
-		drawTexturedModalRect(posX, posY, 0, 0, backGroundWidth, backGroundHeight);
+		
+		GL11.glTexParameteri( GL11.GL_TEXTURE_2D, 
+				GL11.GL_TEXTURE_WRAP_T, 
+				GL11.GL_CLAMP ); 
+		GL11.glTexParameteri( GL11.GL_TEXTURE_2D, 
+				GL11.GL_TEXTURE_WRAP_S, 
+				GL11.GL_CLAMP ); 
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, 
+				GL11.GL_TEXTURE_MIN_FILTER,
+				GL11.GL_NEAREST);
+		GL11.glTexParameteri(GL11.GL_TEXTURE_2D, 
+				GL11.GL_TEXTURE_MAG_FILTER,
+				GL11.GL_NEAREST);
+		drawStretchedTexture(posX, posY, backGroundWidth, backGroundHeight);
+        
 
 		super.drawScreen(x, y, f);
 		
@@ -83,10 +97,18 @@ public class CoKGUIInfo extends GuiScreen {
 		int xOffset = posX;
 		int yOffset = posY;
 		Minecraft.getMinecraft().fontRenderer.drawString("Games:", posX, posY, 0x000000);
-		xOffset += textIndent;
+		int longestNameSize = 0;
 		for(CoKGame game : CoKGameRegistry.getAllGames()){
-			yOffset += textOffset;
+			yOffset = posY + textOffset;
 			Minecraft.getMinecraft().fontRenderer.drawString(game.getName(), xOffset, yOffset, 0x000000);
+			for(Team team : game.getAllTeams()){
+				yOffset += textOffset;
+				String formattedTeamName = team.getFormattedName();
+				Minecraft.getMinecraft().fontRenderer.drawString("-" + formattedTeamName, xOffset, yOffset, 0x000000);
+				longestNameSize = Math.max(longestNameSize, formattedTeamName.length());
+			}
+			longestNameSize = Math.max(longestNameSize, game.getName().length());
+			xOffset += 2 * textIndent + longestNameSize * 6;
 		}
 	}
 	
@@ -94,28 +116,30 @@ public class CoKGUIInfo extends GuiScreen {
 		int xOffset = posX;
 		int yOffset = posY;
 		Minecraft.getMinecraft().fontRenderer.drawString("Teams:", posX, posY, 0x000000);
-		xOffset += textIndent;
 		for(Team team: TeamRegistry.getAllTeams()){
-			yOffset += textOffset;
+			int longestNameSize = 0;
+			yOffset = posY + textOffset;
+			String formattedTeamName = team.getFormattedName();
+			longestNameSize = Math.max(longestNameSize, formattedTeamName.length());
 			Minecraft.getMinecraft().fontRenderer.drawString(team.getFormattedName(), xOffset, yOffset, 0x000000);
-			xOffset += textIndent;
 			for(CoKPlayer player : team.getAllPlayers()){
 				yOffset += textOffset;
-				Minecraft.getMinecraft().fontRenderer.drawString(player.getUserName(), xOffset, yOffset, 0x000000);
+				Minecraft.getMinecraft().fontRenderer.drawString("-" + player.getUserName(), xOffset, yOffset, 0x000000);
+				longestNameSize = Math.max(longestNameSize, player.getUserName().length());
 			}
-			xOffset -= textIndent;
+			xOffset += 2 * textIndent + longestNameSize * 6;
 		}
 	}
 	
 	private void drawPlayersScreen(int posX, int posY){
 		int xOffset = posX;
 		int yOffset = posY;
-		Minecraft.getMinecraft().fontRenderer.drawString("Players without teams:", posX, posY, 0x000000);
+		Minecraft.getMinecraft().fontRenderer.drawString("Players without teams:", xOffset, yOffset, 0x000000);
 		xOffset += textIndent;
 		for(CoKPlayer player : CoKPlayerRegistry.getAllPlayers()){
 			if(player.getTeam() == null){
 				yOffset += textOffset;
-				Minecraft.getMinecraft().fontRenderer.drawString(player.getUserName(), posX, posY, 0x000000);				
+				Minecraft.getMinecraft().fontRenderer.drawString(player.getUserName(), xOffset, yOffset, 0x000000);				
 			}
 		}
 	}
@@ -155,6 +179,16 @@ public class CoKGUIInfo extends GuiScreen {
 			break;
 		}
 		}
+	}
+	
+	private void drawStretchedTexture(int x, int y, int width, int height){
+		Tessellator tessellator = Tessellator.instance;
+	    tessellator.startDrawingQuads();
+	    tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, 0,1);
+	    tessellator.addVertexWithUV((double)(x + width), (double)(y + height),(double)this.zLevel, 1,1);
+	    tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, 1,0);
+	    tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, 0,0);
+	    tessellator.draw();
 	}
 	
 }

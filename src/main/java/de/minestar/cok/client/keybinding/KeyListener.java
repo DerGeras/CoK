@@ -14,7 +14,6 @@ public class KeyListener {
 	@SubscribeEvent
 	public void onKeyInput(InputEvent.KeyInputEvent event){
 		if(KeyBindings.keyGUIInfo.isPressed()){
-			LogHelper.info("Key pressed" + KeyBindings.keyGUIInfo.isPressed());
 			EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 			Minecraft.getMinecraft().thePlayer.openGui(CoK.instance,
 					Reference.GUI_INFO_ID, player.worldObj,

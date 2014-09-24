@@ -1,5 +1,8 @@
 package de.minestar.cok.game.worlddata;
 
+import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.CoKGameRegistry;
 import de.minestar.cok.listener.ServerTickListener;
 import de.minestar.cok.util.LogHelper;
@@ -32,6 +35,9 @@ public class CoKGameWorldData extends WorldSavedData {
 	}
 	
 	public static void markDataDirty(){
+		if(FMLCommonHandler.instance().getEffectiveSide() != Side.SERVER){
+			return;
+		}
 		if(data != null){
 			data.markDirty();
 		}
