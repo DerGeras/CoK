@@ -105,7 +105,7 @@ public class TileEntitySocket extends TileEntity {
      * @param event
      */
     public void checkEvent(BlockEvent.BreakEvent event){
-    	if(!event.isCanceled()){
+    	if(!event.isCanceled() && event.world == this.worldObj){
     		Team team = CoKPlayerRegistry.getPlayerForUUID(event.getPlayer().getUniqueID()).getTeam();
     		if(team != null){
     			boolean sameTeam = team.getColorAsInt() == this.blockMetadata;
@@ -127,7 +127,7 @@ public class TileEntitySocket extends TileEntity {
      * @param event
      */
     public void checkEvent(BlockPlaceEvent event){
-    	if(!event.isCanceled()){
+    	if(!event.isCanceled() && event.world == this.worldObj){
     		Team team = CoKPlayerRegistry.getPlayerForUUID(event.player.getUniqueID()).getTeam();
     		if(team != null){
     			boolean sameTeam = team.getColorAsInt() == this.blockMetadata;

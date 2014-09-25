@@ -52,7 +52,7 @@ public class MessageScore implements IMessage, IMessageHandler<MessageScore, IMe
 	@Override
 	public IMessage onMessage(MessageScore message, MessageContext ctx) {
 		//Changes occour in "fromBytes".
-		LogHelper.info("Received score package data from server.");
+		//LogHelper.info("Received score package data from server.");
 		CoKGuiOverlay.gameName = message.localGameName;
 		CoKGuiOverlay.scores.clear();
 		CoKGuiOverlay.scores.addAll(message.localScores);
