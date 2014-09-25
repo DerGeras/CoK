@@ -1,6 +1,9 @@
 package de.minestar.cok.tileentity;
 
+import org.omg.CORBA.INITIALIZE;
+
 import net.minecraft.block.Block;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.ChunkCoordIntPair;
@@ -46,8 +49,13 @@ public class TileEntitySocket extends TileEntity {
 	    	SocketRegistry.registerSocket(this);
 	    }
     	//chunk loading
-    	chunkTicket = ForgeChunkManager.requestTicket(CoK.instance, this.worldObj, ForgeChunkManager.Type.NORMAL);
-    	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+    	if(chunkTicket == null){
+    		chunkTicket = ForgeChunkManager.requestTicket(CoK.instance, this.worldObj, ForgeChunkManager.Type.NORMAL);
+    		ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
+    		chunkTicket.getModData().setInteger("socketX", xCoord);
+    		chunkTicket.getModData().setInteger("socketY", yCoord);
+    		chunkTicket.getModData().setInteger("socketZ", zCoord);
+    	}
     }
     
     @Override
@@ -81,6 +89,17 @@ public class TileEntitySocket extends TileEntity {
     			}
     		}
     	}
+    }
+    
+    /**
+     * Sets the ticket for this Entity, and forces chunk to load.
+     * @param ticket
+     */
+    public void forceChunkLoading(Ticket ticket){
+    	if(chunkTicket == null){
+    		chunkTicket = ticket;
+    	}
+    	ForgeChunkManager.forceChunk(chunkTicket, new ChunkCoordIntPair(xCoord >> 4, zCoord >> 4));
     }
     
     /**
