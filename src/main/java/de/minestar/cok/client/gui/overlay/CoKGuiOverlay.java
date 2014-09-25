@@ -52,7 +52,7 @@ public class CoKGuiOverlay extends Gui{
 		//draw gamename
 		x += 3;
 		y += 3;
-		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(Color.getColorCodeFromString("white") + gameName, x, y, 0xff0000);
+		Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(Color.getColorCodeFromString("white") + "Game: " + gameName, x, y, 0xff0000);
 		y += 12;
 		for(ScoreContainer score : scores){
 			Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(score.getFormattedString(), x, y, 0xff0000);

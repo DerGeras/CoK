@@ -92,7 +92,7 @@ public class CommandSetSpawn extends CoKCommand{
 			String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
 		if(args.length == 1){
-			addIfPrefixMatches(list, args[0], "game", "team");
+			addIfPrefixMatches(list, args[0], "global", "game", "team");
 		}
 		if(args.length == 2 && args[0].equals("game")){
 			for(String gameName : CoKGameRegistry.getAllGameNames()){

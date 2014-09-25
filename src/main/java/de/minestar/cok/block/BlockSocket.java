@@ -11,10 +11,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
+import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import de.minestar.cok.CoK;
 import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class BlockSocket extends CoKBlockContainer {
@@ -63,6 +67,13 @@ public class BlockSocket extends CoKBlockContainer {
 	@Override
     public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase entityLiving, ItemStack itemStack){
 		world.setBlockMetadataWithNotify(x, y, z, itemStack.getItemDamage(), 2);
+    	//chunk loading
+		TileEntitySocket socket = (TileEntitySocket) world.getTileEntity(x, y, z);
+    	Ticket ticket = ForgeChunkManager.requestTicket(CoK.instance, world, ForgeChunkManager.Type.NORMAL);
+		ticket.getModData().setInteger("socketX", x);
+		ticket.getModData().setInteger("socketY", y);
+		ticket.getModData().setInteger("socketZ", z);
+		socket.forceChunkLoading(ticket);
 	}
 	
 	

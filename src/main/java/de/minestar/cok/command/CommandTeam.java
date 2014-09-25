@@ -21,7 +21,7 @@ public class CommandTeam extends CoKCommand {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("Usage: /%s [add|remove|move] {teamName} {{teamColor on add|gameName on move}}", getCommandName());
+		return String.format("Usage: /%s [create|remove|move] {teamName} {{teamColor on create|gameName on move}}", getCommandName());
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public class CommandTeam extends CoKCommand {
 		String command = args[0];
 		String teamName = args[1];
 		Team teamForName = TeamRegistry.getTeam(teamName);
-		if(command.equals("add") && args.length == 3){
+		if(command.equals("create") && args.length == 3){
 			String color = args[2];
 			if(teamForName != null){
 				ChatSendHelper.sendErrorMessageToPlayer(sender, "Team with the name " + teamName + "already exists!");
@@ -106,7 +106,7 @@ public class CommandTeam extends CoKCommand {
 	public List addTabCompletionOptions(ICommandSender sender, String[] args) {
 		LinkedList<String> list = new LinkedList<String>();
 		if(args.length == 1){
-			addIfPrefixMatches(list, args[0], "add", "remove", "move");
+			addIfPrefixMatches(list, args[0], "create", "remove", "move");
 		}
 		
 		if(args.length == 2 && (args[0].equals("remove") || args[0].equals("move"))){
@@ -114,7 +114,7 @@ public class CommandTeam extends CoKCommand {
 				addIfPrefixMatches(list, args[1], team.getName());
 			}		
 		}
-		if(args.length == 3 && args[0].equals("add")){
+		if(args.length == 3 && args[0].equals("create")){
 			addIfPrefixMatches(list, args[2], Color.allColors);
 		}
 		if(args.length == 3 && args[0].equals("move")){
