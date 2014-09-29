@@ -34,7 +34,7 @@ public class CoKGUIInfo extends GuiScreen {
 	private GuiButton playerButton;
 	
 	//Terribly lazy, I know.
-	private int guiMode = 0;
+	private int guiMode = 2;
 	
 	private EntityPlayer player;
 

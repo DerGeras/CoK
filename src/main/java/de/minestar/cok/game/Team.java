@@ -65,6 +65,10 @@ public class Team {
 		return CoKPlayerRegistry.getPlayersForUUIDs(playerUUIDs);
 	}
 	
+	public int getPlayerCount(){
+		return playerUUIDs.size();
+	}
+	
 	public char getColor(){
 		return color;
 	}

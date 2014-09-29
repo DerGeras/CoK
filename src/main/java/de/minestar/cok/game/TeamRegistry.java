@@ -20,6 +20,10 @@ public class TeamRegistry {
 		return new HashSet<Team>(registeredTeams.values());
 	}
 	
+	public static int getTeamCount(){
+		return registeredTeams.size();
+	}
+	
 	public static void addTeam(String name, char color){
 		addTeam( new Team(name, color));
 	}
