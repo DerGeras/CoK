@@ -117,6 +117,7 @@ public class Team {
 	 * @param coords
 	 */
 	public void setSpawnCoordinates(@Nullable ChunkCoordinates coords){
+		CoKGameWorldData.markDataDirty();
 		this.spawnLocation = coords;
 		if(spawnLocation != null && getGame() != null && getGame().isRunning()){
 			for(CoKPlayer player : getAllPlayers()){
@@ -320,6 +321,9 @@ public class Team {
 			if(timeSinceLastProfessionChange == 20 * 5){
 				ChatSendHelper.broadCastMessageToTeam(this, "Class redestribution in 5 seconds!");				
 			}
+			if(timeSinceLastProfessionChange == 1){
+				ChatSendHelper.broadCastMessageToTeam(this, "Classes respawned around your spawnpoint!");				
+			}
 			if(timeSinceLastProfessionChange == 0){
 				distributeProfessions();
 			}
@@ -360,7 +364,12 @@ public class Team {
 		for(CoKPlayer player : getAllPlayers()){
 			if(player.getProfession() == null){
 				EntityPlayerMP playerEntity = player.getPlayerEntity();
-				if(playerEntity != null && playerEntity.isEntityAlive()){
+				ChunkCoordinates playerLocation
+					= new ChunkCoordinates((int)playerEntity.posX, (int)playerEntity.posY, (int)playerEntity.posZ);
+				if(playerEntity != null && playerEntity.isEntityAlive()
+						&& (spawnLocation == null
+							|| playerLocation.getDistanceSquaredToChunkCoordinates(spawnLocation)
+								< GameSettings.professionRedistributionRadius * GameSettings.professionRedistributionRadius)){
 					candidates.add(player);
 				}
 			}

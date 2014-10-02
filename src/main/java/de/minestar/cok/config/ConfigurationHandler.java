@@ -63,6 +63,10 @@ public class ConfigurationHandler {
 					config.getInt("Profession redistribution time", CATEGORY_GAME_SETTINGS, 20*60, 0, 20*60*60,
 							"Time until profession redistribution after the last player with a profession died.");
 			
+			GameSettings.professionRedistributionRadius =
+					config.getInt("Profession redistribution radius", CATEGORY_GAME_SETTINGS, 10, 0, 1337, 
+							"Radius around the spawn that professions are redistruted in (square)");
+			
 			//load professions
 			if(config.getBoolean("Crossbowman", CATEGORY_PROFESSIONS, true, "Enables the crossbowman")){
 				CoKGameRegistry.registeredProfessions.add(Profession.crossbowman);

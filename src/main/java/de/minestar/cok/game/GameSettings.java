@@ -19,4 +19,7 @@ public class GameSettings {
 	//Respawn time for professions
 	public static int professionRedistributionTime;
 	
+	//Respawn area for professions (around the team spawnpoint)
+	public static int professionRedistributionRadius;
+	
 }
