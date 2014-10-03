@@ -3,8 +3,6 @@ package de.minestar.cok.game;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import com.sun.istack.internal.Nullable;
-
 import de.minestar.cok.tileentity.TileEntitySocket;
 
 public class SocketRegistry {
@@ -65,7 +63,6 @@ public class SocketRegistry {
 	 * @param color
 	 * @return
 	 */
-	@Nullable
 	public static HashSet<TileEntitySocket> getSockets(int color){
 		sortSockets();
 		return sockets.get(color);

@@ -5,12 +5,10 @@ import io.netty.buffer.ByteBuf;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import de.minestar.cok.game.worlddata.CoKGameWorldData;
-import de.minestar.cok.util.LogHelper;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
+import de.minestar.cok.game.worlddata.CoKGameWorldData;
 
 public class TeamRegistry {
 

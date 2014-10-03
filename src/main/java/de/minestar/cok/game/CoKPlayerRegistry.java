@@ -11,8 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.Constants.NBT;
 
-import com.sun.istack.internal.Nullable;
-
 public class CoKPlayerRegistry {
 
 	private static HashMap<UUID, CoKPlayer> allPlayers = new HashMap<UUID, CoKPlayer>();
@@ -59,7 +57,6 @@ public class CoKPlayerRegistry {
 	 * @param username
 	 * @return
 	 */
-	@Nullable
 	public static CoKPlayer getPlayerForName(String username){
 		for(CoKPlayer player : allPlayers.values()){
 			if(player.getUserName().equals(username)){
@@ -75,7 +72,6 @@ public class CoKPlayerRegistry {
 	 * @param uuid
 	 * @return
 	 */
-	@Nullable
 	public static CoKPlayer getPlayerForUUID(UUID uuid){
 		return allPlayers.get(uuid);
 	}

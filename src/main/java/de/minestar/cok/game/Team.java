@@ -15,18 +15,13 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
-
-import com.sun.istack.internal.Nullable;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.tileentity.TileEntitySocket;
 import de.minestar.cok.util.ChatSendHelper;
 import de.minestar.cok.util.Color;
-import de.minestar.cok.util.LogHelper;
 import de.minestar.cok.util.PlayerHelper;
 
 public class Team {
@@ -116,7 +111,7 @@ public class Team {
 	 * 
 	 * @param coords
 	 */
-	public void setSpawnCoordinates(@Nullable ChunkCoordinates coords){
+	public void setSpawnCoordinates(ChunkCoordinates coords){
 		CoKGameWorldData.markDataDirty();
 		this.spawnLocation = coords;
 		if(spawnLocation != null && getGame() != null && getGame().isRunning()){
@@ -358,7 +353,6 @@ public class Team {
 	 * 
 	 * @return
 	 */
-	@Nullable
 	public CoKPlayer getProfessionCandidate(){
 		ArrayList<CoKPlayer> candidates = new ArrayList<CoKPlayer>();
 		for(CoKPlayer player : getAllPlayers()){

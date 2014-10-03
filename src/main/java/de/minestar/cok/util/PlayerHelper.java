@@ -7,11 +7,6 @@ import java.util.UUID;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.server.MinecraftServer;
-
-import com.sun.istack.internal.Nullable;
-
-import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import de.minestar.cok.game.CoKGame;
 import de.minestar.cok.game.CoKPlayer;
@@ -19,7 +14,6 @@ import de.minestar.cok.game.Team;
 
 public class PlayerHelper {
 
-	@Nullable
 	public static EntityPlayerMP getPlayerForName(String username){
 		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList){
 			if(player.getGameProfile().getName().equals(username)){
@@ -29,7 +23,7 @@ public class PlayerHelper {
 		return null;
 	}
 	
-	@Nullable
+	
 	public static EntityPlayerMP getPlayerForUUID(UUID uuid){
 		for (EntityPlayerMP player :  (ArrayList<EntityPlayerMP>)FMLCommonHandler.instance().getMinecraftServerInstance().getConfigurationManager().playerEntityList){
 			if(player.getPersistentID().equals(uuid)){

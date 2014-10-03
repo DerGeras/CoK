@@ -6,9 +6,6 @@ import java.util.UUID;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-
-import com.sun.istack.internal.Nullable;
-
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import de.minestar.cok.game.profession.Profession;
@@ -43,7 +40,6 @@ public class CoKPlayer {
 	 * 
 	 * @return
 	 */
-	@Nullable
 	public EntityPlayerMP getPlayerEntity(){
 		return PlayerHelper.getPlayerForUUID(uuid);
 	}
@@ -59,7 +55,6 @@ public class CoKPlayer {
 		return uuid;
 	}
 	
-	@Nullable
 	public Team getTeam(){
 		return team;
 	}
@@ -68,12 +63,10 @@ public class CoKPlayer {
 		this.profession = profession;
 	}
 	
-	@Nullable
 	public Profession getProfession(){
 		return profession;
 	}
 	
-	@Nullable
 	public CoKGame getGame(){
 		if(team != null){
 			return team.getGame();

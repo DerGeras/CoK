@@ -10,9 +10,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.common.util.Constants.NBT;
-
-import com.sun.istack.internal.Nullable;
-
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 
@@ -32,7 +29,6 @@ public class CoKGameRegistry {
 		return registeredGames.values();
 	}
 	
-	@Nullable
 	public static CoKGame getGame(String gameName){
 		return registeredGames.get(gameName);
 	}

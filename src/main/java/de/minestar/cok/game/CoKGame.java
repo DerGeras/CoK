@@ -10,11 +10,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.util.ChunkCoordinates;
-
-import com.sun.istack.internal.Nullable;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import de.minestar.cok.game.profession.Profession;
 import de.minestar.cok.game.worlddata.CoKGameWorldData;
 import de.minestar.cok.listener.ServerTickListener;
@@ -84,7 +79,6 @@ public class CoKGame {
 	 * @param color
 	 * @return
 	 */
-	@Nullable
 	public Team getTeam(int color){
 		for(Team team : teams.values()){
 			if(team.getColorAsInt() == color){
@@ -100,7 +94,6 @@ public class CoKGame {
 	 * @param name
 	 * @return
 	 */
-	@Nullable
 	public Team getTeam(String name){
 		return teams.get(name);
 	}
