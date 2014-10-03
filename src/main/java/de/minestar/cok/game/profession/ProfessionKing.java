@@ -33,7 +33,7 @@ public class ProfessionKing extends Profession {
 				player.dropPlayerItemWithRandomChoice(legs, false);
 			}
 		}
-		ItemStack legsStack = new ItemStack(Items.diamond_leggings);
+		ItemStack legsStack = new ItemStack(Items.chainmail_leggings);
 		ItemStackHelper.setGiven(legsStack);
 		player.inventory.armorInventory[1] = legsStack;
 		

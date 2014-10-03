@@ -42,7 +42,6 @@ public class EventAdder implements IClassTransformer{
 		classReader.accept(classNode, 0);
 		
 		for(MethodNode method : classNode.methods){
-			CoreLogHelper.info("Method: "  + method.name + method.desc);
 			//(Lnet/minecraft/entity/player/EntityPlayer;Lnet/minecraft/world/World;IIIIFFF)Z
 			if(method.name.equals(ref.get("targetMethod"))
 					&& method.desc.equals(String.format("(L%s;L%s;IIIIFFF)Z", 
